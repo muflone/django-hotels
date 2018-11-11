@@ -6,7 +6,8 @@ from .models import (Company,
                      Building,
                      RoomType,
                      Room,
-                     RoleType)
+                     RoleType,
+                     PageSection)
 
 # Register your models here.
 admin.site.register(Company)
@@ -16,3 +17,4 @@ admin.site.register(Building)
 admin.site.register(RoomType)
 admin.site.register(Room)
 admin.site.register(RoleType)
+admin.site.register(PageSection)
