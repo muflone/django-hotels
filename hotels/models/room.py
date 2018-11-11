@@ -17,4 +17,5 @@ class Room(models.Model):
         unique_together = ('building', 'name')
 
     def __str__(self):
-        return self.name
+        return '{BUILDING} - {NAME}'.format(BUILDING=self.building.name,
+                                            NAME=self.name)
