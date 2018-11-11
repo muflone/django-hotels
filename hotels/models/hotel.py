@@ -2,7 +2,7 @@ from django.db import models
 
 class Hotel(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
