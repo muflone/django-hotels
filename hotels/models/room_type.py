@@ -7,7 +7,7 @@ class RoomType(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'roomtypes'
+        db_table = 'hotels_roomtypes'
 
     def __str__(self):
         return self.name

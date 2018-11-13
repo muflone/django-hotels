@@ -14,7 +14,7 @@ class Hotel(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'hotels'
+        db_table = 'hotels_hotels'
 
     def __str__(self):
         return self.name

@@ -7,7 +7,7 @@ class RoleType(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'roletypes'
+        db_table = 'hotels_roletypes'
 
     def __str__(self):
         return self.name

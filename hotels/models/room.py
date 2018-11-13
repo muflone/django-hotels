@@ -13,7 +13,7 @@ class Room(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'rooms'
+        db_table = 'hotels_rooms'
         unique_together = ('building', 'name')
 
     def __str__(self):

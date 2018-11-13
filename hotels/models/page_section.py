@@ -13,7 +13,7 @@ class PageSection(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'page_sections'
+        db_table = 'hotels_page_sections'
 
     def __str__(self):
         return self.name
