@@ -22,6 +22,7 @@ class Country(models.Model):
     class Meta:
         # Define the database table
         db_table = 'locations_countries'
+        ordering = ['name']
         verbose_name_plural = 'Countries'
 
     def __str__(self):

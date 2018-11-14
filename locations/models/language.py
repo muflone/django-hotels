@@ -8,6 +8,7 @@ class Language(models.Model):
     class Meta:
         # Define the database table
         db_table = 'locations_languages'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

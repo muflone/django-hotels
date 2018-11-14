@@ -8,6 +8,7 @@ class Position(models.Model):
     class Meta:
         # Define the database table
         db_table = 'locations_positions'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

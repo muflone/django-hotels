@@ -15,6 +15,7 @@ class Region(models.Model):
     class Meta:
         # Define the database table
         db_table = 'locations_regions'
+        ordering = ['name']
         unique_together = ('name', 'country')
 
     def __str__(self):
