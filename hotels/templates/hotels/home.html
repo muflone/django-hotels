@@ -1,0 +1,31 @@
+{% extends 'hotels/base.html' %}
+{% load staticfiles %}
+
+{% block sections %}
+        <!-- BEGIN PAGE BLOCKS -->
+  {% if home_sections %}
+        <div class="col-md-12">
+          <div class="latest-news-content">
+            <div class="row">
+    {% for section in home_sections %}
+              <!-- NEW SECTION BLOCK -->
+              <div class="col-md-4">
+                <article class="blog-news-single">
+                  <div class="blog-news-img">
+                    <a href="{{ section.link }}"><img src="{% static section.home_image %}"></a>
+                  </div>
+                  <div class="blog-news-title">
+                    <h2><a href="{{ section.link }}">{{ section.home_title }}</a></h2>
+                  </div>
+                  <div class="blog-news-details">
+                    <p>{{ section.description }}</p>
+                  </div>
+                </article>
+              </div>
+    {% endfor %}
+            </div>
+          </div>
+        </div>
+  {% endif %}
+        <!-- END PAGE BLOCKS -->
+{% endblock %}

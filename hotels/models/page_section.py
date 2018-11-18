@@ -17,6 +17,3 @@ class PageSection(models.Model):
 
     def __str__(self):
         return self.name
-
-    def description_paragraphs(self):
-        return self.description.replace('\r', '').split('\n\n')

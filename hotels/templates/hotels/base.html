@@ -85,10 +85,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="feature.html">Feature</a></li>
-            <li><a href="service.html">Service</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
+{% for section in header_sections %}
+            <li{% if request_path == section.link %} class="active"{% endif %}><a href="{{ section.link }}">{{ section.header_title }}</a></li>
+{% endfor %}
             <li><a class="modal-form" data-target="#login-form" data-toggle="modal" href="#">Login</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -106,34 +105,14 @@
             <h2 class="title">{{ page_title }}</h2>
             <span class="line"></span>
             {% block content %}
+{% for line in page_content %}
+            <p>{{ line }}</p>
+{% endfor %}
             {% endblock %}
           </div>
         </div>
-{% if news %}
-        <div class="col-md-12">
-          <div class="latest-news-content">
-            <div class="row">
-  {% for item in news %}
-              <!-- start single latest news -->
-              <div class="col-md-4">
-                <article class="blog-news-single">
-                  <div class="blog-news-img">
-                    <a href="{{ item.link }}"><img src="{% static item.image %}" alt="{{ item.alt }}"></a>
-                  </div>
-                  <div class="blog-news-title">
-                    <h2><a href="{{ item.link }}">{{ item.title }}</a></h2>
-                  </div>
-                  <div class="blog-news-details">
-                    <p>{{ item.summary }}</p>
-                    <a class="blog-more-btn" href="{{ item.link }}">Read More <i class="fa fa-long-arrow-right"></i></a>
-                  </div>
-                </article>
-              </div>
-  {% endfor %}
-            </div>
-          </div>
-        </div>
-{% endif %}
+        {% block sections %}
+        {% endblock %}
       </div>
     </div>
   </section>
