@@ -1,3 +1,4 @@
 __pycache__/
 *.sqlite3
-/hotels/static/images/brands/
+/hotels/static/hotels/images/brands/
+/static/
