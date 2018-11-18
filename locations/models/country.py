@@ -12,14 +12,7 @@ class Country(models.Model):
     capital = models.CharField(max_length=255, blank=True)
     continent = models.ForeignKey(Continent,
                                   on_delete=models.CASCADE)
-    language1 = models.ForeignKey(Language,
-                                  on_delete=models.CASCADE,
-                                  related_name='country_language1')
-    language2 = models.ForeignKey(Language,
-                                  on_delete=models.CASCADE,
-                                  related_name='country_language2',
-                                  blank=True,
-                                  null=True)
+    languages = models.ManyToManyField(Language)
 
     class Meta:
         # Define the database table
