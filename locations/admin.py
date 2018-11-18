@@ -6,6 +6,7 @@ from .models import (Continent,
                      Position,
                      Region)
 
+
 # Register your models here.
 admin.site.register(Continent)
 admin.site.register(Country)
