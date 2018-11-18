@@ -5,7 +5,8 @@ from .models import (Continent, ContinentAdmin,
                      Language, LanguageAdmin,
                      Location, LocationAdmin,
                      Position, PositionAdmin,
-                     Region, RegionAdmin)
+                     Region, RegionAdmin,
+                     RegionAlias, RegionAliasAdmin)
 
 
 # Register your models here.
@@ -15,3 +16,4 @@ admin.site.register(Language, LanguageAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Region, RegionAdmin)
+admin.site.register(RegionAlias, RegionAliasAdmin)
