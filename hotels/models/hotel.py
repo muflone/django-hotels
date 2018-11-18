@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class Hotel(models.Model):
 
@@ -18,3 +20,7 @@ class Hotel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class HotelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'company', 'description')

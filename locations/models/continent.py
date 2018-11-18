@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class Continent(models.Model):
 
@@ -12,3 +14,7 @@ class Continent(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ContinentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')

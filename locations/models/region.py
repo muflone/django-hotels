@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib import admin
 
 from .country import Country
 from .position import Position
+
 
 class Region(models.Model):
 
@@ -21,3 +23,7 @@ class Region(models.Model):
     def __str__(self):
         return '{COUNTRY} - {NAME}'.format(COUNTRY=self.country.name,
                                            NAME=self.name)
+
+
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'country', 'position')

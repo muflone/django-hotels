@@ -1,5 +1,5 @@
-from .continent import Continent
-from .country import Country
-from .language import Language
-from .position import Position
-from .region import Region
+from .continent import Continent, ContinentAdmin
+from .country import Country, CountryAdmin
+from .language import Language, LanguageAdmin
+from .position import Position, PositionAdmin
+from .region import Region, RegionAdmin

@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class RoomType(models.Model):
 
@@ -11,3 +13,7 @@ class RoomType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RoomTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')

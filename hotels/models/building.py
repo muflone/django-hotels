@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class Building(models.Model):
 
@@ -20,3 +22,7 @@ class Building(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BuildingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'hotel', 'floors')

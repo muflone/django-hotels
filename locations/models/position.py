@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class Position(models.Model):
 
@@ -12,3 +14,7 @@ class Position(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PositionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')

@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib import admin
 
 from .continent import Continent
 from .language import Language
+
 
 class Country(models.Model):
 
@@ -27,3 +29,7 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'continent')

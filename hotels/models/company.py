@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib import admin
+
 
 class Company(models.Model):
 
@@ -17,3 +19,7 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
