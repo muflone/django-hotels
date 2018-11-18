@@ -26,3 +26,4 @@ class Country(models.Model):
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'continent')
+    list_filter = ('continent', )

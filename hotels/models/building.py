@@ -26,3 +26,4 @@ class Building(models.Model):
 
 class BuildingAdmin(admin.ModelAdmin):
     list_display = ('name', 'hotel', 'floors')
+    list_filter = ('hotel', )

@@ -27,3 +27,4 @@ class Region(models.Model):
 
 class RegionAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'country', 'position')
+    list_filter = ('country', 'position')

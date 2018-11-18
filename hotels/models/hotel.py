@@ -24,3 +24,4 @@ class Hotel(models.Model):
 
 class HotelAdmin(admin.ModelAdmin):
     list_display = ('name', 'company', 'description')
+    list_filter = ('company', )

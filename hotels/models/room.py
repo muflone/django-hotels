@@ -25,3 +25,4 @@ class Room(models.Model):
 
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('building', 'name', 'room_type', 'floor')
+    list_filter = ('building', 'room_type')
