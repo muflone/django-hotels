@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{{ page_title }}</title>
+    <title>{{ page_title | first }}</title>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/icon" href="{% static 'hotels/images/brands/favicon.ico' %}"/>
     <!-- Font Awesome -->
@@ -102,7 +102,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="title-area">
-            <h2 class="title">{{ page_title }}</h2>
+            <h2 class="title">{{ page_title | first }}</h2>
             <span class="line"></span>
             {% block content %}
 {% for line in page_content %}
