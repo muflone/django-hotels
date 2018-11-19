@@ -7,18 +7,23 @@ from .region import Region
 
 class Location(models.Model):
 
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255)
     region = models.ForeignKey(Region,
                                on_delete=models.CASCADE)
     description = models.TextField(blank=True)
+    province = models.CharField(max_length=255,
+                                blank=True,
+                                null=True)
 
     class Meta:
         # Define the database table
         db_table = 'locations_locations'
         ordering = ['name']
+        unique_together = ('province', 'name')
 
     def __str__(self):
-        return self.name
+        return '{NAME} ({PROVINCE})'.format(NAME=self.name,
+                                            PROVINCE=self.province)
 
 
 class LocationAdminCountryFilter(admin.SimpleListFilter):
@@ -34,7 +39,7 @@ class LocationAdminCountryFilter(admin.SimpleListFilter):
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'country')
+    list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationAdminCountryFilter, 'region')
 
     def country(self, instance):
