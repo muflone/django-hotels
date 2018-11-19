@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .country import Country
 from .position import Position
+from .region_alias import RegionAlias
 
 
 class Region(models.Model):
@@ -13,6 +14,8 @@ class Region(models.Model):
     description = models.TextField(blank=True)
     position = models.ForeignKey(Position,
                                  on_delete=models.CASCADE)
+    aliases = models.ManyToManyField(RegionAlias,
+                                     db_table='locations_region_aliases')
 
     class Meta:
         # Define the database table
