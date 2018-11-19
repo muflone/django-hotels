@@ -41,6 +41,7 @@ class LocationAdminCountryFilter(admin.SimpleListFilter):
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationAdminCountryFilter, 'region')
+    search_fields = ('name', 'province')
 
     def country(self, instance):
         return instance.region.country
