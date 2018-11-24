@@ -13,6 +13,7 @@ class Room(models.Model):
     bed_type = models.ForeignKey('BedType',
                                   on_delete=models.CASCADE,
                                   default='UNKNOWN')
+    phone1 = models.CharField(max_length=255, blank=True)
 
     class Meta:
         # Define the database table
