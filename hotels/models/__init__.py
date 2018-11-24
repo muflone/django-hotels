@@ -1,3 +1,4 @@
+from .bed_type import BedType, BedTypeAdmin
 from .brand import Brand, BrandAdmin
 from .company import Company, CompanyAdmin
 from .hotel import Hotel, HotelAdmin

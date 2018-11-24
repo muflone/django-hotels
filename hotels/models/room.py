@@ -10,6 +10,9 @@ class Room(models.Model):
     description = models.TextField(blank=True)
     room_type = models.ForeignKey('RoomType',
                                   on_delete=models.CASCADE)
+    bed_type = models.ForeignKey('BedType',
+                                  on_delete=models.CASCADE,
+                                  default='UNKNOWN')
 
     class Meta:
         # Define the database table

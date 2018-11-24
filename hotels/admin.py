@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import (Brand, BrandAdmin,
+from .models import (BedType, BedTypeAdmin,
+                     Brand, BrandAdmin,
                      Company, CompanyAdmin,
                      Hotel, HotelAdmin,
                      Building, BuildingAdmin,
@@ -10,6 +11,7 @@ from .models import (Brand, BrandAdmin,
                      PageSection)
 
 # Register your models here.
+admin.site.register(BedType, BedTypeAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Hotel, HotelAdmin)
