@@ -10,7 +10,6 @@ class Building(models.Model):
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    floors = models.PositiveIntegerField(blank=False)
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
                                  on_delete=models.CASCADE,
@@ -43,7 +42,7 @@ class BuildingAdminCompanyFilter(admin.SimpleListFilter):
 
 
 class BuildingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'hotel', 'floors', 'company')
+    list_display = ('name', 'hotel', 'company')
     list_filter = (BuildingAdminCompanyFilter, 'hotel')
 
     def company(self, instance):
