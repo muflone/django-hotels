@@ -62,7 +62,7 @@ class LocationAdminNameFilter(LocationAdminInputFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(name=self.value())
+            return queryset.filter(name__icontains=self.value())
 
 
 class LocationAdminProvinceFilter(LocationAdminInputFilter):
@@ -71,7 +71,7 @@ class LocationAdminProvinceFilter(LocationAdminInputFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(province=self.value())
+            return queryset.filter(province__icontains=self.value())
 
 
 class LocationAdmin(admin.ModelAdmin):
