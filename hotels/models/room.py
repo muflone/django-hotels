@@ -16,6 +16,7 @@ class Room(models.Model):
     class Meta:
         # Define the database table
         db_table = 'hotels_rooms'
+        ordering = ['building', 'name']
         unique_together = ('building', 'name')
 
     def __str__(self):

@@ -14,6 +14,7 @@ class PageSection(models.Model):
     class Meta:
         # Define the database table
         db_table = 'hotels_page_sections'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

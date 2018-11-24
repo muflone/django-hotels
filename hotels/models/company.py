@@ -17,6 +17,7 @@ class Company(models.Model):
     class Meta:
         # Define the database table
         db_table = 'hotels_companies'
+        ordering = ['name']
         verbose_name_plural = 'Companies'
 
     def __str__(self):

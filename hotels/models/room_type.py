@@ -10,6 +10,7 @@ class RoomType(models.Model):
     class Meta:
         # Define the database table
         db_table = 'hotels_roomtypes'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
