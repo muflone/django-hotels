@@ -13,6 +13,7 @@ class Building(models.Model):
     floors = models.IntegerField(blank=False)
 
     address = models.TextField(blank=True)
+    postal_code = models.CharField(max_length=15, blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)
