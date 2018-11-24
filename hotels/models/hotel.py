@@ -7,6 +7,9 @@ class Hotel(models.Model):
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
+    location = models.ForeignKey('locations.Location',
+                                 on_delete=models.CASCADE,
+                                 default=0)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)

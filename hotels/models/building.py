@@ -12,6 +12,9 @@ class Building(models.Model):
     description = models.TextField(blank=True)
     floors = models.PositiveIntegerField(blank=False)
     address = models.TextField(blank=True)
+    location = models.ForeignKey('locations.Location',
+                                 on_delete=models.CASCADE,
+                                 default=0)
     postal_code = models.CharField(max_length=15, blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
