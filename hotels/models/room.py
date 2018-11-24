@@ -14,6 +14,8 @@ class Room(models.Model):
                                   on_delete=models.CASCADE,
                                   default='UNKNOWN')
     phone1 = models.CharField(max_length=255, blank=True)
+    seats_base = models.PositiveIntegerField(default=1)
+    seats_additional = models.PositiveIntegerField(default=0)
 
     class Meta:
         # Define the database table
