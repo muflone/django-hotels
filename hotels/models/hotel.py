@@ -11,6 +11,9 @@ class Hotel(models.Model):
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
+    brand = models.ForeignKey('Brand',
+                              on_delete=models.CASCADE,
+                              default='UNKNOWN')
     company = models.ForeignKey('Company',
                                 on_delete=models.CASCADE)
 
@@ -23,5 +26,5 @@ class Hotel(models.Model):
 
 
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'company', 'description')
-    list_filter = ('company', )
+    list_display = ('name', 'brand', 'company', 'description')
+    list_filter = ('brand', 'company')
