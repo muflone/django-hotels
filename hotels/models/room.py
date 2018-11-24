@@ -10,8 +10,6 @@ class Room(models.Model):
     description = models.TextField(blank=True)
     room_type = models.ForeignKey('RoomType',
                                   on_delete=models.CASCADE)
-    floor = models.ForeignKey('Floor',
-                              on_delete=models.CASCADE)
 
     class Meta:
         # Define the database table
@@ -25,5 +23,5 @@ class Room(models.Model):
 
 
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ('building', 'name', 'room_type', 'floor')
+    list_display = ('building', 'name', 'room_type')
     list_filter = ('building', 'room_type')
