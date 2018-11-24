@@ -11,6 +11,8 @@ class Company(models.Model):
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
+    vat_number = models.CharField(max_length=255, blank=True)
+    tax_code = models.CharField(max_length=255, blank=True)
 
     class Meta:
         # Define the database table
