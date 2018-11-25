@@ -34,6 +34,8 @@ class Employee(models.Model):
     email = models.CharField(max_length=255, blank=True)
     vat_number = models.CharField(max_length=255, blank=True)
     tax_code = models.CharField(max_length=255, blank=True)
+    photo = models.ImageField(null=True, blank=True,
+                              upload_to='hotels/images/employees/')
 
     class Meta:
         # Define the database table
