@@ -21,8 +21,8 @@
 from django.contrib import admin
 
 
-from .models import HomeSection
+from .models import HomeSection, HomeSectionAdmin
 
 
 # Register your models here.
-admin.site.register(HomeSection)
+admin.site.register(HomeSection, HomeSectionAdmin)

@@ -19,6 +19,7 @@
 ##
 
 from django.db import models
+from django.contrib import admin
 
 
 class HomeSection(models.Model):
@@ -35,7 +36,11 @@ class HomeSection(models.Model):
     class Meta:
         # Define the database table
         db_table = 'website_home_sections'
-        ordering = ['name']
+        ordering = ['home_order']
 
     def __str__(self):
         return self.name
+
+
+class HomeSectionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'header_title', 'home_title')
