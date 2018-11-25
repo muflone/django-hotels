@@ -18,22 +18,23 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from django.db import models
 from django.contrib import admin
 
 
-from .models import HomeSection, HomeSectionAdmin
-from .models import AdminSection, AdminSectionAdmin
+class AdminSection(models.Model):
+
+    name = models.CharField(max_length=255, primary_key=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        # Define the database table
+        db_table = 'website_admin_sections'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 
-# Register your models here.
-admin.site.register(HomeSection, HomeSectionAdmin)
-admin.site.register(AdminSection, AdminSectionAdmin)
-
-# Customize Administration
-for section in AdminSection.objects.all():
-    if section.name == 'site_header':
-        admin.site.site_header = section.description
-    elif section.name == 'site_title':
-        admin.site.site_title = section.description
-    elif section.name == 'index_title':
-        admin.site.index_title = section.description
+class AdminSectionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')

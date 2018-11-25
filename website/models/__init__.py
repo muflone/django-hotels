@@ -19,3 +19,4 @@
 ##
 
 from .home_section import HomeSection, HomeSectionAdmin
+from .admin_section import AdminSection, AdminSectionAdmin
