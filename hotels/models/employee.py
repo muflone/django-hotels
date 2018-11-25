@@ -20,6 +20,9 @@
 
 from django.db import models
 from django.contrib import admin
+from django.utils.html import mark_safe
+
+from ..admin_widgets import AdminImageWidget_128x128
 
 
 class Employee(models.Model):
@@ -117,3 +120,14 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     def photo_thumbnail(self, instance):
         return self.detail_photo_image(instance, 48, 48)
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        # For ImageField fields replace the rendering widget
+        if isinstance(db_field, models.ImageField):
+            kwargs['widget'] = AdminImageWidget_128x128
+            # Remove request argument
+            kwargs.pop('request', None)
+            return db_field.formfield(**kwargs)
+        else:
+            return super(self.__class__,self).formfield_for_dbfield(db_field,
+                                                                    **kwargs)
