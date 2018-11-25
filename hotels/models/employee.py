@@ -95,7 +95,25 @@ class TaxCodeAdminNameFilter(EmployeeAdminInputFilter):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'tax_code')
+    list_display = ('first_name', 'last_name', 'tax_code', 'photo_thumbnail')
     list_filter = (FirstNameAdminNameFilter,
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
+
+    def detail_photo_image(self, instance, width, height):
+        if instance.photo:
+            return mark_safe('<img src="{url}" '
+                             'width="{width}" '
+                             'height={height} />'.format(
+                url = instance.photo.url,
+                width=width,
+                height=height,
+                ))
+        else:
+            return ''
+
+    def photo_image(self, instance):
+        return self.detail_photo_image(instance, 128, 128)
+
+    def photo_thumbnail(self, instance):
+        return self.detail_photo_image(instance, 48, 48)
