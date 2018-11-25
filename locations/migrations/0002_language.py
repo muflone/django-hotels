@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Language',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('name', models.CharField(max_length=255, primary_key=True,
+                                          serialize=False)),
                 ('description', models.TextField(blank=True)),
             ],
             options={

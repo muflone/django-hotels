@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Brand',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('name', models.CharField(max_length=255, primary_key=True,
+                                          serialize=False)),
                 ('description', models.TextField(blank=True)),
             ],
             options={
@@ -24,6 +25,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='hotel',
             name='brand',
-            field=models.ForeignKey(default='UNKNOWN', on_delete=django.db.models.deletion.CASCADE, to='hotels.Brand'),
+            field=models.ForeignKey(
+                default='UNKNOWN',
+                on_delete=django.db.models.deletion.CASCADE,
+                to='hotels.Brand'),
         ),
     ]

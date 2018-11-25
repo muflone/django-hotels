@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PageSection',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('name', models.CharField(max_length=255, primary_key=True,
+                                          serialize=False)),
                 ('description', models.TextField(blank=True)),
                 ('link', models.CharField(blank=True, max_length=255)),
                 ('header_title', models.CharField(blank=True, max_length=255)),

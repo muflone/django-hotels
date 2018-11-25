@@ -14,12 +14,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Room',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('description', models.TextField(blank=True)),
-                ('building', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hotels.Building')),
-                ('floor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hotels.Floor')),
-                ('room_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hotels.RoomType')),
+                ('building', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='hotels.Building')),
+                ('floor', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='hotels.Floor')),
+                ('room_type', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='hotels.RoomType')),
             ],
             options={
                 'db_table': 'rooms',

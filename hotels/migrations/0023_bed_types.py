@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BedType',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('name', models.CharField(max_length=255, primary_key=True,
+                                          serialize=False)),
                 ('description', models.TextField(blank=True)),
             ],
             options={
@@ -25,6 +26,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='room',
             name='bed_type',
-            field=models.ForeignKey(default='UNKNOWN', on_delete=django.db.models.deletion.CASCADE, to='hotels.BedType'),
+            field=models.ForeignKey(
+                default='UNKNOWN',
+                on_delete=django.db.models.deletion.CASCADE,
+                to='hotels.BedType'),
         ),
     ]

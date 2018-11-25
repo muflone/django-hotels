@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='region',
             name='aliases',
-            field=models.ManyToManyField(db_table='locations_region_aliases', to='locations.RegionAlias'),
+            field=models.ManyToManyField(db_table='locations_region_aliases',
+                                         to='locations.RegionAlias'),
         ),
     ]

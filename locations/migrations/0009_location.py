@@ -14,9 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Location',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('name', models.CharField(max_length=255, primary_key=True,
+                                          serialize=False)),
                 ('description', models.TextField(blank=True)),
-                ('region', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='locations.Region')),
+                ('region', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='locations.Region')),
             ],
             options={
                 'db_table': 'locations_locations',

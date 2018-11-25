@@ -43,8 +43,8 @@ class Room(models.Model):
     room_type = models.ForeignKey('RoomType',
                                   on_delete=models.CASCADE)
     bed_type = models.ForeignKey('BedType',
-                                  on_delete=models.CASCADE,
-                                  default='UNKNOWN')
+                                 on_delete=models.CASCADE,
+                                 default='UNKNOWN')
     phone1 = models.CharField(max_length=255, blank=True)
     seats_base = models.PositiveIntegerField(default=1)
     seats_additional = models.PositiveIntegerField(default=0)
@@ -132,7 +132,8 @@ class RoomAdmin(admin.ModelAdmin):
                                       bed_type=bed_types[row['BED TYPE']],
                                       phone1=row['PHONE1'],
                                       seats_base=row['SEATS BASE'],
-                                      seats_additional=row['SEATS ADDITIONAL']))
+                                      seats_additional=row['SEATS ADDITIONAL']
+                                      ))
             # Save data only if there were not errors
             if not error_messages:
                 Room.objects.bulk_create(rooms)

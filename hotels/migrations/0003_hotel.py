@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Hotel',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('description', models.TextField(blank=True)),
                 ('address', models.TextField(blank=True)),
@@ -22,7 +23,9 @@ class Migration(migrations.Migration):
                 ('phone2', models.CharField(blank=True, max_length=255)),
                 ('fax', models.CharField(blank=True, max_length=255)),
                 ('email', models.CharField(blank=True, max_length=255)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hotels.Company')),
+                ('company', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='hotels.Company')),
             ],
             options={
                 'db_table': 'hotels',
