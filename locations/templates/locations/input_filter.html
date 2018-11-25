@@ -1,5 +1,15 @@
 {% load i18n %}
 
+{% block copyright-notices %}
+    <!--
+        Project: Django Milazzo Inn
+     Description: A Django application to organize Hotels and Inns
+          Author: Fabio Castelli (Muflone) <muflone@muflone.com>
+       Copyright: 2018 Fabio Castelli
+         License: GPL-2+
+    -->
+{% endblock %}
+
 <h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
 <ul>
     <li>
