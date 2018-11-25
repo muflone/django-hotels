@@ -27,8 +27,7 @@ from .models import (BedType, BedTypeAdmin,
                      Building, BuildingAdmin,
                      RoomType, RoomTypeAdmin,
                      Room, RoomAdmin,
-                     RoleType,
-                     PageSection)
+                     RoleType)
 
 # Register your models here.
 admin.site.register(BedType, BedTypeAdmin)
@@ -39,4 +38,3 @@ admin.site.register(Building, BuildingAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(RoleType)
-admin.site.register(PageSection)

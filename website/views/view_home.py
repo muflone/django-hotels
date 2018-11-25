@@ -18,25 +18,24 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-"""milazzoinn URL Configuration
+from django.views.generic import TemplateView
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
+from ..models import HomeSection
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('website.urls')),
-]
+
+class ViewHome(TemplateView):
+    """Home view"""
+    template_name = 'website/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewHome, self).get_context_data(**kwargs)
+        context['request_path'] = self.request.path
+        context['home_section'] = HomeSection.objects.filter(name='Home')[0]
+        context['header_sections'] = HomeSection.objects.filter(
+            header_order__gt=0).order_by('header_order')
+        context['home_sections'] = HomeSection.objects.filter(
+            home_order__gt=0).order_by('home_order')
+        context['page_title'] = context['home_section'].home_title,
+        context['page_content'] = context['home_section'].description.replace(
+            '\r', '').split('\n\n')
+        return context

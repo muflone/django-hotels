@@ -18,11 +18,8 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.conf.urls import url
-
-from . import views
+from django.apps import AppConfig
 
 
-urlpatterns = [
-    url(r'^$', views.view_home.ViewHome.as_view()),
-]
+class WebsiteConfig(AppConfig):
+    name = 'website'
