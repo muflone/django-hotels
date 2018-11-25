@@ -20,9 +20,10 @@
 
 from .bed_type import BedType, BedTypeAdmin
 from .brand import Brand, BrandAdmin
-from .company import Company, CompanyAdmin
-from .hotel import Hotel, HotelAdmin
 from .building import Building, BuildingAdmin
+from .company import Company, CompanyAdmin
+from .employee import Employee, EmployeeAdmin
+from .hotel import Hotel, HotelAdmin
 from .room_type import RoomType, RoomTypeAdmin
 from .room import Room, RoomAdmin
 from .role_type import RoleType

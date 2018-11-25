@@ -22,9 +22,9 @@ from django.contrib import admin
 
 from .models import (BedType, BedTypeAdmin,
                      Brand, BrandAdmin,
+                     Building, BuildingAdmin,
                      Company, CompanyAdmin,
                      Hotel, HotelAdmin,
-                     Building, BuildingAdmin,
                      RoomType, RoomTypeAdmin,
                      Room, RoomAdmin,
                      RoleType)
