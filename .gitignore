@@ -2,3 +2,4 @@ __pycache__/
 *.sqlite3
 /website/static/website/images/brands/
 /static/
+/uploads/
