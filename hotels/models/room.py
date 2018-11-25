@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib import admin
 
+from .hotel import Hotel
+
 
 class Room(models.Model):
 
@@ -28,6 +30,18 @@ class Room(models.Model):
                                             NAME=self.name)
 
 
+class RoomAdminHotelFilter(admin.SimpleListFilter):
+    title = 'hotel'
+    parameter_name = 'hotel'
+
+    def lookups(self, request, model_admin):
+        return Hotel.objects.all().values_list('name', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(building__hotel=self.value())
+
+
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('building', 'name', 'room_type')
-    list_filter = ('building', 'room_type')
+    list_filter = (RoomAdminHotelFilter, 'building', 'room_type')
