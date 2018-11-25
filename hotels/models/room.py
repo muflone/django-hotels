@@ -1,7 +1,17 @@
-from django.db import models
-from django.contrib import admin
+import csv
+import io
 
+from django.db import models
+from django.contrib import admin, messages
+from django.shortcuts import render, redirect
+from django.urls import path
+
+from .bed_type import BedType
+from .building import Building
 from .hotel import Hotel
+from .room_type import RoomType
+
+from ..forms import CSVImportForm
 
 
 class Room(models.Model):
@@ -45,3 +55,69 @@ class RoomAdminHotelFilter(admin.SimpleListFilter):
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('building', 'name', 'room_type')
     list_filter = (RoomAdminHotelFilter, 'building', 'room_type')
+    change_list_template = 'hotels/change_list.html'
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import/', self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        def append_error(type_name, item):
+            """Append an error message to the messages list"""
+            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
+                                                                ITEM=item)
+            if error_message not in error_messages:
+                error_messages.append(error_message)
+                self.message_user(request, error_message, messages.ERROR)
+
+        if request.method == 'POST':
+            # Preload buildings
+            buildings = {}
+            for item in Building.objects.all():
+                buildings[item.name] = item
+            # Preload room types
+            room_types = {}
+            for item in RoomType.objects.all():
+                room_types[item.name] = item
+            # Preload bed types
+            bed_types = {}
+            for item in BedType.objects.all():
+                bed_types[item.name] = item
+            # Load CSV file content
+            csv_file = io.TextIOWrapper(
+                request.FILES['csv_file'].file,
+                encoding=request.POST['encoding'])
+            reader = csv.DictReader(
+                csv_file,
+                delimiter=request.POST['delimiter'])
+            # Load data from CSV
+            error_messages = []
+            rooms = []
+            for row in reader:
+                if row['BUILDING'] not in buildings:
+                    append_error('building', row['BUILDING'])
+                elif row['ROOM TYPE'] not in room_types:
+                    append_error('room type', row['ROOM TYPE'])
+                elif row['BED TYPE'] not in bed_types:
+                    append_error('bed type', row['BED TYPE'])
+                else:
+                    # If no error create a new Room object
+                    rooms.append(Room(building=buildings[row['BUILDING']],
+                                      name=row['NAME'],
+                                      description=row['DESCRIPTION'],
+                                      room_type=room_types[row['ROOM TYPE']],
+                                      bed_type=bed_types[row['BED TYPE']],
+                                      phone1=row['PHONE1'],
+                                      seats_base=row['SEATS BASE'],
+                                      seats_additional=row['SEATS ADDITIONAL']))
+            # Save data only if there were not errors
+            if not error_messages:
+                Room.objects.bulk_create(rooms)
+                self.message_user(request, 'Your CSV file has been imported')
+            return redirect('..')
+        return render(request,
+                      'hotels/form_csv_import.html',
+                      {'form': CSVImportForm()})
