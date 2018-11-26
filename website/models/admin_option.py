@@ -18,6 +18,24 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .home_section import HomeSection, HomeSectionAdmin
-from .admin_option import AdminOption, AdminOptionAdmin
-from .admin_section import AdminSection, AdminSectionAdmin
+from django.db import models
+from django.contrib import admin
+
+
+class AdminOption(models.Model):
+
+    name = models.CharField(max_length=255, primary_key=True)
+    value = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        # Define the database table
+        db_table = 'website_admin_options'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class AdminOptionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'value', 'description')

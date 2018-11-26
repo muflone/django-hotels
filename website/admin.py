@@ -19,14 +19,21 @@
 ##
 
 from django.contrib import admin
+from django.db.utils import OperationalError
 
 
-from .models import HomeSection, HomeSectionAdmin
-from .models import AdminSection, AdminSectionAdmin
+from .models import (HomeSection, HomeSectionAdmin,
+                     AdminOption, AdminOptionAdmin,
+                     AdminSection, AdminSectionAdmin)
+
+from locations.models import LocationAdmin
+
+from hotels.models import BuildingAdmin, HotelAdmin
 
 
 # Register your models here.
 admin.site.register(HomeSection, HomeSectionAdmin)
+admin.site.register(AdminOption, AdminOptionAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 
 # Customize Administration
@@ -37,3 +44,16 @@ for section in AdminSection.objects.all():
         admin.site.site_title = section.description
     elif section.name == 'index_title':
         admin.site.index_title = section.description
+
+# Customize options
+try:
+    for option in AdminOption.objects.all():
+        if option.name == 'building.location.searchable' and option.value == '1':
+            LocationAdmin.search_fields = ('name', )
+            BuildingAdmin.autocomplete_fields = ('location', )
+        elif option.name == 'hotel.location.searchable' and option.value == '1':
+            LocationAdmin.search_fields = ('name', )
+            HotelAdmin.autocomplete_fields = ('location', )
+except OperationalError:
+    # If the model AdminOption doesn't yet exist skip the customization
+    pass
