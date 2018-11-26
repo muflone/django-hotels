@@ -100,6 +100,7 @@ class TaxCodeAdminNameFilter(EmployeeAdminInputFilter):
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
                     'photo_thumbnail')
+    list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (FirstNameAdminNameFilter,
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
