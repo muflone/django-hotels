@@ -98,10 +98,12 @@ class TaxCodeAdminNameFilter(EmployeeAdminInputFilter):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'tax_code', 'photo_thumbnail')
+    list_display = ('id', 'first_name', 'last_name', 'tax_code',
+                    'photo_thumbnail')
     list_filter = (FirstNameAdminNameFilter,
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
+    readonly_fields = ('id', )
 
     def detail_photo_image(self, instance, width, height):
         if instance.photo:
@@ -131,3 +133,9 @@ class EmployeeAdmin(admin.ModelAdmin):
         else:
             return super(self.__class__,self).formfield_for_dbfield(db_field,
                                                                     **kwargs)
+
+    def get_fields(self, request, obj=None):
+        """Reorder the fields list"""
+        fields = super().get_fields(request, obj)
+        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        return fields
