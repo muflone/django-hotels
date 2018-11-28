@@ -47,5 +47,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
 
-urlpatterns.append(path('admin/', admin.site.urls))
+urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
 urlpatterns.append(path('', include('website.urls')))
