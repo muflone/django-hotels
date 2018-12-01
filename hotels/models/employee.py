@@ -33,6 +33,11 @@ class Employee(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    genre = models.CharField(max_length=10,
+                           default='unknown',
+                           choices=(('male', 'Male'),
+                                    ('female', 'Female'),
+                                    ('unknown', 'Unknown')))
     birth_date = models.DateField()
     address = models.TextField(blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
@@ -114,6 +119,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         'FIRST NAME': 'first_name',
         'LAST NAME': 'last_name',
         'DESCRIPTION': 'description',
+        'GENRE': 'genre',
         'BIRTH DATE': 'birth_date',
         'ADDRESS': 'address',
         'PHONE1': 'phone1',
