@@ -18,10 +18,13 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
+
 from django.db import models
 from django.contrib import admin
 from django.utils.html import mark_safe
 
+from ..admin_actions import ExportCSVMixin
 from ..admin_widgets import AdminImageWidget_128x128
 
 
@@ -97,7 +100,7 @@ class TaxCodeAdminNameFilter(EmployeeAdminInputFilter):
             return queryset.filter(tax_code__icontains=self.value())
 
 
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
                     'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
@@ -105,6 +108,20 @@ class EmployeeAdmin(admin.ModelAdmin):
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
     readonly_fields = ('id', )
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'FIRST NAME': 'first_name',
+        'LAST NAME': 'last_name',
+        'DESCRIPTION': 'description',
+        'BIRTH DATE': 'birth_date',
+        'ADDRESS': 'address',
+        'PHONE1': 'phone1',
+        'PHONE2': 'phone2',
+        'EMAIL': 'email',
+        'VAT NUMBER': 'vat_number',
+        'TAX CODE': 'tax_code',
+    })
 
     def detail_photo_image(self, instance, width, height):
         if instance.photo:

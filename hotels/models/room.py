@@ -18,6 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
 import csv
 import io
 
@@ -32,9 +33,8 @@ from .building import Building
 from .hotel import Hotel
 from .room_type import RoomType
 
+from ..admin_actions import ExportCSVMixin
 from ..forms import CSVImportForm, RoomChangeBuildingForm
-
-from .building import Building
 
 
 class Room(models.Model):
@@ -75,11 +75,23 @@ class RoomAdminHotelFilter(admin.SimpleListFilter):
             return queryset.filter(building__hotel=self.value())
 
 
-class RoomAdmin(admin.ModelAdmin):
+class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('building', 'name', 'room_type')
     list_filter = ('building', RoomAdminHotelFilter, 'room_type')
     change_list_template = 'hotels/change_list.html'
-    actions = ('action_change_building', )
+    actions = ('action_export_csv',
+               'action_change_building')
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'BUILDING': 'building',
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+        'ROOM TYPE': 'room_type',
+        'BED TYPE': 'bed_type',
+        'PHONE1': 'phone1',
+        'SEATS BASE': 'seats_base',
+        'SEATS ADDITIONAL': 'seats_additional',
+    })
 
     def get_urls(self):
         urls = super().get_urls()

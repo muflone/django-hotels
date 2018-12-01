@@ -18,33 +18,26 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import csv
 import collections
 
-from django.db import models
-from django.contrib import admin
-
-from ..admin_actions import ExportCSVMixin
+from django.http import HttpResponse
 
 
-class RoomType(models.Model):
+class ExportCSVMixin(object):
+    def action_export_csv(self, request, queryset):
 
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = (
+            'attachment; filename={NAME}.csv'.format(NAME=self.model._meta))
+        writer = csv.writer(response, delimiter=';')
+        # Write fields names row
+        writer.writerow(self.export_csv_fields_map.keys())
+        # Write record rows
+        for item in queryset:
+            row = writer.writerow([getattr(item, field)
+                                   for field
+                                   in self.export_csv_fields_map.values()])
 
-    class Meta:
-        # Define the database table
-        db_table = 'hotels_roomtypes'
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-class RoomTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('name', 'description')
-    actions = ('action_export_csv', )
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-    })
+        return response
+    action_export_csv.short_description = 'Export selected rows to CSV'

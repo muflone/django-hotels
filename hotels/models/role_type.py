@@ -18,8 +18,12 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
+
 from django.db import models
 from django.contrib import admin
+
+from ..admin_actions import ExportCSVMixin
 
 
 class RoleType(models.Model):
@@ -36,5 +40,11 @@ class RoleType(models.Model):
         return self.name
 
 
-class RoleTypeAdmin(admin.ModelAdmin):
+class RoleTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('name', 'description')
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+    })

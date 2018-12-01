@@ -18,8 +18,12 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
+
 from django.db import models
 from django.contrib import admin
+
+from ..admin_actions import ExportCSVMixin
 
 
 class Hotel(models.Model):
@@ -49,6 +53,20 @@ class Hotel(models.Model):
         return self.name
 
 
-class HotelAdmin(admin.ModelAdmin):
+class HotelAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('name', 'brand', 'company', 'description')
     list_filter = ('brand', 'company')
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+        'ADDRESS': 'address',
+        'LOCATION': 'location',
+        'PHONE1': 'phone1',
+        'PHONE2': 'phone2',
+        'FAX': 'fax',
+        'EMAIL': 'email',
+        'BRAND': 'brand',
+        'COMPANY': 'company',
+    })
