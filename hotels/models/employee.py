@@ -19,13 +19,18 @@
 ##
 
 import collections
+import csv
+import io
 
 from django.db import models
 from django.contrib import admin
+from django.shortcuts import render, redirect
+from django.urls import path
 from django.utils.html import mark_safe
 
 from ..admin_actions import ExportCSVMixin
 from ..admin_widgets import AdminImageWidget_128x128
+from ..forms import CSVImportForm
 
 
 class Employee(models.Model):
@@ -112,6 +117,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_filter = (FirstNameAdminNameFilter,
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
+    change_list_template = 'hotels/change_list.html'
     readonly_fields = ('id', )
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
@@ -128,6 +134,48 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         'VAT NUMBER': 'vat_number',
         'TAX CODE': 'tax_code',
     })
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import/', self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        if request.method == 'POST':
+            # Load CSV file content
+            csv_file = io.TextIOWrapper(
+                request.FILES['csv_file'].file,
+                encoding=request.POST['encoding'])
+            reader = csv.DictReader(
+                csv_file,
+                delimiter=request.POST['delimiter'])
+            # Load data from CSV
+            error_messages = []
+            employees = []
+            for row in reader:
+                # If no error create a new Room object
+                employees.append(Employee(first_name=row['FIRST NAME'],
+                                          last_name=row['LAST NAME'],
+                                          description=row['DESCRIPTION'],
+                                          genre=row['GENRE'],
+                                          birth_date=row['BIRTH DATE'],
+                                          address=row['ADDRESS'],
+                                          phone1=row['PHONE1'],
+                                          phone2=row['PHONE2'],
+                                          email=row['EMAIL'],
+                                          vat_number=row['VAT NUMBER'],
+                                          tax_code=row['TAX CODE'],
+                                         ))
+            # Save data only if there were not errors
+            if not error_messages:
+                Employee.objects.bulk_create(employees)
+                self.message_user(request, 'Your CSV file has been imported')
+            return redirect('..')
+        return render(request,
+                      'hotels/form_csv_import.html',
+                      {'form': CSVImportForm()})
 
     def detail_photo_image(self, instance, width, height):
         if instance.photo:
