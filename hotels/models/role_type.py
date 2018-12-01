@@ -19,6 +19,7 @@
 ##
 
 from django.db import models
+from django.contrib import admin
 
 
 class RoleType(models.Model):
@@ -33,3 +34,7 @@ class RoleType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RoleTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
