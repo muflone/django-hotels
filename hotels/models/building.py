@@ -44,6 +44,7 @@ class Building(models.Model):
         # Define the database table
         db_table = 'hotels_buildings'
         ordering = ['hotel', 'name']
+        unique_together = ('name', )
 
     def __str__(self):
         return self.name
