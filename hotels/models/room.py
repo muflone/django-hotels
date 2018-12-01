@@ -23,6 +23,7 @@ import io
 
 from django.db import models
 from django.contrib import admin, messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import path
 
@@ -31,7 +32,9 @@ from .building import Building
 from .hotel import Hotel
 from .room_type import RoomType
 
-from ..forms import CSVImportForm
+from ..forms import CSVImportForm, RoomChangeBuildingForm
+
+from .building import Building
 
 
 class Room(models.Model):
@@ -74,8 +77,9 @@ class RoomAdminHotelFilter(admin.SimpleListFilter):
 
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('building', 'name', 'room_type')
-    list_filter = (RoomAdminHotelFilter, 'building', 'room_type')
+    list_filter = ('building', RoomAdminHotelFilter, 'room_type')
     change_list_template = 'hotels/change_list.html'
+    actions = ('action_change_building', )
 
     def get_urls(self):
         urls = super().get_urls()
@@ -142,3 +146,30 @@ class RoomAdmin(admin.ModelAdmin):
         return render(request,
                       'hotels/form_csv_import.html',
                       {'form': CSVImportForm()})
+
+    def action_change_building(self, request, queryset):
+        form = RoomChangeBuildingForm(request.POST)
+        if 'action_change_building' in request.POST:
+            if form.is_valid():
+                building = form.cleaned_data['building']
+                queryset.update(building=building)
+
+                self.message_user(request,
+                                  'Changed building for {COUNT} rooms'.format(
+                                      COUNT=queryset.count()))
+                return HttpResponseRedirect(request.get_full_path())
+
+        return render(request,
+                      'hotels/form_change_attribute.html',
+                      context={'queryset': queryset,
+                               'buildings': Building.objects.all(),
+                               'form': form,
+                               'title': 'Assign the selected rooms to a new '
+                                        'building',
+                               'question': 'Confirm you want to change the '
+                                           'building for the selected rooms?',
+                               'items_name': 'Rooms',
+                               'action': 'action_change_building',
+                               'action_description': 'Change building',
+                              })
+    action_change_building.short_description = 'Change building'
