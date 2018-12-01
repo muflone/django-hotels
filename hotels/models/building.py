@@ -62,8 +62,12 @@ class BuildingAdminCompanyFilter(admin.SimpleListFilter):
 
 
 class BuildingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'hotel', 'location', 'company')
+    list_display = ('name', 'hotel', 'brand', 'location', 'company')
     list_filter = (BuildingAdminCompanyFilter, 'hotel')
+
+    def brand(self, instance):
+        return instance.hotel.brand
+    brand.short_description = 'Brand'
 
     def company(self, instance):
         return instance.hotel.company
