@@ -33,9 +33,10 @@ from .building import Building
 from .room_type import RoomType
 from .structure import Structure
 
-from ..forms import CSVImportForm, RoomChangeBuildingForm
+from ..forms import RoomChangeBuildingForm
 
 from utility.admin_actions import ExportCSVMixin
+from utility.forms import CSVImportForm
 
 
 class Room(models.Model):

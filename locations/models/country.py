@@ -29,7 +29,7 @@ from django.urls import path
 from .continent import Continent
 from .language import Language
 
-from ..forms import CSVImportForm
+from utility.forms import CSVImportForm
 
 
 class Country(models.Model):
