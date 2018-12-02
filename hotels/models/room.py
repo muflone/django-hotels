@@ -174,7 +174,7 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                 return HttpResponseRedirect(request.get_full_path())
 
         return render(request,
-                      'hotels/form_change_attribute.html',
+                      'utility/change_attribute/form.html',
                       context={'queryset': queryset,
                                'buildings': Building.objects.all(),
                                'form': form,
