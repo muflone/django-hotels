@@ -37,6 +37,7 @@ class Company(models.Model):
     email = models.CharField(max_length=255, blank=True)
     vat_number = models.CharField(max_length=255, blank=True)
     tax_code = models.CharField(max_length=255, blank=True)
+    owner = models.CharField(max_length=255, blank=True)
 
     class Meta:
         # Define the database table
@@ -62,4 +63,5 @@ class CompanyAdmin(admin.ModelAdmin, ExportCSVMixin):
         'EMAIL': 'email',
         'VAT NUMBER': 'vat_number',
         'TAX CODE': 'tax_code',
+        'OWNER': 'owner',
     })
