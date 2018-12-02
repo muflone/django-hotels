@@ -18,6 +18,9 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import os.path
+
+from django.conf import settings
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.html import mark_safe
 
@@ -25,7 +28,8 @@ from django.utils.html import mark_safe
 class AdminImageWidget(AdminFileWidget):
     def render(self, name, value, attrs, width, height):
         result = ''
-        if value and hasattr(value, 'url'):
+        if value and hasattr(value, 'url') and not value.url.startswith(
+                os.path.join(settings.MEDIA_URL, 'standard%3A')):
             result = ('<a href="{URL}" target="_blank">'
                       '<img src="{URL}" width="{WIDTH}" height="{HEIGHT}">'
                       '</a>'.format(URL=value.url, WIDTH=width, HEIGHT=height))

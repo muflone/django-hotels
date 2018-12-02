@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<style>
+.cc-selector input
+{
+    margin: 0;
+    padding: 0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+.cc-selector input:active +.drinkcard-cc
+{
+    opacity: .9;
+}
+.cc-selector input:checked +.drinkcard-cc
+{
+    -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
+.drinkcard-cc
+{
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 70px !important;
+    height: 70px !important;;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.1) grayscale(1) opacity(.8);
+       -moz-filter: brightness(1.1) grayscale(1) opacity(.8);
+            filter: brightness(1.1) grayscale(1) opacity(.8);
+}
+.drinkcard-cc:hover
+{
+    -webkit-filter: brightness(1.1) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.1) grayscale(.5) opacity(.9);
+            filter: brightness(1.1) grayscale(.5) opacity(.9);
+}
+</style>
+<div class="cc-selector">
+{% for item in iconsets %}
+    <input {% if item == photo %}checked="checked" {% endif %} id="{{ item }}" type="radio" name="standard_image" value="{{ item }}" />
+  {% with 'hotels/images/'|add:item|urlencode|add:'/128x128.png' as static_image %}
+    <label class="drinkcard-cc" for="{{ item }}" style="background-image:url({% static static_image %});"></label>
+  {% endwith %}
+{% endfor %}
+</div>

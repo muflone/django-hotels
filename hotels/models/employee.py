@@ -21,10 +21,13 @@
 import collections
 import csv
 import io
+import os.path
 
 from django.db import models
+from django.conf import settings
 from django.contrib import admin
 from django.shortcuts import render, redirect
+from django.template import loader, Context
 from django.urls import path
 from django.utils.html import mark_safe
 
@@ -51,7 +54,8 @@ class Employee(models.Model):
     vat_number = models.CharField(max_length=255, blank=True)
     tax_code = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(null=True, blank=True,
-                              upload_to='hotels/images/employees/')
+                              upload_to='hotels/images/employees/',
+                              default='standard:genre_unknown_1')
 
     class Meta:
         # Define the database table
@@ -118,7 +122,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
     change_list_template = 'hotels/change_list.html'
-    readonly_fields = ('id', )
+    readonly_fields = ('id', 'standard_photos')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -134,6 +138,12 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         'VAT NUMBER': 'vat_number',
         'TAX CODE': 'tax_code',
     })
+
+    def save_model(self, request, obj, form, change):
+        if not obj.photo or str(obj.photo).startswith('standard:'):
+            iconset = 'standard:{ICONSET}'
+            obj.photo = iconset.format(ICONSET=request.POST['standard_image'])
+        super().save_model(request, obj, form, change)
 
     def get_urls(self):
         urls = super().get_urls()
@@ -178,16 +188,26 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                       {'form': CSVImportForm()})
 
     def detail_photo_image(self, instance, width, height):
-        if instance.photo:
-            return mark_safe('<img src="{url}" '
-                             'width="{width}" '
-                             'height={height} />'.format(
-                url = instance.photo.url,
-                width=width,
-                height=height,
-                ))
+        if instance.photo.url.startswith(
+                os.path.join(settings.MEDIA_URL, 'standard%3A')):
+            iconset = instance.photo.url.split('%3A', 1)[1]
+            base_url = os.path.join(settings.STATIC_URL,
+                                    'hotels/images/{ICONSET}/'
+                                    '{SIZE}x{SIZE}.png')
+            url_thumbnail = base_url.format(ICONSET=iconset, SIZE=width)
+            url_image = base_url.format(ICONSET=iconset, SIZE=512)
         else:
-            return ''
+            # Show image
+            url_thumbnail = instance.photo.url
+            url_image = url_thumbnail
+
+        return mark_safe('<a href="{url}" target="_blank">'
+                         '<img src="{thumbnail}" '
+                         'width="{width}" '
+                         'height={height} />'.format(url=url_image,
+                                                     thumbnail=url_thumbnail,
+                                                     width=width,
+                                                     height=height))
 
     def photo_image(self, instance):
         return self.detail_photo_image(instance, 128, 128)
@@ -211,3 +231,22 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         fields = super().get_fields(request, obj)
         fields = ['id', ] + [k for k in fields if k not in ('id')]
         return fields
+
+    def standard_photos(self, instance):
+        template = loader.get_template('hotels/employee_standard_photos.html')
+        context = {
+            'photo': str(instance.photo).replace('standard:', ''),
+            'iconsets': ('genre_unknown_1',
+                         'genre_female_1',
+                         'genre_female_2',
+                         'genre_female_3',
+                         'genre_female_4',
+                         'genre_male_1',
+                         'genre_male_2',
+                         'genre_male_3',
+                         'genre_male_4',
+                         'genre_male_5',
+                         'genre_male_6',
+                         'genre_male_7')
+        }
+        return template.render(context)
