@@ -42,8 +42,11 @@ class Location(models.Model):
         unique_together = ('province', 'name')
 
     def __str__(self):
-        return '{NAME} ({PROVINCE})'.format(NAME=self.name,
-                                            PROVINCE=self.province)
+        if self.province:
+            return '{NAME} ({PROVINCE})'.format(NAME=self.name,
+                                                PROVINCE=self.province)
+        else:
+            return '{NAME}'.format(NAME=self.name)
 
 
 class LocationAdminInputFilter(admin.SimpleListFilter):
