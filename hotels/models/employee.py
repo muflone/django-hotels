@@ -47,6 +47,7 @@ class Employee(models.Model):
                                     ('female', 'Female'),
                                     ('unknown', 'Unknown')))
     birth_date = models.DateField()
+    code = models.CharField(max_length=255, blank=True)
     address = models.TextField(blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
@@ -137,6 +138,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         'EMAIL': 'email',
         'VAT NUMBER': 'vat_number',
         'TAX CODE': 'tax_code',
+        'CODE': 'code',
     })
 
     def save_model(self, request, obj, form, change):
@@ -177,6 +179,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                                           email=row['EMAIL'],
                                           vat_number=row['VAT NUMBER'],
                                           tax_code=row['TAX CODE'],
+                                          code=row['CODE'],
                                          ))
             # Save data only if there were not errors
             if not error_messages:
