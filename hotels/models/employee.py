@@ -139,7 +139,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_filter = (FirstNameAdminNameFilter,
                    LastNameAdminNameFilter,
                    TaxCodeAdminNameFilter)
-    change_list_template = 'hotels/change_list.html'
+    change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
     actions = ('action_export_csv', )

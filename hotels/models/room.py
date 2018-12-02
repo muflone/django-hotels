@@ -79,7 +79,7 @@ class RoomAdminStructureFilter(admin.SimpleListFilter):
 class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('building', 'name', 'room_type')
     list_filter = ('building', RoomAdminStructureFilter, 'room_type')
-    change_list_template = 'hotels/change_list.html'
+    change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_export_csv',
                'action_change_building')
     # Define fields and attributes to export rows to CSV

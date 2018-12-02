@@ -54,7 +54,7 @@ class Country(models.Model):
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'continent')
     list_filter = ('continent', )
-    change_list_template = 'locations/change_list.html'
+    change_list_template = 'utility/import_csv/change_list.html'
 
     def get_urls(self):
         urls = super().get_urls()
