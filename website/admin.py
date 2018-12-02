@@ -37,13 +37,17 @@ admin.site.register(AdminOption, AdminOptionAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 
 # Customize Administration
-for section in AdminSection.objects.all():
-    if section.name == 'site_header':
-        admin.site.site_header = section.description
-    elif section.name == 'site_title':
-        admin.site.site_title = section.description
-    elif section.name == 'index_title':
-        admin.site.index_title = section.description
+try:
+    for section in AdminSection.objects.all():
+        if section.name == 'site_header':
+            admin.site.site_header = section.description
+        elif section.name == 'site_title':
+            admin.site.site_title = section.description
+        elif section.name == 'index_title':
+            admin.site.index_title = section.description
+except OperationalError:
+    # If the model AdminSection doesn't yet exist skip the customization
+    pass
 
 # Customize options
 try:
