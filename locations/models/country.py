@@ -29,7 +29,7 @@ from django.urls import path
 from .continent import Continent
 from .language import Language
 
-from ..forms import CSVImportForm
+from utility.forms import CSVImportForm
 
 
 class Country(models.Model):
@@ -54,7 +54,7 @@ class Country(models.Model):
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'continent')
     list_filter = ('continent', )
-    change_list_template = 'locations/change_list.html'
+    change_list_template = 'utility/import_csv/change_list.html'
 
     def get_urls(self):
         urls = super().get_urls()
@@ -115,5 +115,5 @@ class CountryAdmin(admin.ModelAdmin):
                         (languages[country_language[country.name]], ))
             return redirect('..')
         return render(request,
-                      'locations/form_csv_import.html',
+                      'utility/import_csv/form.html',
                       {'form': CSVImportForm()})

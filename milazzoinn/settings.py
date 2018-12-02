@@ -51,6 +51,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'utility',
     'website',
     'hotels',
     'locations',

@@ -33,8 +33,10 @@ from .building import Building
 from .room_type import RoomType
 from .structure import Structure
 
-from ..admin_actions import ExportCSVMixin
-from ..forms import CSVImportForm, RoomChangeBuildingForm
+from ..forms import RoomChangeBuildingForm
+
+from utility.admin_actions import ExportCSVMixin
+from utility.forms import CSVImportForm
 
 
 class Room(models.Model):
@@ -78,7 +80,7 @@ class RoomAdminStructureFilter(admin.SimpleListFilter):
 class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('building', 'name', 'room_type')
     list_filter = ('building', RoomAdminStructureFilter, 'room_type')
-    change_list_template = 'hotels/change_list.html'
+    change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_export_csv',
                'action_change_building')
     # Define fields and attributes to export rows to CSV
@@ -156,7 +158,7 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                 self.message_user(request, 'Your CSV file has been imported')
             return redirect('..')
         return render(request,
-                      'hotels/form_csv_import.html',
+                      'utility/import_csv/form.html',
                       {'form': CSVImportForm()})
 
     def action_change_building(self, request, queryset):
@@ -172,7 +174,7 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                 return HttpResponseRedirect(request.get_full_path())
 
         return render(request,
-                      'hotels/form_change_attribute.html',
+                      'utility/change_attribute/form.html',
                       context={'queryset': queryset,
                                'buildings': Building.objects.all(),
                                'form': form,

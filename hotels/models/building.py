@@ -25,7 +25,7 @@ from django.contrib import admin
 
 from .company import Company
 
-from ..admin_actions import ExportCSVMixin
+from utility.admin_actions import ExportCSVMixin
 
 
 class Building(models.Model):

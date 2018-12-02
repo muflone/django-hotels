@@ -18,33 +18,22 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import collections
-
-from django.db import models
 from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
 
+class AdminTextInputFilter(admin.SimpleListFilter):
+    template = 'utility/admin_text_input_filter/form.html'
 
-class RoomType(models.Model):
+    def lookups(self, request, model_admin):
+        # Dummy, required to show the filter.
+        return (('', ''),)
 
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    class Meta:
-        # Define the database table
-        db_table = 'hotels_roomtypes'
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-class RoomTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('name', 'description')
-    actions = ('action_export_csv', )
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-    })
+    def choices(self, changelist):
+        # Grab only the "all" option.
+        all_choice = next(super().choices(changelist))
+        all_choice['query_parts'] = (
+            (k, v)
+            for k, v in changelist.get_filters_params().items()
+            if k != self.parameter_name
+        )
+        yield all_choice

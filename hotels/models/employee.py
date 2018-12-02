@@ -31,11 +31,12 @@ from django.template import loader, Context
 from django.urls import path
 from django.utils.html import mark_safe
 
-from ..admin_actions import ExportCSVMixin
-from ..admin_widgets import AdminImageWidget_128x128
-from ..forms import CSVImportForm
-
 from locations.models import Location
+
+from utility.admin import AdminTextInputFilter
+from utility.admin_actions import ExportCSVMixin
+from utility.admin_widgets import AdminImageWidget_128x128
+from utility.forms import CSVImportForm
 
 
 class Employee(models.Model):
@@ -86,25 +87,7 @@ class Employee(models.Model):
             LAST_NAME=self.last_name)
 
 
-class EmployeeAdminInputFilter(admin.SimpleListFilter):
-    template = 'hotels/input_filter.html'
-
-    def lookups(self, request, model_admin):
-        # Dummy, required to show the filter.
-        return (('', ''),)
-
-    def choices(self, changelist):
-        # Grab only the "all" option.
-        all_choice = next(super().choices(changelist))
-        all_choice['query_parts'] = (
-            (k, v)
-            for k, v in changelist.get_filters_params().items()
-            if k != self.parameter_name
-        )
-        yield all_choice
-
-
-class FirstNameAdminNameFilter(EmployeeAdminInputFilter):
+class EmployeeFirstNameInputFilter(AdminTextInputFilter):
     parameter_name = 'first_name'
     title = 'first name'
 
@@ -113,7 +96,7 @@ class FirstNameAdminNameFilter(EmployeeAdminInputFilter):
             return queryset.filter(first_name__icontains=self.value())
 
 
-class LastNameAdminNameFilter(EmployeeAdminInputFilter):
+class EmployeeLastNameInputFilter(AdminTextInputFilter):
     parameter_name = 'last_name'
     title = 'last name'
 
@@ -122,7 +105,7 @@ class LastNameAdminNameFilter(EmployeeAdminInputFilter):
             return queryset.filter(last_name__icontains=self.value())
 
 
-class TaxCodeAdminNameFilter(EmployeeAdminInputFilter):
+class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
     parameter_name = 'tax_code'
     title = 'tax code'
 
@@ -135,10 +118,10 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
                     'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name', 'tax_code')
-    list_filter = (FirstNameAdminNameFilter,
-                   LastNameAdminNameFilter,
-                   TaxCodeAdminNameFilter)
-    change_list_template = 'hotels/change_list.html'
+    list_filter = (EmployeeFirstNameInputFilter,
+                   EmployeeLastNameInputFilter,
+                   EmployeeTaxCodeInputFilter)
+    change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
     actions = ('action_export_csv', )
@@ -243,7 +226,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                 self.message_user(request, 'Your CSV file has been imported')
             return redirect('..')
         return render(request,
-                      'hotels/form_csv_import.html',
+                      'utility/import_csv/form.html',
                       {'form': CSVImportForm()})
 
     def detail_photo_image(self, instance, width, height):

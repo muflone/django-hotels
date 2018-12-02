@@ -24,6 +24,8 @@ from django.contrib import admin
 from .country import Country
 from .region import Region
 
+from utility.admin import AdminTextInputFilter
+
 
 class Location(models.Model):
 
@@ -49,22 +51,22 @@ class Location(models.Model):
             return '{NAME}'.format(NAME=self.name)
 
 
-class LocationAdminInputFilter(admin.SimpleListFilter):
-    template = 'locations/input_filter.html'
+class LocationNameInputFilter(AdminTextInputFilter):
+    parameter_name = 'name'
+    title = 'name'
 
-    def lookups(self, request, model_admin):
-        # Dummy, required to show the filter.
-        return (('', ''),)
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(name__icontains=self.value())
 
-    def choices(self, changelist):
-        # Grab only the "all" option.
-        all_choice = next(super().choices(changelist))
-        all_choice['query_parts'] = (
-            (k, v)
-            for k, v in changelist.get_filters_params().items()
-            if k != self.parameter_name
-        )
-        yield all_choice
+
+class LocationProvinceInputFilter(AdminTextInputFilter):
+    parameter_name = 'province'
+    title = 'province'
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(province__icontains=self.value())
 
 
 class LocationAdminCountryFilter(admin.SimpleListFilter):
@@ -79,28 +81,10 @@ class LocationAdminCountryFilter(admin.SimpleListFilter):
             return queryset.filter(region__country=self.value())
 
 
-class LocationAdminNameFilter(LocationAdminInputFilter):
-    parameter_name = 'name'
-    title = 'name'
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(name__icontains=self.value())
-
-
-class LocationAdminProvinceFilter(LocationAdminInputFilter):
-    parameter_name = 'province'
-    title = 'province'
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(province__icontains=self.value())
-
-
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('name', 'province', 'region', 'country')
-    list_filter = (LocationAdminNameFilter,
-                   LocationAdminProvinceFilter,
+    list_filter = (LocationNameInputFilter,
+                   LocationProvinceInputFilter,
                    LocationAdminCountryFilter,
                    'region')
 
