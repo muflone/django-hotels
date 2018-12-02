@@ -115,5 +115,5 @@ class CountryAdmin(admin.ModelAdmin):
                         (languages[country_language[country.name]], ))
             return redirect('..')
         return render(request,
-                      'locations/form_csv_import.html',
+                      'utility/import_csv/form.html',
                       {'form': CSVImportForm()})

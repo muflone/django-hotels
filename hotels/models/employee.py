@@ -244,7 +244,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                 self.message_user(request, 'Your CSV file has been imported')
             return redirect('..')
         return render(request,
-                      'hotels/form_csv_import.html',
+                      'utility/import_csv/form.html',
                       {'form': CSVImportForm()})
 
     def detail_photo_image(self, instance, width, height):
