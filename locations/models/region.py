@@ -35,7 +35,8 @@ class Region(models.Model):
     position = models.ForeignKey(Position,
                                  on_delete=models.CASCADE)
     aliases = models.ManyToManyField(RegionAlias,
-                                     db_table='locations_region_aliases')
+                                     db_table='locations_region_aliases',
+                                     blank=True)
 
     class Meta:
         # Define the database table
