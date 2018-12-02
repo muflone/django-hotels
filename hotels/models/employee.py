@@ -124,6 +124,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                    TaxCodeAdminNameFilter)
     change_list_template = 'hotels/change_list.html'
     readonly_fields = ('id', 'standard_photos')
+    radio_fields = {'genre': admin.HORIZONTAL}
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
