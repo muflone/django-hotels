@@ -25,7 +25,7 @@ import os.path
 
 from django.db import models
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.shortcuts import render, redirect
 from django.template import loader, Context
 from django.urls import path
@@ -34,6 +34,8 @@ from django.utils.html import mark_safe
 from ..admin_actions import ExportCSVMixin
 from ..admin_widgets import AdminImageWidget_128x128
 from ..forms import CSVImportForm
+
+from locations.models import Location
 
 
 class Employee(models.Model):
@@ -47,13 +49,27 @@ class Employee(models.Model):
                                     ('female', 'Female'),
                                     ('unknown', 'Unknown')))
     birth_date = models.DateField()
-    code = models.CharField(max_length=255, blank=True)
+    birth_location = models.ForeignKey('locations.Location',
+                                       on_delete=models.CASCADE,
+                                       default=0,
+                                       related_name='employee_birth_location')
     address = models.TextField(blank=True)
+    location = models.ForeignKey('locations.Location',
+                                 on_delete=models.CASCADE,
+                                 default=0)
+    postal_code = models.CharField(max_length=15, blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
     vat_number = models.CharField(max_length=255, blank=True)
     tax_code = models.CharField(max_length=255, blank=True)
+    permit = models.CharField(max_length=255, blank=True)
+    permit_location = models.ForeignKey('locations.Location',
+                                        on_delete=models.CASCADE,
+                                        default=0,
+                                       related_name='employee_permit_location')
+    permit_date = models.DateField(blank=True, null=True, default=None)
+    permit_expiration = models.DateField(blank=True, null=True, default=None)
     photo = models.ImageField(null=True, blank=True,
                               upload_to='hotels/images/employees/',
                               default='standard:genre_unknown_1')
@@ -133,13 +149,19 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         'DESCRIPTION': 'description',
         'GENRE': 'genre',
         'BIRTH DATE': 'birth_date',
+        'BIRTH LOCATION': 'birth_location',
         'ADDRESS': 'address',
+        'LOCATION': 'location',
+        'POSTAL CODE': 'postal_code',
         'PHONE1': 'phone1',
         'PHONE2': 'phone2',
         'EMAIL': 'email',
         'VAT NUMBER': 'vat_number',
         'TAX CODE': 'tax_code',
-        'CODE': 'code',
+        'PERMIT': 'permit',
+        'PERMIT LOCATION': 'permit_location',
+        'PERMIT DATE': 'permit_date',
+        'PERMIT EXPIRATION': 'permit_expiration',
     })
 
     def save_model(self, request, obj, form, change):
@@ -156,7 +178,19 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         return my_urls + urls
 
     def import_csv(self, request):
+        def append_error(type_name, item):
+            """Append an error message to the messages list"""
+            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
+                                                                ITEM=item)
+            if error_message not in error_messages:
+                error_messages.append(error_message)
+                self.message_user(request, error_message, messages.ERROR)
+
         if request.method == 'POST':
+            # Preload locations
+            locations = {}
+            for item in Location.objects.all():
+                locations[str(item)] = item
             # Load CSV file content
             csv_file = io.TextIOWrapper(
                 request.FILES['csv_file'].file,
@@ -168,19 +202,40 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
             error_messages = []
             employees = []
             for row in reader:
+                if row['BIRTH LOCATION'] not in locations:
+                    append_error('location', row['BIRTH LOCATION'])
+                if row['LOCATION'] not in locations:
+                    append_error('location', row['LOCATION'])
+                if row['PERMIT LOCATION'] not in locations:
+                    append_error('location', row['PERMIT LOCATION'])
                 # If no error create a new Room object
                 employees.append(Employee(first_name=row['FIRST NAME'],
                                           last_name=row['LAST NAME'],
                                           description=row['DESCRIPTION'],
                                           genre=row['GENRE'],
-                                          birth_date=row['BIRTH DATE'],
+                                          birth_date=row['BIRTH DATE']
+                                                     if row['BIRTH DATE']
+                                                     else None,
+                                          birth_location=locations[
+                                              row['BIRTH LOCATION']],
                                           address=row['ADDRESS'],
+                                          location=locations[row['LOCATION']],
+                                          postal_code=row['POSTAL CODE'],
                                           phone1=row['PHONE1'],
                                           phone2=row['PHONE2'],
                                           email=row['EMAIL'],
                                           vat_number=row['VAT NUMBER'],
                                           tax_code=row['TAX CODE'],
-                                          code=row['CODE'],
+                                          permit=row['PERMIT'],
+                                          permit_location=locations[
+                                              row['PERMIT LOCATION']],
+                                          permit_date=row['PERMIT DATE']
+                                                      if row['PERMIT DATE']
+                                                      else None,
+                                          permit_expiration=
+                                              row['PERMIT EXPIRATION']
+                                              if row['PERMIT EXPIRATION']
+                                              else None,
                                          ))
             # Save data only if there were not errors
             if not error_messages:
