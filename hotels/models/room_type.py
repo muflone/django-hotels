@@ -23,7 +23,7 @@ import collections
 from django.db import models
 from django.contrib import admin
 
-from ..admin_actions import ExportCSVMixin
+from utility.admin_actions import ExportCSVMixin
 
 
 class RoomType(models.Model):

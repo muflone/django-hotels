@@ -31,11 +31,12 @@ from django.template import loader, Context
 from django.urls import path
 from django.utils.html import mark_safe
 
-from ..admin_actions import ExportCSVMixin
 from ..admin_widgets import AdminImageWidget_128x128
 from ..forms import CSVImportForm
 
 from locations.models import Location
+
+from utility.admin_actions import ExportCSVMixin
 
 
 class Employee(models.Model):
