@@ -28,7 +28,7 @@ from .models import (HomeSection, HomeSectionAdmin,
 
 from locations.models import LocationAdmin
 
-from hotels.models import BuildingAdmin, HotelAdmin
+from hotels.models import BuildingAdmin, StructureAdmin
 
 
 # Register your models here.
@@ -53,7 +53,7 @@ try:
             BuildingAdmin.autocomplete_fields = ('location', )
         elif option.name == 'hotel.location.searchable' and option.value == '1':
             LocationAdmin.search_fields = ('name', )
-            HotelAdmin.autocomplete_fields = ('location', )
+            StructureAdmin.autocomplete_fields = ('location', )
 except OperationalError:
     # If the model AdminOption doesn't yet exist skip the customization
     pass

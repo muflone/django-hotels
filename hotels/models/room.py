@@ -30,8 +30,8 @@ from django.urls import path
 
 from .bed_type import BedType
 from .building import Building
-from .hotel import Hotel
 from .room_type import RoomType
+from .structure import Structure
 
 from ..admin_actions import ExportCSVMixin
 from ..forms import CSVImportForm, RoomChangeBuildingForm
@@ -63,21 +63,21 @@ class Room(models.Model):
                                             NAME=self.name)
 
 
-class RoomAdminHotelFilter(admin.SimpleListFilter):
-    title = 'hotel'
-    parameter_name = 'hotel'
+class RoomAdminStructureFilter(admin.SimpleListFilter):
+    title = 'structure'
+    parameter_name = 'structure'
 
     def lookups(self, request, model_admin):
-        return Hotel.objects.all().values_list('name', 'name')
+        return Structure.objects.all().values_list('name', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(building__hotel=self.value())
+            return queryset.filter(building__structure=self.value())
 
 
 class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('building', 'name', 'room_type')
-    list_filter = ('building', RoomAdminHotelFilter, 'room_type')
+    list_filter = ('building', RoomAdminStructureFilter, 'room_type')
     change_list_template = 'hotels/change_list.html'
     actions = ('action_export_csv',
                'action_change_building')

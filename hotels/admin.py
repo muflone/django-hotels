@@ -25,10 +25,10 @@ from .models import (BedType, BedTypeAdmin,
                      Building, BuildingAdmin,
                      Company, CompanyAdmin,
                      Employee, EmployeeAdmin,
-                     Hotel, HotelAdmin,
                      RoleType, RoleTypeAdmin,
                      Room, RoomAdmin,
-                     RoomType, RoomTypeAdmin)
+                     RoomType, RoomTypeAdmin,
+                     Structure, StructureAdmin)
 
 # Register your models here.
 admin.site.register(BedType, BedTypeAdmin)
@@ -36,7 +36,7 @@ admin.site.register(Brand, BrandAdmin)
 admin.site.register(Building, BuildingAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Employee, EmployeeAdmin)
-admin.site.register(Hotel, HotelAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(RoleType, RoleTypeAdmin)
+admin.site.register(Structure, StructureAdmin)

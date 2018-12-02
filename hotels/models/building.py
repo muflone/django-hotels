@@ -30,7 +30,7 @@ from ..admin_actions import ExportCSVMixin
 
 class Building(models.Model):
 
-    hotel = models.ForeignKey('Hotel',
+    structure = models.ForeignKey('Structure',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -47,7 +47,7 @@ class Building(models.Model):
     class Meta:
         # Define the database table
         db_table = 'hotels_buildings'
-        ordering = ['hotel', 'name']
+        ordering = ['structure', 'name']
         unique_together = ('name', )
 
     def __str__(self):
@@ -67,12 +67,12 @@ class BuildingAdminCompanyFilter(admin.SimpleListFilter):
 
 
 class BuildingAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('name', 'hotel', 'brand', 'location', 'company')
-    list_filter = (BuildingAdminCompanyFilter, 'hotel')
+    list_display = ('name', 'structure', 'brand', 'location', 'company')
+    list_filter = (BuildingAdminCompanyFilter, 'structure')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
-        'HOTEL': 'hotel',
+        'STRUCTURE': 'structure',
         'NAME': 'name',
         'DESCRIPTION': 'description',
         'ADDRESS': 'address',
@@ -85,9 +85,9 @@ class BuildingAdmin(admin.ModelAdmin, ExportCSVMixin):
     })
 
     def brand(self, instance):
-        return instance.hotel.brand
+        return instance.structure.brand
     brand.short_description = 'Brand'
 
     def company(self, instance):
-        return instance.hotel.company
+        return instance.structure.company
     company.short_description = 'Company'
