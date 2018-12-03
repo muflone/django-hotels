@@ -41,7 +41,7 @@ class Location(models.Model):
         # Define the database table
         db_table = 'locations_locations'
         ordering = ['name']
-        unique_together = ('province', 'name')
+        unique_together = ('region', 'name')
 
     def __str__(self):
         if self.province:
