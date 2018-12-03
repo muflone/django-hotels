@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'website',
     'hotels',
     'locations',
+    'work',
     'logentry_admin',
     'django.contrib.admin',
     'django.contrib.auth',

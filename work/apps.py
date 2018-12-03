@@ -18,10 +18,8 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .bed_type import BedType, BedTypeAdmin
-from .brand import Brand, BrandAdmin
-from .building import Building, BuildingAdmin
-from .company import Company, CompanyAdmin
-from .room import Room, RoomAdmin
-from .room_type import RoomType, RoomTypeAdmin
-from .structure import Structure, StructureAdmin
+from django.apps import AppConfig
+
+
+class WorkConfig(AppConfig):
+    name = 'work'
