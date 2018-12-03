@@ -29,6 +29,7 @@ from .models import (BedType, BedTypeAdmin,
                      RoomType, RoomTypeAdmin,
                      Structure, StructureAdmin)
 
+
 # Register your models here.
 admin.site.register(BedType, BedTypeAdmin)
 admin.site.register(Brand, BrandAdmin)
