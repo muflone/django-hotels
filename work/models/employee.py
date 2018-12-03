@@ -57,7 +57,8 @@ class Employee(models.Model):
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
                                  on_delete=models.CASCADE,
-                                 default=0)
+                                 default=0,
+                                 related_name='employee_location')
     postal_code = models.CharField(max_length=15, blank=True)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
@@ -67,8 +68,7 @@ class Employee(models.Model):
     permit = models.CharField(max_length=255, blank=True)
     permit_location = models.ForeignKey('locations.Location',
                                         on_delete=models.CASCADE,
-                                        default=0,
-                                       related_name='employee_permit_location')
+                                        default=0)
     permit_date = models.DateField(blank=True, null=True, default=None)
     permit_expiration = models.DateField(blank=True, null=True, default=None)
     photo = models.ImageField(null=True, blank=True,
@@ -77,7 +77,7 @@ class Employee(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'hotels_employees'
+        db_table = 'work_employees'
         ordering = ['first_name', 'last_name']
         unique_together = ('first_name', 'last_name', 'tax_code')
 
