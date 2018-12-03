@@ -68,7 +68,9 @@ class Employee(models.Model):
     permit = models.CharField(max_length=255, blank=True)
     permit_location = models.ForeignKey('locations.Location',
                                         on_delete=models.CASCADE,
-                                        default=0)
+                                        default=0,
+                                        blank=True,
+                                        null=True)
     permit_date = models.DateField(blank=True, null=True, default=None)
     permit_expiration = models.DateField(blank=True, null=True, default=None)
     photo = models.ImageField(null=True, blank=True,
