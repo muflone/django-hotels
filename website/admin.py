@@ -26,9 +26,11 @@ from .models import (HomeSection, HomeSectionAdmin,
                      AdminOption, AdminOptionAdmin,
                      AdminSection, AdminSectionAdmin)
 
+from hotels.models import BuildingAdmin, StructureAdmin
+
 from locations.models import LocationAdmin
 
-from hotels.models import BuildingAdmin, StructureAdmin
+from work.models import EmployeeAdmin
 
 
 # Register your models here.
@@ -54,10 +56,19 @@ try:
     for option in AdminOption.objects.all():
         if option.name == 'building.location.searchable' and option.value == '1':
             LocationAdmin.search_fields = ('name', )
-            BuildingAdmin.autocomplete_fields = ('location', )
-        elif option.name == 'hotel.location.searchable' and option.value == '1':
+            BuildingAdmin.autocomplete_fields += ('location', )
+        elif option.name == 'structure.location.searchable' and option.value == '1':
             LocationAdmin.search_fields = ('name', )
             StructureAdmin.autocomplete_fields = ('location', )
+        elif option.name == 'employee.birth_location.searchable' and option.value == '1':
+            LocationAdmin.search_fields = ('name', )
+            EmployeeAdmin.autocomplete_fields += ('birth_location', )
+        elif option.name == 'employee.location.searchable' and option.value == '1':
+            LocationAdmin.search_fields = ('name', )
+            EmployeeAdmin.autocomplete_fields += ('location', )
+        elif option.name == 'employee.permit_location.searchable' and option.value == '1':
+            LocationAdmin.search_fields = ('name', )
+            EmployeeAdmin.autocomplete_fields += ('permit_location', )
 except OperationalError:
     # If the model AdminOption doesn't yet exist skip the customization
     pass
