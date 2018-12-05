@@ -63,7 +63,7 @@ class BuildingAdminCompanyFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(hotel__company=self.value())
+            return queryset.filter(structure__company=self.value())
 
 
 class BuildingAdmin(admin.ModelAdmin, ExportCSVMixin):
