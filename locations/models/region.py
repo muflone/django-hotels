@@ -30,10 +30,10 @@ class Region(models.Model):
 
     name = models.CharField(max_length=255)
     country = models.ForeignKey(Country,
-                                on_delete=models.CASCADE)
+                                on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     position = models.ForeignKey(Position,
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.PROTECT)
     aliases = models.ManyToManyField(RegionAlias,
                                      db_table='locations_region_aliases',
                                      blank=True)

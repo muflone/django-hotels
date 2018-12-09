@@ -51,12 +51,12 @@ class Employee(models.Model):
                                     ('unknown', 'Unknown')))
     birth_date = models.DateField()
     birth_location = models.ForeignKey('locations.Location',
-                                       on_delete=models.CASCADE,
+                                       on_delete=models.PROTECT,
                                        default=0,
                                        related_name='employee_birth_location')
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.PROTECT,
                                  default=0,
                                  related_name='employee_location')
     postal_code = models.CharField(max_length=15, blank=True)
@@ -67,7 +67,7 @@ class Employee(models.Model):
     tax_code = models.CharField(max_length=255, blank=True)
     permit = models.CharField(max_length=255, blank=True)
     permit_location = models.ForeignKey('locations.Location',
-                                        on_delete=models.CASCADE,
+                                        on_delete=models.PROTECT,
                                         default=0,
                                         blank=True,
                                         null=True)

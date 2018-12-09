@@ -38,7 +38,7 @@ class Country(models.Model):
     description = models.TextField(blank=True)
     capital = models.CharField(max_length=255, blank=True)
     continent = models.ForeignKey(Continent,
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.PROTECT)
     languages = models.ManyToManyField(Language)
 
     class Meta:

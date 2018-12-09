@@ -29,7 +29,7 @@ class RegionAlias(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     country = models.ForeignKey(Country,
-                                on_delete=models.CASCADE)
+                                on_delete=models.PROTECT)
 
     class Meta:
         # Define the database table

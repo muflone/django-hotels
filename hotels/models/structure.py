@@ -32,17 +32,17 @@ class Structure(models.Model):
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.PROTECT,
                                  default=0)
     phone1 = models.CharField(max_length=255, blank=True)
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
     brand = models.ForeignKey('Brand',
-                              on_delete=models.CASCADE,
+                              on_delete=models.PROTECT,
                               default='UNKNOWN')
     company = models.ForeignKey('Company',
-                                on_delete=models.CASCADE)
+                                on_delete=models.PROTECT)
 
     class Meta:
         # Define the database table
