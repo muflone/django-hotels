@@ -18,14 +18,37 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
+
+from django.db import models
 from django.contrib import admin
 
-from .models import (ContractType, ContractTypeAdmin,
-                     Employee, EmployeeAdmin,
-                     JobType, JobTypeAdmin)
+from utility.admin_actions import ExportCSVMixin
 
 
-# Register your models here.
-admin.site.register(ContractType, ContractTypeAdmin)
-admin.site.register(Employee, EmployeeAdmin)
-admin.site.register(JobType, JobTypeAdmin)
+class ContractType(models.Model):
+
+    name = models.CharField(max_length=255, primary_key=True)
+    description = models.TextField(blank=True)
+    daily_hours = models.PositiveIntegerField()
+    weekly_hours = models.PositiveIntegerField()
+
+    class Meta:
+        # Define the database table
+        db_table = 'work_contracttype'
+        ordering = ['name', ]
+
+    def __str__(self):
+        return self.name
+
+
+class ContractTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
+    list_display = ('name', 'description', 'daily_hours', 'weekly_hours')
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+        'WEEKLY HOURS': 'weekly_hours',
+        'DAILY HOURS': 'daily_hours',
+    })
