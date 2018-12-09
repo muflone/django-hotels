@@ -31,12 +31,12 @@ from utility.admin_actions import ExportCSVMixin
 class Building(models.Model):
 
     structure = models.ForeignKey('Structure',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.PROTECT)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.PROTECT,
                                  default=0)
     postal_code = models.CharField(max_length=15, blank=True)
     phone1 = models.CharField(max_length=255, blank=True)

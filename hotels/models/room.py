@@ -42,13 +42,13 @@ from utility.forms import CSVImportForm
 class Room(models.Model):
 
     building = models.ForeignKey('Building',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.PROTECT)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     room_type = models.ForeignKey('RoomType',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.PROTECT)
     bed_type = models.ForeignKey('BedType',
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.PROTECT,
                                  default='UNKNOWN')
     phone1 = models.CharField(max_length=255, blank=True)
     seats_base = models.PositiveIntegerField(default=1)

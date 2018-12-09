@@ -31,7 +31,7 @@ class Location(models.Model):
 
     name = models.CharField(max_length=255)
     region = models.ForeignKey(Region,
-                               on_delete=models.CASCADE)
+                               on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     province = models.CharField(max_length=255,
                                 blank=True,
