@@ -19,9 +19,14 @@
 ##
 
 import collections
+import os.path
 
+from django.conf import settings
 from django.db import models
 from django.contrib import admin
+from django.utils.html import mark_safe
+
+from hotels.models.company import Company
 
 from utility.admin_actions import ExportCSVMixin
 
@@ -73,7 +78,7 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('first_name', 'last_name', 'company', 'roll_number',
-                    'status')
+                    'status', 'photo_thumbnail')
     list_display_links = ('first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter, )
     actions = ('action_export_csv', )
@@ -99,3 +104,28 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     def last_name(self, instance):
         return instance.employee.last_name
     last_name.last_description = 'Last name'
+
+    def detail_photo_image(self, instance, width, height):
+        if instance.employee.photo.url.startswith(
+                os.path.join(settings.MEDIA_URL, 'standard%3A')):
+            iconset = instance.employee.photo.url.split('%3A', 1)[1]
+            base_url = os.path.join(settings.STATIC_URL,
+                                    'hotels/images/{ICONSET}/'
+                                    '{SIZE}x{SIZE}.png')
+            url_thumbnail = base_url.format(ICONSET=iconset, SIZE=width)
+            url_image = base_url.format(ICONSET=iconset, SIZE=512)
+        else:
+            # Show image
+            url_thumbnail = instance.employee.photo.url
+            url_image = url_thumbnail
+
+        return mark_safe('<a href="{url}" target="_blank">'
+                         '<img src="{thumbnail}" '
+                         'width="{width}" '
+                         'height={height} />'.format(url=url_image,
+                                                     thumbnail=url_thumbnail,
+                                                     width=width,
+                                                     height=height))
+
+    def photo_thumbnail(self, instance):
+        return self.detail_photo_image(instance, 48, 48)
