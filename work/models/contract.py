@@ -77,10 +77,11 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
 
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('first_name', 'last_name', 'company', 'roll_number',
+    list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
                     'status', 'photo_thumbnail')
-    list_display_links = ('first_name', 'last_name')
+    list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter, )
+    readonly_fields = ('id', )
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -129,3 +130,9 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
 
     def photo_thumbnail(self, instance):
         return self.detail_photo_image(instance, 48, 48)
+
+    def get_fields(self, request, obj=None):
+        """Reorder the fields list"""
+        fields = super().get_fields(request, obj)
+        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        return fields
