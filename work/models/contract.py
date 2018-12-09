@@ -57,7 +57,7 @@ class Contract(models.Model):
                            ('company', 'employee', 'start_date', 'end_date'))
 
     def __str__(self):
-        return '{COMPANY} {EMPLOYEE} {ROLL_NUMBER} {STATUS}'.format(
+        return '{COMPANY} - {EMPLOYEE} ({ROLL_NUMBER})'.format(
             COMPANY=self.company,
             EMPLOYEE=self.employee,
             ROLL_NUMBER=self.roll_number,
