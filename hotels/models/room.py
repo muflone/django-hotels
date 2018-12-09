@@ -33,7 +33,7 @@ from .building import Building
 from .room_type import RoomType
 from .structure import Structure
 
-from ..forms import RoomChangeBuildingForm
+from ..forms import RoomChangeBedTypeForm, RoomChangeBuildingForm
 
 from utility.admin_actions import ExportCSVMixin
 from utility.forms import CSVImportForm
@@ -78,11 +78,13 @@ class RoomAdminStructureFilter(admin.SimpleListFilter):
 
 
 class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('building', 'name', 'room_type')
-    list_filter = ('building', RoomAdminStructureFilter, 'room_type')
+    list_display = ('building', 'name', 'room_type', 'bed_type')
+    list_filter = ('building', RoomAdminStructureFilter, 'room_type',
+                   'bed_type')
     change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_export_csv',
-               'action_change_building')
+               'action_change_building',
+               'action_change_bedtype')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'BUILDING': 'building',
@@ -163,6 +165,7 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
 
     def action_change_building(self, request, queryset):
         form = RoomChangeBuildingForm(request.POST)
+        print('from change_building', request.POST)
         if 'action_change_building' in request.POST:
             if form.is_valid():
                 building = form.cleaned_data['building']
@@ -187,3 +190,31 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                                'action_description': 'Change building',
                               })
     action_change_building.short_description = 'Change building'
+
+    def action_change_bedtype(self, request, queryset):
+        form = RoomChangeBedTypeForm(request.POST)
+        print('from change_bedtype', request.POST)
+        if 'action_change_bedtype' in request.POST:
+            if form.is_valid():
+                bed_type = form.cleaned_data['bed_type']
+                queryset.update(bed_type=bed_type)
+
+                self.message_user(request,
+                                  'Changed bedtype for {COUNT} rooms'.format(
+                                      COUNT=queryset.count()))
+                return HttpResponseRedirect(request.get_full_path())
+
+        return render(request,
+                      'utility/change_attribute/form.html',
+                      context={'queryset': queryset,
+                               'bed_types': BedType.objects.all(),
+                               'form': form,
+                               'title': 'Assign the bed type to the selected '
+                                        'rooms',
+                               'question': 'Confirm you want to change the '
+                                           'bed type for the selected rooms?',
+                               'items_name': 'Rooms',
+                               'action': 'action_change_bedtype',
+                               'action_description': 'Change bed type',
+                              })
+    action_change_bedtype.short_description = 'Change bed type'

@@ -20,7 +20,12 @@
 
 from django import forms
 
-from .models import Building
+from .models import BedType, Building
+
+
+class RoomChangeBedTypeForm(forms.Form):
+    _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+    bed_type = forms.ModelChoiceField(BedType.objects, label='Bed Type')
 
 
 class RoomChangeBuildingForm(forms.Form):
