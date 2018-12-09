@@ -59,10 +59,23 @@ class Contract(models.Model):
             STATUS=self.status)
 
 
+class ContractAdminCompanyFilter(admin.SimpleListFilter):
+    title = 'company'
+    parameter_name = 'company'
+
+    def lookups(self, request, model_admin):
+        return Company.objects.all().values_list('name', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(company=self.value())
+
+
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('first_name', 'last_name', 'company', 'roll_number',
                     'status')
     list_display_links = ('first_name', 'last_name')
+    list_filter = (ContractAdminCompanyFilter, )
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
