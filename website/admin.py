@@ -23,8 +23,8 @@ from django.db.utils import OperationalError
 
 
 from .models import (AdminSearchable, AdminSearchableAdmin,
-                     HomeSection, HomeSectionAdmin,
-                     AdminSection, AdminSectionAdmin)
+                     AdminSection, AdminSectionAdmin,
+                     HomeSection, HomeSectionAdmin)
 
 
 # Register your models here.

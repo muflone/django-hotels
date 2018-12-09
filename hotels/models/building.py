@@ -31,7 +31,7 @@ from utility.admin_actions import ExportCSVMixin
 class Building(models.Model):
 
     structure = models.ForeignKey('Structure',
-                              on_delete=models.CASCADE)
+                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)

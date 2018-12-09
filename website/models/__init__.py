@@ -19,5 +19,5 @@
 ##
 
 from .admin_searchable import AdminSearchable, AdminSearchableAdmin
-from .home_section import HomeSection, HomeSectionAdmin
 from .admin_section import AdminSection, AdminSectionAdmin
+from .home_section import HomeSection, HomeSectionAdmin
