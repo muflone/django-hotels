@@ -20,12 +20,14 @@
 
 from django.contrib import admin
 
-from .models import (ContractType, ContractTypeAdmin,
+from .models import (Contract, ContractAdmin,
+                     ContractType, ContractTypeAdmin,
                      Employee, EmployeeAdmin,
                      JobType, JobTypeAdmin)
 
 
 # Register your models here.
+admin.site.register(Contract, ContractAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(JobType, JobTypeAdmin)
