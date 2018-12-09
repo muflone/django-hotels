@@ -19,3 +19,4 @@
 ##
 
 from .employee import Employee, EmployeeAdmin
+from .job_type import JobType, JobTypeAdmin
