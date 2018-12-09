@@ -62,6 +62,7 @@ class Contract(models.Model):
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('first_name', 'last_name', 'company', 'roll_number',
                     'status')
+    list_display_links = ('first_name', 'last_name')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
