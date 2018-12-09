@@ -22,21 +22,15 @@ from django.contrib import admin
 from django.db.utils import OperationalError
 
 
-from .models import (HomeSection, HomeSectionAdmin,
-                     AdminOption, AdminOptionAdmin,
+from .models import (AdminSearchable, AdminSearchableAdmin,
+                     HomeSection, HomeSectionAdmin,
                      AdminSection, AdminSectionAdmin)
-
-from hotels.models import BuildingAdmin, StructureAdmin
-
-from locations.models import LocationAdmin
-
-from work.models import EmployeeAdmin
 
 
 # Register your models here.
-admin.site.register(HomeSection, HomeSectionAdmin)
-admin.site.register(AdminOption, AdminOptionAdmin)
+admin.site.register(AdminSearchable, AdminSearchableAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
+admin.site.register(HomeSection, HomeSectionAdmin)
 
 # Customize Administration
 try:
@@ -51,24 +45,11 @@ except OperationalError:
     # If the model AdminSection doesn't yet exist skip the customization
     pass
 
-# Customize options
+# Customize enabled searchables
 try:
-    for option in AdminOption.objects.all():
-        if option.name == 'building.location.searchable' and option.value == '1':
-            LocationAdmin.search_fields = ('name', )
-            BuildingAdmin.autocomplete_fields += ('location', )
-        elif option.name == 'structure.location.searchable' and option.value == '1':
-            LocationAdmin.search_fields = ('name', )
-            StructureAdmin.autocomplete_fields = ('location', )
-        elif option.name == 'employee.birth_location.searchable' and option.value == '1':
-            LocationAdmin.search_fields = ('name', )
-            EmployeeAdmin.autocomplete_fields += ('birth_location', )
-        elif option.name == 'employee.location.searchable' and option.value == '1':
-            LocationAdmin.search_fields = ('name', )
-            EmployeeAdmin.autocomplete_fields += ('location', )
-        elif option.name == 'employee.permit_location.searchable' and option.value == '1':
-            LocationAdmin.search_fields = ('name', )
-            EmployeeAdmin.autocomplete_fields += ('permit_location', )
+    for searchable in AdminSearchable.objects.filter(use_select2=True):
+        searchable.get_ref_model().search_fields = (searchable.ref_field, )
+        searchable.get_model().autocomplete_fields += (searchable.field, )
 except OperationalError:
-    # If the model AdminOption doesn't yet exist skip the customization
+    # If the model AdminSearchable doesn't yet exist skip the customization
     pass
