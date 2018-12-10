@@ -23,7 +23,8 @@ from django.contrib import admin
 from .models import (Contract, ContractAdmin,
                      ContractType, ContractTypeAdmin,
                      Employee, EmployeeAdmin,
-                     JobType, JobTypeAdmin)
+                     JobType, JobTypeAdmin,
+                     Timestamp, TimestampAdmin)
 
 
 # Register your models here.
@@ -31,3 +32,4 @@ admin.site.register(Contract, ContractAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(JobType, JobTypeAdmin)
+admin.site.register(Timestamp, TimestampAdmin)

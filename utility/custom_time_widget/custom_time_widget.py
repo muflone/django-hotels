@@ -18,8 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .contract import Contract, ContractAdmin
-from .contract_type import ContractType, ContractTypeAdmin
-from .employee import Employee, EmployeeAdmin
-from .job_type import JobType, JobTypeAdmin
-from .timestamp import Timestamp, TimestampAdmin
+class CustomTimeWidget(object):
+    class Media:
+        js = ('admin/js/vendor/jquery/jquery.min.js',
+              'utility/js/custom_time_widget.js', )
