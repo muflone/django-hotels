@@ -18,5 +18,25 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .qrcode_image import QRCodeImage
-from .uri import URI
+import base64
+
+
+class URI(object):
+    @staticmethod
+    def generic(protocol, host, location, arguments=None):
+        return '{PROTOCOL}://{HOST}/{LOCATION}{QUESTION}{ARGUMENTS}'.format(
+            PROTOCOL=protocol,
+            HOST=host,
+            LOCATION=location,
+            QUESTION='?' if arguments else '',
+            ARGUMENTS=arguments)
+
+    @staticmethod
+    def otpauth_totp(secret, account, issuer):
+        secret_encoded = base64.b32encode(secret.encode()).decode('utf-8')
+        return URI.generic(protocol='otpauth',
+                           host='totp',
+                           location='{ISSUER}:{ACCOUNT}'.format(
+                               ISSUER=issuer, ACCOUNT=account),
+                           arguments='secret={SECRET}&issuer={ISSUER}'.format(
+                               SECRET=secret_encoded, ISSUER=issuer))
