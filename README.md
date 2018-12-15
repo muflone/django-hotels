@@ -20,3 +20,4 @@ Hotels and Inns.
 * Python 3.x
 * Django 2.1.3
 * Django LogEntry Admin (https://pypi.org/project/django-logentry-admin/)
+* Python QRCode (https://pypi.org/project/qrcode/)

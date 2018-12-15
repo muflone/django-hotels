@@ -3,3 +3,4 @@ Pillow==5.3.0
 pytz==2018.7
 django-logentry-admin==1.0.4
 sqlparse==0.2.4
+qrcode==6.0
