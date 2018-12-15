@@ -18,7 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-class CustomTimeWidget(object):
+class AdminTimeWidget(object):
     class Media:
         js = ('admin/js/vendor/jquery/jquery.min.js',
-              'utility/js/custom_time_widget.js', )
+              'utility/js/admin_time_widget.js', )

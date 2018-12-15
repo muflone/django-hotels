@@ -22,3 +22,4 @@ from .admin_image_widget import (AdminImageWidget,
                                  AdminImageWidget_64x64,
                                  AdminImageWidget_128x128,
                                  AdminImageWidget_256x256)
+from .admin_time_widget import AdminTimeWidget

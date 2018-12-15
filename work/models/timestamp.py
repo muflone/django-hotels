@@ -27,7 +27,7 @@ from django.contrib import admin
 from hotels.models.company import Company
 
 from utility.admin_actions import ExportCSVMixin
-from utility.custom_time_widget import CustomTimeWidget
+from utility.admin_widgets import AdminTimeWidget
 
 
 class Timestamp(models.Model):
@@ -66,7 +66,7 @@ class TimestampAdminCompanyFilter(admin.SimpleListFilter):
             return queryset.filter(contract__company=self.value())
 
 
-class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, CustomTimeWidget):
+class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
     list_display = ('id', 'first_name', 'last_name', 'direction', 'date',
                     'time')
