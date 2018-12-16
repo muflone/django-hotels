@@ -22,16 +22,18 @@ import qrcode
 
 
 class QRCodeImage(object):
-    def __init__(self, data, fit=True):
+    def __init__(self, data, fit=True, size=8, border=1):
         self.data = data
         self.fit = fit
+        self.size = size
+        self.border = border
 
     def save(self, filename):
         qrcode_image = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=8,
-            border=4,
+            box_size=self.size,
+            border=self.border,
         )
         qrcode_image.add_data(self.data)
         qrcode_image.make(fit=self.fit)
