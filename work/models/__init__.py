@@ -22,4 +22,5 @@ from .contract import Contract, ContractAdmin
 from .contract_type import ContractType, ContractTypeAdmin
 from .employee import Employee, EmployeeAdmin
 from .job_type import JobType, JobTypeAdmin
+from .login import Login, LoginAdmin
 from .timestamp import Timestamp, TimestampAdmin
