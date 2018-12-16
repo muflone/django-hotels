@@ -19,17 +19,24 @@
 ##
 
 import collections
+import io
 import os.path
 import uuid
 
 from django.conf import settings
 from django.db import models
 from django.contrib import admin
+from django.http import HttpResponse, Http404
+from django.shortcuts import redirect
+from django.template import loader
+from django.template.response import TemplateResponse
+from django.urls import path
 from django.utils.html import mark_safe
 
 from hotels.models.company import Company
 
 from utility.admin_actions import ExportCSVMixin
+from utility.misc import QRCodeImage, URI
 
 
 class Contract(models.Model):
@@ -84,8 +91,9 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                     'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter, )
-    readonly_fields = ('id', 'guid')
+    readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
+    QRCODE_SIZE = 256
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'EMPLOYEE': 'employee',
@@ -140,3 +148,76 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
         fields = super().get_fields(request, obj)
         fields = ['id', ] + [k for k in fields if k not in ('id')]
         return fields
+
+    def save_model(self, request, obj, form, change):
+        """Generate QR Code"""
+        qrcode = QRCodeImage(data=URI.otpauth_totp(secret=obj.guid.hex,
+                                       account=obj.employee.first_name,
+                                       issuer='MilazzoInn'),
+                             fit=True,
+                             size=8,
+                             border=1)
+        qrcode.save(os.path.join(settings.MEDIA_ROOT,
+                                 'qrcode',
+                                 '{GUID}.png'.format(GUID=obj.guid)))
+        # Save model data
+        super().save_model(request, obj, form, change)
+
+    def get_urls(self):
+        urls = [
+            path('<int:contract_id>/qrcode/<str:format>', self.qrcode),
+        ] + super(self.__class__, self).get_urls()
+        return urls
+
+    def qrcode(self, request, contract_id, format):
+        """
+        Show QR Code using direct rendering or redirect to cached image
+        """
+        instance = Contract.objects.get(pk=contract_id)
+        if format == 'raw':
+            # Direct result from QR Code render in memory
+            stream = io.BytesIO()
+            qrcode_data = URI.otpauth_totp(secret=instance.guid.hex,
+                                           account=instance.employee.first_name,
+                                           issuer='MilazzoInn')
+            qrcode = QRCodeImage(data=qrcode_data, fit=True, size=8, border=1)
+            qrcode.save(stream)
+            stream.seek(0)
+            response = HttpResponse(content=stream, content_type='image/png')
+        elif format == 'png':
+            # Redirection to MEDIA folder image
+            response = redirect('{PATH}/{FILENAME}'.format(
+                    PATH='{MEDIA}qrcode'.format(MEDIA=settings.MEDIA_URL),
+                    FILENAME='{GUID}.png'.format(GUID=instance.guid)))
+        elif format == 'admin':
+            # Show the admin template
+            contract = Contract.objects.get(pk=contract_id)
+            context = dict(
+               self.admin_site.each_context(request),
+               opts=self.model._meta,
+               app_label=self.model._meta.app_label,
+               object=contract,
+               FORMAT='png',
+               LINK='png',
+               TARGET='_blank',
+               SIZE=self.QRCODE_SIZE,
+            )
+            response = TemplateResponse(request,
+                                        'work/admin_qrcode.html',
+                                        context)
+        elif format == 'template':
+            # Show the QR Code template (used by qrcode_field)
+            template = loader.get_template('work/qrcode.html')
+            context = {
+                'FORMAT': '../qrcode/png',
+                'LINK': '../qrcode/admin',
+                'TARGET': '',
+                'SIZE': self.QRCODE_SIZE,
+            }
+            response = template.render(context)
+        else:
+            raise Http404('Unexpected format')
+        return response
+
+    def qrcode_field(self, instance):
+        return self.qrcode(None, instance.id, 'template')

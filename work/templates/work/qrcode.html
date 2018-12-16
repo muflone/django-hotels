@@ -1,0 +1,9 @@
+{% block content %}
+  {% if LINK %}
+  <a href="{{ LINK }}" {% if TARGET %}target="_blank"{% endif %}>
+  {% endif %}
+  <img src="{{ FORMAT }}" width="{{ SIZE }}" height="{{ SIZE }}" />
+  {% if LINK %}
+  </a>
+  {% endif %}
+{% endblock %}
