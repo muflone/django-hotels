@@ -20,6 +20,7 @@
 
 import collections
 import os.path
+import uuid
 
 from django.conf import settings
 from django.db import models
@@ -48,13 +49,15 @@ class Contract(models.Model):
     level = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
     associated = models.BooleanField()
+    guid = models.UUIDField(default=uuid.uuid4, editable=True, blank=True)
 
     class Meta:
         # Define the database table
         db_table = 'work_contract'
         ordering = ['company', 'employee', 'end_date']
         unique_together = (('company', 'employee', 'roll_number'),
-                           ('company', 'employee', 'start_date', 'end_date'))
+                           ('company', 'employee', 'start_date', 'end_date'),
+                           ('guid', ))
 
     def __str__(self):
         return '{COMPANY} - {EMPLOYEE} ({ROLL_NUMBER})'.format(
@@ -81,7 +84,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                     'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter, )
-    readonly_fields = ('id', )
+    readonly_fields = ('id', 'guid')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -96,6 +99,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
         'LEVEL': 'level',
         'STATUS': 'status',
         'ASSOCIATED': 'associated',
+        'GUID': 'guid',
     })
 
     def first_name(self, instance):
