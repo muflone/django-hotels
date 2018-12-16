@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'locations',
     'work',
     'logentry_admin',
+    'explorer',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -149,4 +150,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
-ADMIN_URL ='admin/'
+ADMIN_URL = 'admin/'
+
+EXPLORER_URL = 'admin/explorer/'
+EXPLORER_CONNECTIONS = {'default': 'default'}
+EXPLORER_DEFAULT_CONNECTION = 'default'
