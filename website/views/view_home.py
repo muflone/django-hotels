@@ -28,7 +28,7 @@ class ViewHome(TemplateView):
     template_name = 'website/home.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ViewHome, self).get_context_data(**kwargs)
+        context = super(self.__class__, self).get_context_data(**kwargs)
         context['request_path'] = self.request.path
         context['home_section'] = HomeSection.objects.filter(name='Home')[0]
         context['header_sections'] = HomeSection.objects.filter(
