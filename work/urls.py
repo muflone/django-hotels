@@ -31,3 +31,9 @@ urlpatterns.append(url(r'^login/$', TimeStampLoginView.as_view(
     extra_context={'next': '.',
                    'page_title': ('Login to register your presence', )}),
     name='work/page_login'))
+# Logout page
+urlpatterns.append(url(r'^logout/$', LogoutView.as_view(
+    template_name='login/logout.html',
+    extra_context={'next_page': 'work/page_login',
+                   'page_title': ('Logout', )}),
+    name='work/page_logout'))
