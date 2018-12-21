@@ -23,7 +23,7 @@ from django.views.generic import TemplateView
 from ..models import HomeSection
 
 
-class ViewHome(TemplateView):
+class HomeView(TemplateView):
     """Home view"""
     template_name = 'website/home.html'
 

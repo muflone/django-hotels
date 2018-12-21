@@ -24,5 +24,5 @@ from . import views
 
 
 urlpatterns = [
-    url('', views.ViewHome.as_view(), name='page_home'),
+    url('', views.HomeView.as_view(), name='page_home'),
 ]
