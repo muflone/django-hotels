@@ -152,6 +152,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 ADMIN_URL = 'admin/'
 
+WORK_URL = 'work/'
+
 EXPLORER_URL = 'admin/explorer/'
 EXPLORER_CONNECTIONS = {'default': 'default'}
 EXPLORER_DEFAULT_CONNECTION = 'default'
+
+LOGIN_REDIRECT_URL = '/'
