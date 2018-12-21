@@ -23,6 +23,7 @@ import time
 
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import ValidationError
 
 from ..forms import TimeStampLoginForm
 from ..models import Login, Timestamp
@@ -33,17 +34,24 @@ class TimeStampLoginView(LoginView):
     form_class = TimeStampLoginForm
 
     def form_valid(self, form):
-        auth.login(self.request, form.get_user())
-        obj_login = Login.objects.get(username=self.request.user)
-        active_contract = obj_login.employee.get_active_contract()
-        access_type = form.cleaned_data['access_type']
-        print('>' if access_type == 'exit' else '<',
-              form.cleaned_data['description'])
-        Timestamp.objects.create(
-            contract=active_contract,
-            direction='>' if access_type == 'exit' else '<',
-            date=datetime.date.today(),
-            time=datetime.datetime.now(),
-            description=form.cleaned_data['description'])
+        if Login.objects.filter(username=form.get_user()):
+            auth.login(self.request, form.get_user())
+            obj_login = Login.objects.get(username=self.request.user)
+            active_contract = obj_login.employee.get_active_contract()
+            if active_contract:
+                access_type = form.cleaned_data['access_type']
+                Timestamp.objects.create(
+                    contract=active_contract,
+                    direction='>' if access_type == 'exit' else '<',
+                    date=datetime.date.today(),
+                    time=datetime.datetime.now(),
+                    description=form.cleaned_data['description'])
 
-        return super(self.__class__, self).form_valid(form)
+                return super(self.__class__, self).form_valid(form)
+            else:
+                raise ValidationError(
+                    'Missing contract for employee {EMPLOYEE}.'.format(
+                    EMPLOYEE=obj_login.employee))
+        else:
+            raise ValidationError('Username {USERNAME} invalid.'.format(
+                USERNAME=form.get_user()))
