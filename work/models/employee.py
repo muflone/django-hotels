@@ -20,6 +20,7 @@
 
 import collections
 import csv
+import datetime
 import io
 import os.path
 
@@ -30,6 +31,8 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import path
 from django.utils.html import mark_safe
+
+from . import Contract
 
 from locations.models import Location
 
@@ -87,6 +90,20 @@ class Employee(models.Model):
         return '{FIRST_NAME} {LAST_NAME}'.format(
             FIRST_NAME=self.first_name,
             LAST_NAME=self.last_name)
+
+    def get_active_contract(self):
+        contracts = Contract.objects.filter(
+            # Current employee
+            models.Q(employee=self),
+            # Status enabled
+            models.Q(status=True),
+            # Start date less or equal than today
+            models.Q(start_date__lte=datetime.date.today()),
+            # End date is missing or after or equal today
+            (models.Q(end_date__isnull=True) |
+             models.Q(end_date__gt=datetime.date.today())
+            ))
+        return contracts[0] if contracts else None
 
 
 class EmployeeFirstNameInputFilter(AdminTextInputFilter):
