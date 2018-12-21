@@ -32,15 +32,18 @@ class HomeSection(models.Model):
     home_title = models.CharField(max_length=255, blank=True)
     home_order = models.IntegerField()
     home_image = models.CharField(max_length=255, blank=True)
+    login_required = models.BooleanField(default=False)
+    admin_login_required = models.BooleanField(default=False)
 
     class Meta:
         # Define the database table
         db_table = 'website_home_sections'
-        ordering = ['home_order']
+        ordering = ['header_order']
 
     def __str__(self):
         return self.name
 
 
 class HomeSectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'header_title', 'home_title')
+    list_display = ('name', 'header_title', 'home_title', 'login_required',
+                    'admin_login_required')

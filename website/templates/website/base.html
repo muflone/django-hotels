@@ -60,7 +60,11 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
 {% for section in header_sections %}
+  {% if not section.login_required or section.login_required and user.is_authenticated %}
+    {% if not section.admin_login_required or section.admin_login_required and user.is_staff %}
             <li{% if request_path == section.link %} class="active"{% endif %}><a href="{{ section.link }}">{{ section.header_title }}</a></li>
+    {% endif %}
+  {% endif %}
 {% endfor %}
           </ul>
         </div><!--/.nav-collapse -->
