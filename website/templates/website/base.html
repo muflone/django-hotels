@@ -41,34 +41,6 @@
   </div>
   <!-- END PRELOADER -->
 
-  <!-- Start login modal window -->
-  <div aria-hidden="false" role="dialog" tabindex="-1" id="login-form" class="modal leread-modal fade in">
-    <div class="modal-dialog">
-      <!-- Start login section -->
-      <div id="login-content" class="modal-content">
-        <div class="modal-header">
-          <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title"><i class="fa fa-unlock-alt"></i>Login</h4>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <input type="text" placeholder="User name" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-             <div class="loginbox">
-              <label><input type="checkbox"><span>Remember me</span></label>
-              <button class="btn signin-btn" type="button">LOG IN</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End login modal window -->
-
   <!-- BEGIN MENU -->
   <section id="menu-area">
     <nav class="navbar navbar-default" role="navigation">
@@ -90,7 +62,6 @@
 {% for section in header_sections %}
             <li{% if request_path == section.link %} class="active"{% endif %}><a href="{{ section.link }}">{{ section.header_title }}</a></li>
 {% endfor %}
-            <li><a class="modal-form" data-target="#login-form" data-toggle="modal" href="#">Login</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -118,7 +89,7 @@
       </div>
     </div>
   </section>
-  <!-- BEGIN PAGE SECTION -->
+  <!-- END PAGE SECTION -->
 
   <!-- BEGIN FOOTER -->
   <footer id="footer">
