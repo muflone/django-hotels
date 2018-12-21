@@ -299,6 +299,17 @@ img{
   box-shadow: none;
 }
 
+.loginform {
+  margin: auto;
+  width: 350px;
+}
+
+.loginbox .btn-lg {
+  min-width: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .loginbox label {
   float: left;
   width: 100%;

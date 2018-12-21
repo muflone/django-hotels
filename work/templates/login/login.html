@@ -1,0 +1,43 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  <form class="loginform" method="post" action="{% url 'work/page_login' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+
+    <div class="loginbox input-group form-group">
+      <span class="input-group-addon glyphicon glyphicon-user"></span>
+      <input class="form-control" required autofocus type="text" placeholder="{{ form.username.label }}"
+        id="{{ form.username.id_for_label }}" name="{{ form.username.name }}">
+    </div>
+
+    <div class="loginbox input-group form-group">
+      <span class="input-group-addon glyphicon glyphicon-lock"></span>
+      <input class="form-control" required type="password" placeholder="{{ form.password.label }}"
+        id="{{ form.password.id_for_label }}" name="{{ form.password.name }}">
+    </div>
+
+    <div class="loginbox input-group form-group">
+      <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+      <textarea class="form-control" rows="2" placeholder="{{ form.description.label }}"
+        id="{{ form.description.id_for_label }}" name="{{ form.description.name }}"></textarea>
+    </div>
+
+    <div class="loginbox">
+      <button type="submit" disabled style="display: none" aria-hidden="true"></button>
+
+      <button class="btn signin-btn btn-lg" type="submit" name="access_type" value="enter">
+        <span class="glyphicon glyphicon-log-in"></span><br />Enter</button>
+
+      <button class="btn signin-btn btn-lg" type="submit" name="access_type" value="exit">
+        <span class="glyphicon glyphicon-log-out"></span><br />Exit</button>
+    </div>
+    </div>
+  </form>
+
+{% endblock %}

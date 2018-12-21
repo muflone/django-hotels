@@ -18,16 +18,12 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.conf.urls import url
-from django.contrib.auth.views import LogoutView
-
-from .views import TimeStampLoginView
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 
-urlpatterns = []
-# Login page
-urlpatterns.append(url(r'^login/$', TimeStampLoginView.as_view(
-    template_name='login/login.html',
-    extra_context={'next': '.',
-                   'page_title': ('Login to register your presence', )}),
-    name='work/page_login'))
+class TimeStampLoginForm(AuthenticationForm):
+    access_type = forms.CharField(label='Login type', max_length=10)
+    description = forms.CharField(label='Description or annotations',
+                                  widget=forms.Textarea,
+                                  required=False)
