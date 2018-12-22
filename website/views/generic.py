@@ -18,5 +18,16 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .generic import GenericView
-from .home import HomeView
+from django.views.generic import TemplateView
+
+from ..models import HomeSection
+
+
+class GenericView(TemplateView):
+    """Generic view"""
+    def get_context_data(self, **kwargs):
+        context = super(GenericView, self).get_context_data(**kwargs)
+        context['request_path'] = self.request.path
+        context['header_sections'] = HomeSection.objects.filter(
+            header_order__gt=0).order_by('header_order')
+        return context

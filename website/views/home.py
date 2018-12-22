@@ -20,19 +20,18 @@
 
 from django.views.generic import TemplateView
 
+from . import GenericView
+
 from ..models import HomeSection
 
 
-class HomeView(TemplateView):
+class HomeView(GenericView):
     """Home view"""
     template_name = 'website/home.html'
 
     def get_context_data(self, **kwargs):
-        context = super(self.__class__, self).get_context_data(**kwargs)
-        context['request_path'] = self.request.path
+        context = super(HomeView, self).get_context_data(**kwargs)
         context['home_section'] = HomeSection.objects.filter(name='Home')[0]
-        context['header_sections'] = HomeSection.objects.filter(
-            header_order__gt=0).order_by('header_order')
         context['home_sections'] = HomeSection.objects.filter(
             home_order__gt=0).order_by('home_order')
         context['page_title'] = context['home_section'].home_title,
