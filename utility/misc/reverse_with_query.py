@@ -18,6 +18,21 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .qrcode_image import QRCodeImage
-from .reverse_with_query import reverse_with_query
-from .uri import URI
+from django.urls import reverse
+from django.utils.http import urlencode
+
+
+def reverse_with_query(view, args=None, kwargs=None, query=None):
+    """
+    Custom reverse to add a query string after the url
+    Example usage:
+    url = reverse_with_query(view='my_test_url',
+                             args=[2, ],
+                             kwargs={'pk': object.id},
+                             query_kwargs={'next': reverse('home')})
+    """
+    url = reverse(view, args=args, kwargs=kwargs)
+    if query:
+        return '{URL}?{QUERY}'.format(URL=url, QUERY=urlencode(query))
+    else:
+      return url
