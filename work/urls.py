@@ -19,9 +19,8 @@
 ##
 
 from django.conf.urls import url
-from django.contrib.auth.views import LogoutView
 
-from .views import TimeStampLoginView
+from .views import TimeStampLoginView, TimeStampLogoutView
 
 
 urlpatterns = []
@@ -32,8 +31,5 @@ urlpatterns.append(url(r'^login/$', TimeStampLoginView.as_view(
                    'page_title': ('Login to register your presence', )}),
     name='work/page_login'))
 # Logout page
-urlpatterns.append(url(r'^logout/$', LogoutView.as_view(
-    template_name='login/logout.html',
-    extra_context={'next_page': 'work/page_login',
-                   'page_title': ('Logout', )}),
+urlpatterns.append(url(r'^logout/$', TimeStampLogoutView.as_view(),
     name='work/page_logout'))

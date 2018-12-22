@@ -18,5 +18,21 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .timestamp_login import TimeStampLoginView
-from .timestamp_logout import TimeStampLogoutView
+from django.contrib.auth import logout
+from django.views.generic import RedirectView
+
+
+class TimeStampLogoutView(RedirectView):
+
+    permanent = False
+    query_string = True
+    pattern_name = 'work/page_login'
+
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        Logout user and redirect to target url.
+        """
+        if self.request.user.is_authenticated:
+            logout(self.request)
+        return super(TimeStampLogoutView, self).get_redirect_url(*args,
+                                                                 **kwargs)
