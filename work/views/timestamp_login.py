@@ -23,7 +23,6 @@ import time
 
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import ValidationError
 
 from ..forms import TimeStampLoginForm
 from ..models import Login, Timestamp
@@ -48,12 +47,4 @@ class TimeStampLoginView(LoginView, GenericView):
                     date=datetime.date.today(),
                     time=datetime.datetime.now(),
                     description=form.cleaned_data['description'])
-
                 return super(self.__class__, self).form_valid(form)
-            else:
-                raise ValidationError(
-                    'Missing contract for employee {EMPLOYEE}.'.format(
-                    EMPLOYEE=obj_login.employee))
-        else:
-            raise ValidationError('Username {USERNAME} invalid.'.format(
-                USERNAME=form.get_user()))
