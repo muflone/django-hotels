@@ -46,6 +46,13 @@ if settings.DEBUG:
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+    # Import Django Debug Toolbar
+    try:
+        import debug_toolbar
+        urlpatterns.append(path('__debug__', include(debug_toolbar.urls)))
+    except ImportError:
+        # Django Debug Toolbar package unavailable
+        pass
 
 urlpatterns.append(path(settings.EXPLORER_URL, include('explorer.urls')))
 urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
