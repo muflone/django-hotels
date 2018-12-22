@@ -93,10 +93,10 @@ class Employee(models.Model):
             FIRST_NAME=self.first_name,
             LAST_NAME=self.last_name)
 
-    def get_active_contract(self):
-        contracts = Contract.objects.filter(
+    def get_active_contract_query(self, employee_ref):
+        return Contract.objects.filter(
             # Current employee
-            models.Q(employee=self),
+            models.Q(employee=employee_ref),
             # Status enabled
             models.Q(status=True),
             # Start date less or equal than today
@@ -105,6 +105,10 @@ class Employee(models.Model):
             (models.Q(end_date__isnull=True) |
              models.Q(end_date__gt=datetime.date.today())
             ))
+
+    def get_active_contract(self):
+        employees = Contract.objects.values('employee')
+        contracts = self.get_active_contract_query(self)
         return contracts[0] if contracts else None
 
 
@@ -173,6 +177,18 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
             iconset = 'standard:{ICONSET}'
             obj.photo = iconset.format(ICONSET=request.POST['standard_image'])
         super().save_model(request, obj, form, change)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        # Add subquery for active contract
+        contracts = self.model.get_active_contract_query(None,
+                                                         models.OuterRef('pk'))
+        # Add annotated fields for contract id and company
+        queryset = queryset.annotate(
+            _contract_id=models.Subquery(contracts.values('pk')[:1]),
+            _contract_company=models.Subquery(contracts.values('company')[:1]),
+        )
+        return queryset
 
     def get_urls(self):
         urls = super().get_urls()
@@ -315,12 +331,11 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         return template.render(context)
 
     def active_contract(self, instance):
-        contract = instance.get_active_contract()
-        if contract:
+        if instance._contract_id:
             link = reverse_with_query(view='admin:work_contract_change',
-                                      args=[contract.pk])
+                                      args=[instance._contract_id])
             link_classes = ''
-            link_text = contract.company
+            link_text = instance._contract_company
         else:
             link = reverse_with_query(view='admin:work_contract_add',
                                       query={'employee': instance.pk})
@@ -331,4 +346,3 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
             CLASSES='class="{CLASSES}"'.format(CLASSES=link_classes)
                     if link_classes else '',
             TEXT=link_text))
-        return instance.get_active_contract()
