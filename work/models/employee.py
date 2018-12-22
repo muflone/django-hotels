@@ -26,7 +26,7 @@ import os.path
 
 from django.db import models
 from django.conf import settings
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import path
