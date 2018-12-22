@@ -28,10 +28,18 @@ from django.core.exceptions import ValidationError
 from ..forms import TimeStampLoginForm
 from ..models import Login, Timestamp
 
+from website.models import HomeSection
+
 
 class TimeStampLoginView(LoginView):
 
     form_class = TimeStampLoginForm
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['header_sections'] = HomeSection.objects.filter(
+            header_order__gt=0).order_by('header_order')
+        return context
 
     def form_valid(self, form):
         if Login.objects.filter(username=form.get_user()):
