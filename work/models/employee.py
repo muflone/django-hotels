@@ -31,6 +31,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import path
 from django.utils.html import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from . import Contract
 
@@ -40,6 +41,7 @@ from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
 from utility.admin_widgets import AdminImageWidget_128x128
 from utility.forms import CSVImportForm
+from utility.misc import reverse_with_query
 
 
 class Employee(models.Model):
@@ -135,7 +137,7 @@ class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
 
 class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
-                    'photo_thumbnail')
+                    'photo_thumbnail', 'active_contract')
     list_display_links = ('id', 'first_name', 'last_name', 'tax_code')
     list_filter = (EmployeeFirstNameInputFilter,
                    EmployeeLastNameInputFilter,
@@ -311,3 +313,22 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                          'genre_male_7')
         }
         return template.render(context)
+
+    def active_contract(self, instance):
+        contract = instance.get_active_contract()
+        if contract:
+            link = reverse_with_query(view='admin:work_contract_change',
+                                      args=[contract.pk])
+            link_classes = ''
+            link_text = contract.company
+        else:
+            link = reverse_with_query(view='admin:work_contract_add',
+                                      query={'employee': instance.pk})
+            link_classes = 'addlink'
+            link_text = _('Add')
+        return mark_safe('<a href="{LINK}" {CLASSES}>{TEXT}</a>'.format(
+            LINK=link,
+            CLASSES='class="{CLASSES}"'.format(CLASSES=link_classes)
+                    if link_classes else '',
+            TEXT=link_text))
+        return instance.get_active_contract()
