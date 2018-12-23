@@ -81,12 +81,28 @@ class LocationAdminCountryFilter(admin.SimpleListFilter):
             return queryset.filter(region__country=self.value())
 
 
+class LocationAdminCountryRegion(admin.SimpleListFilter):
+    title = 'region'
+    parameter_name = 'region'
+
+    def lookups(self, request, model_admin):
+        return [(region_id, '{COUNTRY} - {REGION}'.format(
+            COUNTRY=region_country, REGION=region_name))
+            for region_id, region_name, region_country
+            in Region.objects.all().values_list(
+            'id', 'name', 'country').order_by('country__name')]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(region__id=self.value())
+
+
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationNameInputFilter,
                    LocationProvinceInputFilter,
                    LocationAdminCountryFilter,
-                   'region')
+                   LocationAdminCountryRegion)
 
     def country(self, instance):
         return instance.region.country
