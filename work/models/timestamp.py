@@ -24,7 +24,9 @@ import datetime
 from django.db import models
 from django.contrib import admin
 
-from hotels.models.company import Company
+from . import Contract
+
+from hotels.models import Company
 
 from utility.admin_actions import ExportCSVMixin
 from utility.admin_widgets import AdminTimeWidget
@@ -98,3 +100,15 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
         fields = super().get_fields(request, obj)
         fields = ['id', ] + [k for k in fields if k not in ('id')]
         return fields
+
+    def get_queryset(self, request):
+        return super(TimestampAdmin,self).get_queryset(
+            request).select_related('contract__employee',
+                                    'contract__company')
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == 'contract':
+            # Optimize value lookup for field employee
+            kwargs['queryset'] = Contract.objects.all().select_related(
+                'employee', 'company')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
