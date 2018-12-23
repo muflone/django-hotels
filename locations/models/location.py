@@ -104,6 +104,12 @@ class LocationAdmin(admin.ModelAdmin):
                    LocationAdminCountryFilter,
                    LocationAdminCountryRegion)
 
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == 'region':
+            # Optimize value lookup for field region
+            kwargs['queryset'] = Region.objects.all().select_related('country')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def country(self, instance):
         return instance.region.country
     country.short_description = 'Country'
