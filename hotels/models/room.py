@@ -97,6 +97,10 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
         'SEATS ADDITIONAL': 'seats_additional',
     })
 
+    def get_queryset(self, request):
+        return super(RoomAdmin,self).get_queryset(request).select_related(
+            'building', 'bed_type', 'room_type')
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
