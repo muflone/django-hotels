@@ -19,6 +19,10 @@ Hotels and Inns.
 
 * Python 3.x
 * Django 2.1.3
+* Python QRCode (https://pypi.org/project/qrcode/)
+
+# Optional dependencies
+
 * Django LogEntry Admin (https://pypi.org/project/django-logentry-admin/)
 * Django SQL Explorer (https://pypi.org/project/django-sql-explorer/)
-* Python QRCode (https://pypi.org/project/qrcode/)
+* Django IPRestrict (https://pypi.org/project/django-iprestrict/)

@@ -57,4 +57,8 @@ if settings.DEBUG:
 urlpatterns.append(path(settings.EXPLORER_URL, include('explorer.urls')))
 urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
 urlpatterns.append(path(settings.WORK_URL, include('work.urls')))
+# Enable iprestrict URL if application is enabled
+if 'iprestrict' in settings.INSTALLED_APPS:
+    urlpatterns.append(path(settings.IPRESTRICT_URL,
+                       include('iprestrict.urls', namespace='iprestrict')))
 urlpatterns.append(path('', include('website.urls')))
