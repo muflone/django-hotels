@@ -93,8 +93,9 @@ class TimestampAdminEmployeeFilter(admin.SimpleListFilter):
 class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
     list_display = ('id', 'first_name', 'last_name', 'direction', 'date',
-                    'time')
-    list_display_links = ('id', 'first_name', 'last_name')
+                    'time', 'description')
+    list_display_links = ('id', 'first_name', 'last_name', 'direction',
+                          'date', 'time')
     list_filter = (TimestampAdminCompanyFilter, TimestampAdminEmployeeFilter)
     date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
