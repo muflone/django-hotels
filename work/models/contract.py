@@ -35,6 +35,7 @@ from django.utils.html import mark_safe
 
 from hotels.models.company import Company
 
+from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI
 
@@ -86,11 +87,21 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
             return queryset.filter(company=self.value())
 
 
+class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
+    parameter_name = 'roll_number'
+    title = 'roll number'
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(roll_number=self.value())
+
+
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
                     'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
-    list_filter = (ContractAdminCompanyFilter, )
+    list_filter = (ContractAdminCompanyFilter,
+                   ContractAdminEmployeeRollNumberInputFilter)
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
