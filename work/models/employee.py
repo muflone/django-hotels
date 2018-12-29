@@ -33,7 +33,7 @@ from django.urls import path
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from . import Contract
+import work.models
 
 from locations.models import Location
 
@@ -94,7 +94,7 @@ class Employee(models.Model):
             LAST_NAME=self.last_name)
 
     def get_active_contract_query(self, employee_ref):
-        return Contract.objects.filter(
+        return work.models.Contract.objects.filter(
             # Current employee
             models.Q(employee=employee_ref),
             # Status enabled
@@ -107,7 +107,6 @@ class Employee(models.Model):
             ))
 
     def get_active_contract(self):
-        employees = Contract.objects.values('employee')
         contracts = self.get_active_contract_query(self)
         return contracts[0] if contracts else None
 
