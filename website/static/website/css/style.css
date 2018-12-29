@@ -48,7 +48,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     overflow-x: hidden !important;
-    color: #838282;
+    color: #767779;
 }
 
 ul{
@@ -269,6 +269,63 @@ img{
 
 h1.panel-title {
   font-size: 36px !important;
+}
+
+/* Last logins table */
+table.last_logins {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 90%;
+  margin: 0px auto 20px;
+  position: relative;
+}
+
+table.last_logins * {
+  position: relative;
+}
+
+table.last_logins td, table.last_logins th {
+  padding-left: 8px;
+}
+
+table.last_logins thead tr {
+  height: 60px;
+  background: #5c97bf;
+  font-size: 16px;
+}
+
+table.last_logins tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #E3F1D5;
+}
+
+table.last_logins tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+table.last_logins th {
+  color: white;
+}
+
+table.last_logins td, table.last_logins th {
+  text-align: center;
+  white-space: nowrap;
+}
+
+table.last_logins td.left, table.last_logins th.left {
+  text-align: left;
+}
+
+table.last_logins td.center, table.last_logins th.center {
+  text-align: center;
+}
+
+table.last_logins td.right, table.last_logins th.right {
+  text-align: right;
 }
 
 /*login modal window*/

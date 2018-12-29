@@ -11,6 +11,33 @@
     </div>
   {% endif %}
 
+  {% if last_logins %}
+  <div class="panel panel-primary">
+    <h1 class="panel-body">Your last {{ last_logins.count }} accesses are:</h1>
+
+    <table class="last_logins">
+      <thead>
+        <tr>
+          <th colspan="2"><span class="glyphicon glyphicon-calendar"></span> DATE</th>
+          <th><span class="glyphicon glyphicon-time"></span> TIME</th>
+          <th colspan="2"><span class="glyphicon glyphicon-retweet"></span> ACCESS</th>
+        </tr>
+      <thead>
+      <tbody>
+    {% for login in last_logins %}
+        <tr>
+          <td>{{ login.date|date:'l' }}</td>
+          <td>{{ login.date|date:'d F Y' }}</td>
+          <td class="border">{{ login.time|date:'H:i' }}</td>
+          <td>{% if login.direction == '<' %}Enter{% elif login.direction == '>' %}Exit{% else %}Unexpected{% endif %}</td>
+          <td class="border">{% if login.description %}<span class="glyphicon glyphicon-comment" title="{{ login.description }}"></span>{% endif %}</td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  {% endif %}
+
   <form class="loginform" method="post" action="{% url 'work/page_login' %}">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />

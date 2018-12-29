@@ -34,6 +34,19 @@ class TimeStampLoginView(LoginView, GenericView):
 
     form_class = TimeStampLoginForm
 
+    def get_context_data(self, **kwargs):
+        context = super(TimeStampLoginView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            obj_login = Login.objects.get(username=self.request.user)
+            active_contract = obj_login.employee.get_active_contract()
+            context['page_title'] = ('Welcome {EMPLOYEE}'.format(
+                EMPLOYEE=obj_login.employee), )
+            context['last_logins'] = Timestamp.objects.filter(
+                contract=active_contract).order_by('-date', '-time')[:5]
+        else:
+            context['page_title'] = ('Login to register your presence', )
+        return context
+
     def form_valid(self, form):
         if Login.objects.filter(username=form.get_user()):
             auth.login(self.request, form.get_user())
