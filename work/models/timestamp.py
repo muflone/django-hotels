@@ -90,6 +90,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                     'time')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (TimestampAdminCompanyFilter, TimestampAdminEmployeeFilter)
+    date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
