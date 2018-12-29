@@ -36,6 +36,8 @@ class ExportCSVMixin(object):
         # Write record rows
         for item in queryset:
             row = writer.writerow([getattr(item, field)
+                                   if not callable(getattr(item, field))
+                                   else getattr(item, field)()
                                    for field
                                    in self.export_csv_fields_map.values()])
 
