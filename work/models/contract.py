@@ -33,7 +33,9 @@ from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.html import mark_safe
 
-from hotels.models.company import Company
+from .employee import Employee
+
+from hotels.models import Company
 
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
@@ -87,6 +89,22 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
             return queryset.filter(company=self.value())
 
 
+class ContractAdminEmployeeFilter(admin.SimpleListFilter):
+    title = 'employee'
+    parameter_name = 'employee'
+
+    def lookups(self, request, model_admin):
+        return Employee.objects.all().annotate(
+            full_name=models.functions.Concat(models.F('first_name'),
+                                              models.Value(' '),
+                                              models.F('last_name'))
+                                             ).values_list('id', 'full_name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(employee__id=self.value())
+
+
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
     title = 'roll number'
@@ -101,6 +119,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                     'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter,
+                   ContractAdminEmployeeFilter,
                    ContractAdminEmployeeRollNumberInputFilter)
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
