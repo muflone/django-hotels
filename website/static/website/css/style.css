@@ -267,6 +267,10 @@ img{
     outline: none;
 }
 
+h1.panel-title {
+  font-size: 36px !important;
+}
+
 /*login modal window*/
 
 #login-form {

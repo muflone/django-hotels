@@ -3,7 +3,12 @@
 {% block content %}
 
   {% if form.errors %}
-    <p>{{ form.non_field_errors }}</p>
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h1 class="panel-title">Errors processing your request</h1>
+      </div>
+      <div class="panel-body">{{ form.non_field_errors }}</div>
+    </div>
   {% endif %}
 
   <form class="loginform" method="post" action="{% url 'work/page_login' %}">
