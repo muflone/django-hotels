@@ -31,8 +31,6 @@ class Login(User):
     class Meta:
         # Define the database table
         db_table = 'work_logins'
-        #ordering = ['first_name', 'last_name']
-        #unique_together = ('first_name', 'last_name', 'tax_code')
 
     def __str__(self):
         return '{FIRST_NAME} {LAST_NAME}'.format(
