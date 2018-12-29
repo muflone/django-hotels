@@ -101,6 +101,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
     actions = ('action_export_csv', )
+    ordering = ('-date', '-time', 'contract')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'CONTRACT': 'contract',
