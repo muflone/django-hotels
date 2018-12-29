@@ -24,7 +24,7 @@ import datetime
 from django.db import models
 from django.contrib import admin
 
-from . import Contract
+from . import Contract, Employee
 
 from hotels.models import Company
 
@@ -68,12 +68,28 @@ class TimestampAdminCompanyFilter(admin.SimpleListFilter):
             return queryset.filter(contract__company=self.value())
 
 
+class TimestampAdminEmployeeFilter(admin.SimpleListFilter):
+    title = 'employee'
+    parameter_name = 'employee'
+
+    def lookups(self, request, model_admin):
+        return Employee.objects.all().annotate(
+            full_name=models.functions.Concat(models.F('first_name'),
+                                              models.Value(' '),
+                                              models.F('last_name'))
+                                             ).values_list('id', 'full_name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(contract__employee__id=self.value())
+
+
 class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
     list_display = ('id', 'first_name', 'last_name', 'direction', 'date',
                     'time')
     list_display_links = ('id', 'first_name', 'last_name')
-    list_filter = (TimestampAdminCompanyFilter, )
+    list_filter = (TimestampAdminCompanyFilter, TimestampAdminEmployeeFilter)
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
