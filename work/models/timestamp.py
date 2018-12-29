@@ -55,6 +55,12 @@ class Timestamp(models.Model):
             DATE=self.date,
             TIME=self.time)
 
+    def employee(self):
+        return self.contract.employee
+
+    def roll_number(self):
+        return self.contract.roll_number
+
 
 class TimestampAdminCompanyFilter(admin.SimpleListFilter):
     title = 'company'
@@ -98,6 +104,8 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'CONTRACT': 'contract',
+        'EMPLOYEE': 'employee',
+        'ROLL_NUMBER': 'roll_number',
         'DIRECTION': 'direction',
         'DATE': 'date',
         'TIME': 'time',
