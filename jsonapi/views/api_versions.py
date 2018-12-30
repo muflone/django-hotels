@@ -18,13 +18,25 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.conf.urls import url
+import sys
 
-from . import views
+import django
+
+import json_views
+import json_views.views
+
+import milazzoinn
 
 
-urlpatterns = []
+class APIVersionsView(json_views.views.JSONDataView):
 
-# Version page
-urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
-                   name='api/versions'))
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['version'] = milazzoinn.VERSION
+        context['python version'] = sys.version
+        context['python version info'] = sys.version_info
+        context['django version'] = django.__version__
+        context['django version info'] = django.VERSION
+        context['json_views version'] = json_views.__version__
+        context['json_views version info'] = json_views.__version_info__
+        return context
