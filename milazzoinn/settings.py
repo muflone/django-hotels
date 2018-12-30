@@ -161,4 +161,4 @@ EXPLORER_DEFAULT_CONNECTION = 'default'
 
 LOGIN_REDIRECT_URL = '/'
 
-API_URL = 'api/'
+API_URL = 'api/json/'
