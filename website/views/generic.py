@@ -22,11 +22,14 @@ from django.views.generic import TemplateView
 
 from ..models import HomeSection
 
+from milazzoinn import VERSION
+
 
 class GenericView(TemplateView):
     """Generic view"""
     def get_context_data(self, **kwargs):
         context = super(GenericView, self).get_context_data(**kwargs)
+        context['version'] = VERSION
         context['request_path'] = self.request.path
         context['header_sections'] = HomeSection.objects.filter(
             header_order__gt=0).order_by('header_order')
