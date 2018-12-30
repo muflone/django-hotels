@@ -25,6 +25,7 @@ from .models import (Contract, ContractAdmin,
                      Employee, EmployeeAdmin,
                      JobType, JobTypeAdmin,
                      Login, LoginAdmin,
+                     Tablet, TabletAdmin,
                      Timestamp, TimestampAdmin)
 
 
@@ -34,4 +35,5 @@ admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(JobType, JobTypeAdmin)
 admin.site.register(Login, LoginAdmin)
+admin.site.register(Tablet, TabletAdmin)
 admin.site.register(Timestamp, TimestampAdmin)
