@@ -7,3 +7,4 @@ qrcode==6.0
 django-sql-explorer==1.1.2
 django-iprestrict==1.7.0
 django-generic-json-views==0.8
+pyotp==2.2.7
