@@ -19,3 +19,4 @@
 ##
 
 VERSION = '0.7.0'
+PRODUCT_NAME = 'Django Milazzo Inn'

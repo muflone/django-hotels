@@ -28,3 +28,6 @@ urlpatterns = []
 # Version page
 urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
                    name='api/versions'))
+# Status page
+urlpatterns.append(url(r'^status/$', views.APIStatusView.as_view(),
+                   name='api/status'))
