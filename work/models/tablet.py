@@ -18,10 +18,13 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import base64
 import collections
 import io
 import os.path
 import uuid
+
+import pyotp
 
 from django.conf import settings
 from django.db import models
@@ -57,6 +60,10 @@ class Tablet(models.Model):
 
     def __str__(self):
         return 'Tablet {ID}'.format(ID=self.id)
+
+    def check_password(self, password):
+        key = base64.b32encode(self.guid.hex.encode()).decode('utf-8')
+        return pyotp.TOTP(key).verify(password, valid_window=1)
 
 
 class TabletAdmin(admin.ModelAdmin, ExportCSVMixin):
