@@ -31,3 +31,9 @@ urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
 # Status page
 urlpatterns.append(url(r'^status/$', views.APIStatusView.as_view(),
                    name='api/status'))
+# Buildings page
+urlpatterns.append(url(r'^buildings/'
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/$',
+                       views.APIBuildingsView.as_view(),
+                   name='api/buildings'))
