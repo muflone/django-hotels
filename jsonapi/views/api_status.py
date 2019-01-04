@@ -32,7 +32,7 @@ import milazzoinn
 class APIStatusView(json_views.views.JSONDataView):
 
     def get_context_data(self, **kwargs):
-        context = super(self.__class__, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['status'] = 'up'
 
         # Return product data

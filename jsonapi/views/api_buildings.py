@@ -31,7 +31,7 @@ class APIBuildingsView(json_views.views.JSONDataView):
     def get_context_data(self, **kwargs):
         tablet = get_object_or_404(Tablet, id=kwargs['tablet_id'])
 
-        context = super(self.__class__, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         # Remove password from context
         context.pop('password', None)
         context['status'] = tablet.check_password(kwargs['password'])

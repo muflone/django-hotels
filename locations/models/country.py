@@ -57,11 +57,10 @@ class CountryAdmin(admin.ModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
 
     def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
+        urls = [
             path('import/', self.import_csv),
-        ]
-        return my_urls + urls
+        ] + super().get_urls()
+        return urls
 
     def import_csv(self, request):
         def append_error(type_name, item):

@@ -190,11 +190,10 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         return queryset
 
     def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
+        urls = [
             path('import/', self.import_csv),
-        ]
-        return my_urls + urls
+        ] + super().get_urls()
+        return urls
 
     def import_csv(self, request):
         def append_error(type_name, item):
@@ -301,8 +300,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
             kwargs.pop('request', None)
             return db_field.formfield(**kwargs)
         else:
-            return super(self.__class__,self).formfield_for_dbfield(db_field,
-                                                                    **kwargs)
+            return super().formfield_for_dbfield(db_field, **kwargs)
 
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""

@@ -30,7 +30,7 @@ class HomeView(GenericView):
     template_name = 'website/home.html'
 
     def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['home_section'] = HomeSection.objects.filter(name='Home')[0]
         context['home_sections'] = HomeSection.objects.filter(
             home_order__gt=0).order_by('home_order')

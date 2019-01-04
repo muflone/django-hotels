@@ -31,7 +31,7 @@ import milazzoinn
 class APIVersionsView(json_views.views.JSONDataView):
 
     def get_context_data(self, **kwargs):
-        context = super(self.__class__, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['version'] = milazzoinn.VERSION
         context['python version'] = sys.version
         context['python version info'] = sys.version_info

@@ -109,7 +109,7 @@ class TabletAdmin(admin.ModelAdmin, ExportCSVMixin):
     def get_urls(self):
         urls = [
             path('<int:tablet_id>/qrcode/<str:format>', self.qrcode),
-        ] + super(self.__class__, self).get_urls()
+        ] + super().get_urls()
         return urls
 
     def qrcode(self, request, tablet_id, format):

@@ -197,7 +197,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     def get_urls(self):
         urls = [
             path('<int:contract_id>/qrcode/<str:format>', self.qrcode),
-        ] + super(self.__class__, self).get_urls()
+        ] + super().get_urls()
         return urls
 
     def qrcode(self, request, contract_id, format):
