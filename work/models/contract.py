@@ -34,6 +34,7 @@ from django.urls import path
 from django.utils.html import mark_safe
 
 from .employee import Employee
+from .job_type import JobType
 
 from hotels.models import Company
 
@@ -105,6 +106,18 @@ class ContractAdminEmployeeFilter(admin.SimpleListFilter):
             return queryset.filter(employee__id=self.value())
 
 
+class ContractAdminJobTypeFilter(admin.SimpleListFilter):
+    title = 'job type'
+    parameter_name = 'jobtype'
+
+    def lookups(self, request, model_admin):
+        return JobType.objects.all().values_list('name', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(job_type=self.value())
+
+
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
     title = 'roll number'
@@ -116,11 +129,12 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
-                    'status', 'photo_thumbnail')
+                    'job_type', 'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter,
                    ContractAdminEmployeeFilter,
-                   ContractAdminEmployeeRollNumberInputFilter)
+                   ContractAdminEmployeeRollNumberInputFilter,
+                   ContractAdminJobTypeFilter)
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
