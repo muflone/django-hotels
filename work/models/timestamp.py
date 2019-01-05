@@ -24,7 +24,8 @@ import datetime
 from django.db import models
 from django.contrib import admin
 
-from . import Contract, Employee
+from .contract import Contract
+from .employee import Employee
 
 from hotels.models import Company
 
