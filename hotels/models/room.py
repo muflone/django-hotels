@@ -98,15 +98,14 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     })
 
     def get_queryset(self, request):
-        return super(RoomAdmin,self).get_queryset(request).select_related(
+        return super().get_queryset(request).select_related(
             'building', 'bed_type', 'room_type')
 
     def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
+        urls = [
             path('import/', self.import_csv),
-        ]
-        return my_urls + urls
+        ] + super().get_urls()
+        return urls
 
     def import_csv(self, request):
         def append_error(type_name, item):

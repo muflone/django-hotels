@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'work',
     'logentry_admin',
     'explorer',
+    'jsonapi',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -159,3 +160,5 @@ EXPLORER_CONNECTIONS = {'default': 'default'}
 EXPLORER_DEFAULT_CONNECTION = 'default'
 
 LOGIN_REDIRECT_URL = '/'
+
+API_URL = 'api/json/'

@@ -18,23 +18,31 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.views.generic import TemplateView
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
-from . import GenericView
+import json_views.views
 
-from ..models import HomeSection
+from work.models import Tablet
 
 
-class HomeView(GenericView):
-    """Home view"""
-    template_name = 'website/home.html'
+class APIBaseView(json_views.views.JSONDataView):
+    login_with_tablet_id = True
+    tablet = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['home_section'] = HomeSection.objects.filter(name='Home')[0]
-        context['home_sections'] = HomeSection.objects.filter(
-            home_order__gt=0).order_by('home_order')
-        context['page_title'] = context['home_section'].home_title,
-        context['page_content'] = context['home_section'].description.replace(
-            '\r', '').split('\n\n')
+        if self.login_with_tablet_id:
+            try:
+                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
+                # Raise error 403 for invalid password
+                if not self.tablet.check_password(password=kwargs['password']):
+                    raise PermissionDenied
+            except Tablet.DoesNotExist:
+                # Raise error 404 for invalid tablet id
+                self.tablet = None
+                raise ObjectDoesNotExist('Tablet {TABLET_ID} not found'.format(
+                    TABLET_ID=kwargs['tablet_id']))
+        # Remove password from context
+        context.pop('password', None)
+
         return context

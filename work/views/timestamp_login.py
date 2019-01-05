@@ -35,7 +35,7 @@ class TimeStampLoginView(LoginView, GenericView):
     form_class = TimeStampLoginForm
 
     def get_context_data(self, **kwargs):
-        context = super(TimeStampLoginView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             obj_login = Login.objects.get(username=self.request.user)
             active_contract = obj_login.employee.get_active_contract()
@@ -60,4 +60,4 @@ class TimeStampLoginView(LoginView, GenericView):
                     date=datetime.date.today(),
                     time=datetime.datetime.now(),
                     description=form.cleaned_data['description'])
-                return super(self.__class__, self).form_valid(form)
+                return super().form_valid(form)

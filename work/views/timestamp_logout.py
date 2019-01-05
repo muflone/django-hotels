@@ -34,5 +34,4 @@ class TimeStampLogoutView(RedirectView):
         """
         if self.request.user.is_authenticated:
             logout(self.request)
-        return super(TimeStampLogoutView, self).get_redirect_url(*args,
-                                                                 **kwargs)
+        return super().get_redirect_url(*args, **kwargs)

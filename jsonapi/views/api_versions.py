@@ -18,5 +18,27 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-VERSION = '0.7.0'
-PRODUCT_NAME = 'Django Milazzo Inn'
+import sys
+
+import django
+
+import json_views
+
+import milazzoinn
+
+from .api_base import APIBaseView
+
+
+class APIVersionsView(APIBaseView):
+    login_with_tablet_id = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['version'] = milazzoinn.VERSION
+        context['python version'] = sys.version
+        context['python version info'] = sys.version_info
+        context['django version'] = django.__version__
+        context['django version info'] = django.VERSION
+        context['json_views version'] = json_views.__version__
+        context['json_views version info'] = json_views.__version_info__
+        return context

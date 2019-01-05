@@ -18,5 +18,22 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-VERSION = '0.7.0'
-PRODUCT_NAME = 'Django Milazzo Inn'
+from django.conf.urls import url
+
+from . import views
+
+
+urlpatterns = []
+
+# Version page
+urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
+                   name='api/versions'))
+# Status page
+urlpatterns.append(url(r'^status/$', views.APIStatusView.as_view(),
+                   name='api/status'))
+# Buildings page
+urlpatterns.append(url(r'^buildings/'
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/$',
+                       views.APIBuildingsView.as_view(),
+                   name='api/buildings'))

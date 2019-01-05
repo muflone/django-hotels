@@ -40,14 +40,14 @@ class AdminImageWidget(AdminFileWidget):
 
 class AdminImageWidget_64x64(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
-        return super(self.__class__, self).render(name, value, attrs, 64, 64)
+        return super().render(name, value, attrs, 64, 64)
 
 
 class AdminImageWidget_128x128(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
-        return super(self.__class__, self).render(name, value, attrs, 128, 128)
+        return super().render(name, value, attrs, 128, 128)
 
 
 class AdminImageWidget_256x256(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
-        return super(self.__class__, self).render(name, value, attrs, 256, 256)
+        return super().render(name, value, attrs, 256, 256)

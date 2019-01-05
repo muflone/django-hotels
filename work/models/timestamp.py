@@ -129,9 +129,8 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
         return fields
 
     def get_queryset(self, request):
-        return super(TimestampAdmin,self).get_queryset(
-            request).select_related('contract__employee',
-                                    'contract__company')
+        return super().get_queryset(request).select_related(
+          'contract__employee', 'contract__company')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
