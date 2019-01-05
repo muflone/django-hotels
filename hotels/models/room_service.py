@@ -18,26 +18,32 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
+
+from django.db import models
 from django.contrib import admin
 
-from .models import (BedType, BedTypeAdmin,
-                     Brand, BrandAdmin,
-                     Building, BuildingAdmin,
-                     Company, CompanyAdmin,
-                     Room, RoomAdmin,
-                     RoomService, RoomServiceAdmin,
-                     RoomType, RoomTypeAdmin,
-                     Service, ServiceAdmin,
-                     Structure, StructureAdmin)
+from utility.admin_actions import ExportCSVMixin
 
 
-# Register your models here.
-admin.site.register(BedType, BedTypeAdmin)
-admin.site.register(Brand, BrandAdmin)
-admin.site.register(Building, BuildingAdmin)
-admin.site.register(Company, CompanyAdmin)
-admin.site.register(RoomService, RoomServiceAdmin)
-admin.site.register(RoomType, RoomTypeAdmin)
-admin.site.register(Room, RoomAdmin)
-admin.site.register(Service, ServiceAdmin)
-admin.site.register(Structure, StructureAdmin)
+class RoomService(models.Model):
+
+    service = models.OneToOneField('Service',
+                                   on_delete=models.PROTECT)
+
+    class Meta:
+        # Define the database table
+        db_table = 'hotels_room_services'
+        ordering = ['service', ]
+
+    def __str__(self):
+        return self.service.name
+
+
+class RoomServiceAdmin(admin.ModelAdmin, ExportCSVMixin):
+    list_display = ('service', )
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'SERVICE': 'service',
+    })
