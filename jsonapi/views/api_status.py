@@ -24,17 +24,17 @@ import sys
 
 from django.conf import settings
 
-import json_views.views
-
 import milazzoinn
 
+from .api_base import APIBaseView
 
-class APIStatusView(json_views.views.JSONDataView):
+
+class APIStatusView(APIBaseView):
+    login_with_tablet_id = False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['status'] = 'up'
-
         # Return product data
         context['productname'] = milazzoinn.PRODUCT_NAME
         context['version'] = milazzoinn.VERSION

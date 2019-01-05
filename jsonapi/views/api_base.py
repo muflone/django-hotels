@@ -18,27 +18,31 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import sys
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
-import django
+import json_views.views
 
-import json_views
-
-import milazzoinn
-
-from .api_base import APIBaseView
+from work.models import Tablet
 
 
-class APIVersionsView(APIBaseView):
-    login_with_tablet_id = False
+class APIBaseView(json_views.views.JSONDataView):
+    login_with_tablet_id = True
+    tablet = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['version'] = milazzoinn.VERSION
-        context['python version'] = sys.version
-        context['python version info'] = sys.version_info
-        context['django version'] = django.__version__
-        context['django version info'] = django.VERSION
-        context['json_views version'] = json_views.__version__
-        context['json_views version info'] = json_views.__version_info__
+        if self.login_with_tablet_id:
+            try:
+                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
+                # Raise error 403 for invalid password
+                if not self.tablet.check_password(password=kwargs['password']):
+                    raise PermissionDenied
+            except Tablet.DoesNotExist:
+                # Raise error 404 for invalid tablet id
+                self.tablet = None
+                raise ObjectDoesNotExist('Tablet {TABLET_ID} not found'.format(
+                    TABLET_ID=kwargs['tablet_id']))
+        # Remove password from context
+        context.pop('password', None)
+
         return context
