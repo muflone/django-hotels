@@ -33,6 +33,7 @@ from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.html import mark_safe
 
+from .contract_type import ContractType
 from .employee import Employee
 from .job_type import JobType
 
@@ -118,6 +119,18 @@ class ContractAdminJobTypeFilter(admin.SimpleListFilter):
             return queryset.filter(job_type=self.value())
 
 
+class ContractAdminContractTypeFilter(admin.SimpleListFilter):
+    title = 'contract type'
+    parameter_name = 'contracttype'
+
+    def lookups(self, request, model_admin):
+        return ContractType.objects.all().values_list('name', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(contract_type=self.value())
+
+
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
     title = 'roll number'
@@ -129,12 +142,13 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
-                    'job_type', 'status', 'photo_thumbnail')
+                    'job_type', 'contract_type', 'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter,
                    ContractAdminEmployeeFilter,
                    ContractAdminEmployeeRollNumberInputFilter,
-                   ContractAdminJobTypeFilter)
+                   ContractAdminJobTypeFilter,
+                   ContractAdminContractTypeFilter)
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
