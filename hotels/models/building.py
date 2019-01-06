@@ -60,7 +60,7 @@ class BuildingAdminCompanyFilter(admin.SimpleListFilter):
     parameter_name = 'company'
 
     def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('name', 'name')
+        return Company.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():

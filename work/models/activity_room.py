@@ -81,7 +81,7 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(
-                name__in=RoomService.objects.values_list('service__name'))
+                id__in=RoomService.objects.values_list('service_id'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -107,5 +107,5 @@ class ActivityRoomInline(admin.TabularInline):
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(
-                name__in=RoomService.objects.values_list('service__name'))
+                id__in=RoomService.objects.values_list('service_id'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

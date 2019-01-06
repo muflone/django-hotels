@@ -70,7 +70,7 @@ class RoomAdminStructureFilter(admin.SimpleListFilter):
     parameter_name = 'structure'
 
     def lookups(self, request, model_admin):
-        return Structure.objects.all().values_list('name', 'name')
+        return Structure.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():

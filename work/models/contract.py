@@ -91,7 +91,7 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
     parameter_name = 'company'
 
     def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('name', 'name')
+        return Company.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -107,7 +107,7 @@ class ContractAdminEmployeeFilter(admin.SimpleListFilter):
             full_name=models.functions.Concat(models.F('first_name'),
                                               models.Value(' '),
                                               models.F('last_name'))
-                                             ).values_list('id', 'full_name')
+                                             ).values_list('pk', 'full_name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -119,7 +119,7 @@ class ContractAdminJobTypeFilter(admin.SimpleListFilter):
     parameter_name = 'jobtype'
 
     def lookups(self, request, model_admin):
-        return JobType.objects.all().values_list('name', 'name')
+        return JobType.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -131,7 +131,7 @@ class ContractAdminContractTypeFilter(admin.SimpleListFilter):
     parameter_name = 'contracttype'
 
     def lookups(self, request, model_admin):
-        return ContractType.objects.all().values_list('name', 'name')
+        return ContractType.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
