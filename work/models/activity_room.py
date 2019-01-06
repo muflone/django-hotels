@@ -76,3 +76,22 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
             kwargs['queryset'] = Service.objects.filter(
                 name__in=RoomService.objects.values_list('service__name'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ActivityRoomInline(admin.TabularInline):
+    model = ActivityRoom
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == 'activity':
+            # Optimize value lookup for field activity
+            kwargs['queryset'] = activity.Activity.objects.all().select_related(
+                'contract', 'contract__employee', 'contract__company')
+        elif db_field.name == 'room':
+            # Optimize value lookup for field room
+            kwargs['queryset'] = Room.objects.all().select_related(
+                'building', 'building__structure')
+        elif db_field.name == 'service':
+            # Optimize value lookup for field service
+            kwargs['queryset'] = Service.objects.filter(
+                name__in=RoomService.objects.values_list('service__name'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)

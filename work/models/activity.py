@@ -23,6 +23,7 @@ import collections
 from django.db import models
 from django.contrib import admin
 
+from . import activity_room
 from .contract import Contract
 from .timestamp import Timestamp
 
@@ -59,6 +60,32 @@ class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
         'CONTRACT': 'contract',
         'DATE': 'date',
     })
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == 'timestamps':
+            # Optimize value lookup for field timestamps
+            kwargs['queryset'] = (Timestamp.objects.all().order_by('-date').
+                select_related('contract', 'contract__company',
+                               'contract__employee'))
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == 'contract':
+            # Optimize value lookup for field contract
+            kwargs['queryset'] = Contract.objects.all().select_related(
+                'employee', 'company')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ActivityInLinesProxy(Activity):
+    class Meta:
+        verbose_name_plural = 'Activities with Rooms'
+        proxy = True
+
+
+class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
+    list_display = ('contract', 'date')
+    inlines = [activity_room.ActivityRoomInline, ]
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'timestamps':
