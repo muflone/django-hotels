@@ -49,7 +49,7 @@ class Room(models.Model):
                                   on_delete=models.PROTECT)
     bed_type = models.ForeignKey('BedType',
                                  on_delete=models.PROTECT,
-                                 default='UNKNOWN')
+                                 default=0)
     phone1 = models.CharField(max_length=255, blank=True)
     seats_base = models.PositiveIntegerField(default=1)
     seats_additional = models.PositiveIntegerField(default=0)
@@ -196,7 +196,6 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
 
     def action_change_bedtype(self, request, queryset):
         form = RoomChangeBedTypeForm(request.POST)
-        print('from change_bedtype', request.POST)
         if 'action_change_bedtype' in request.POST:
             if form.is_valid():
                 bed_type = form.cleaned_data['bed_type']
