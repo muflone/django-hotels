@@ -28,7 +28,7 @@ from utility.admin_actions import ExportCSVMixin
 
 class Company(models.Model):
 
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
     phone1 = models.CharField(max_length=255, blank=True)

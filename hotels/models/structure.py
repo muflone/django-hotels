@@ -28,7 +28,7 @@ from utility.admin_actions import ExportCSVMixin
 
 class Structure(models.Model):
 
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
     location = models.ForeignKey('locations.Location',
@@ -40,9 +40,10 @@ class Structure(models.Model):
     email = models.CharField(max_length=255, blank=True)
     brand = models.ForeignKey('Brand',
                               on_delete=models.PROTECT,
-                              default='UNKNOWN')
+                              default=0)
     company = models.ForeignKey('Company',
-                                on_delete=models.PROTECT)
+                                on_delete=models.PROTECT,
+                                default=0)
 
     class Meta:
         # Define the database table

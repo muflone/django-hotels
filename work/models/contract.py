@@ -52,9 +52,11 @@ class Contract(models.Model):
                                 on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     contract_type = models.ForeignKey('ContractType',
-                                      on_delete=models.PROTECT)
+                                      on_delete=models.PROTECT,
+                                      default=0)
     job_type = models.ForeignKey('JobType',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 default=0)
     roll_number = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
@@ -70,7 +72,7 @@ class Contract(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'work_contract'
+        db_table = 'work_contracts'
         ordering = ['company', 'employee', 'end_date']
         unique_together = (('company', 'employee', 'roll_number'),
                            ('company', 'employee', 'start_date', 'end_date'),
@@ -89,7 +91,7 @@ class ContractAdminCompanyFilter(admin.SimpleListFilter):
     parameter_name = 'company'
 
     def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('name', 'name')
+        return Company.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -105,7 +107,7 @@ class ContractAdminEmployeeFilter(admin.SimpleListFilter):
             full_name=models.functions.Concat(models.F('first_name'),
                                               models.Value(' '),
                                               models.F('last_name'))
-                                             ).values_list('id', 'full_name')
+                                             ).values_list('pk', 'full_name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -117,7 +119,7 @@ class ContractAdminJobTypeFilter(admin.SimpleListFilter):
     parameter_name = 'jobtype'
 
     def lookups(self, request, model_admin):
-        return JobType.objects.all().values_list('name', 'name')
+        return JobType.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -129,7 +131,7 @@ class ContractAdminContractTypeFilter(admin.SimpleListFilter):
     parameter_name = 'contracttype'
 
     def lookups(self, request, model_admin):
-        return ContractType.objects.all().values_list('name', 'name')
+        return ContractType.objects.all().values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
