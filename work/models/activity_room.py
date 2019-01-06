@@ -81,6 +81,14 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
 
 class ActivityRoomInline(admin.TabularInline):
     model = ActivityRoom
+    fields = ('room', 'service')
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name in ('room', 'service'):
+            # dirty trick so queryset is evaluated and cached in .choices
+            formfield.choices = formfield.choices
+        return formfield
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'room':
