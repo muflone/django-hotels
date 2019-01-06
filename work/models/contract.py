@@ -55,7 +55,8 @@ class Contract(models.Model):
                                       on_delete=models.PROTECT,
                                       default=0)
     job_type = models.ForeignKey('JobType',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 default=0)
     roll_number = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
