@@ -52,7 +52,8 @@ class Contract(models.Model):
                                 on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     contract_type = models.ForeignKey('ContractType',
-                                      on_delete=models.PROTECT)
+                                      on_delete=models.PROTECT,
+                                      default=0)
     job_type = models.ForeignKey('JobType',
                                  on_delete=models.PROTECT)
     roll_number = models.CharField(max_length=255)
