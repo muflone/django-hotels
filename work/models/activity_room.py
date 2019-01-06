@@ -66,12 +66,18 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                 .select_related('contract', 'contract__employee',
                 'contract__company'))
         elif db_field.name == 'room':
-            # Optimize value lookup for field service
-            object_id = request.resolver_match.kwargs['object_id']
-            kwargs['queryset'] = Room.objects.filter(
-                building_id__in=ActivityRoom.objects.get(pk=object_id)
-                .activity.contract.buildings.values('id')
-                ).select_related('building')
+            # Optimize value lookup for field room
+            if 'object_id' in request.resolver_match.kwargs:
+                # Limit rooms to enabled for contract
+                object_id = request.resolver_match.kwargs['object_id']
+                kwargs['queryset'] = Room.objects.filter(
+                    building_id__in=ActivityRoom.objects.get(pk=object_id)
+                    .activity.contract.buildings.values('id')
+                    ).select_related('building')
+            else:
+                # During empty adding set no room limit
+                kwargs['queryset'] = Room.objects.all().select_related(
+                    'building')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(
