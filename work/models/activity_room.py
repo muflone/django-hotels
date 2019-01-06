@@ -46,10 +46,7 @@ class ActivityRoom(models.Model):
         unique_together = ('activity', 'room', 'service')
 
     def __str__(self):
-        return '{ACTIVITY} {ROOM} {SERVICE}'.format(
-            ACTIVITY=self.activity,
-            ROOM=self.room,
-            SERVICE=self.service)
+        return str(self.pk)
 
 
 class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
@@ -65,12 +62,16 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'activity':
             # Optimize value lookup for field activity
-            kwargs['queryset'] = activity.Activity.objects.all().select_related(
-                'contract', 'contract__employee', 'contract__company')
+            kwargs['queryset'] = (activity.Activity.objects.all()
+                .select_related('contract', 'contract__employee',
+                'contract__company'))
         elif db_field.name == 'room':
             # Optimize value lookup for field service
-            kwargs['queryset'] = Room.objects.all().select_related(
-                'building', 'building__structure')
+            object_id = request.resolver_match.kwargs['object_id']
+            kwargs['queryset'] = Room.objects.filter(
+                building_id__in=ActivityRoom.objects.get(pk=object_id)
+                .activity.contract.buildings.values('id')
+                ).select_related('building')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(
@@ -82,14 +83,13 @@ class ActivityRoomInline(admin.TabularInline):
     model = ActivityRoom
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        if db_field.name == 'activity':
-            # Optimize value lookup for field activity
-            kwargs['queryset'] = activity.Activity.objects.all().select_related(
-                'contract', 'contract__employee', 'contract__company')
-        elif db_field.name == 'room':
+        if db_field.name == 'room':
             # Optimize value lookup for field room
-            kwargs['queryset'] = Room.objects.all().select_related(
-                'building', 'building__structure')
+            object_id = request.resolver_match.kwargs['object_id']
+            kwargs['queryset'] = Room.objects.filter(
+                building_id__in=activity.Activity.objects.get(pk=object_id)
+                .contract.buildings.values('id')
+                ).select_related('building').prefetch_related('room_type')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(

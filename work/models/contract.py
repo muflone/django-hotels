@@ -37,7 +37,7 @@ from .contract_type import ContractType
 from .employee import Employee
 from .job_type import JobType
 
-from hotels.models import Company
+from hotels.models import Building, Company
 
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
@@ -61,7 +61,12 @@ class Contract(models.Model):
     level = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
     associated = models.BooleanField()
-    guid = models.UUIDField(default=uuid.uuid4, editable=True, blank=True)
+    guid = models.UUIDField(default=uuid.uuid4,
+                            editable=True,
+                            blank=True)
+    buildings = models.ManyToManyField(Building,
+                                       db_table='work_contract_buildings',
+                                       blank=True)
 
     class Meta:
         # Define the database table
