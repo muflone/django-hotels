@@ -19,6 +19,7 @@
 ##
 
 from .activity import Activity, ActivityAdmin
+from .activity_room import ActivityRoom, ActivityRoomAdmin
 from .contract import Contract, ContractAdmin
 from .contract_type import ContractType, ContractTypeAdmin
 from .employee import Employee, EmployeeAdmin

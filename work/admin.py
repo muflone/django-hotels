@@ -21,6 +21,7 @@
 from django.contrib import admin
 
 from .models import (Activity, ActivityAdmin,
+                     ActivityRoom, ActivityRoomAdmin,
                      Contract, ContractAdmin,
                      ContractType, ContractTypeAdmin,
                      Employee, EmployeeAdmin,
@@ -32,6 +33,7 @@ from .models import (Activity, ActivityAdmin,
 
 # Register your models here.
 admin.site.register(Activity, ActivityAdmin)
+admin.site.register(ActivityRoom, ActivityRoomAdmin)
 admin.site.register(Contract, ContractAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Employee, EmployeeAdmin)
