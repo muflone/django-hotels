@@ -72,7 +72,7 @@ class Contract(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'work_contract'
+        db_table = 'work_contracts'
         ordering = ['company', 'employee', 'end_date']
         unique_together = (('company', 'employee', 'roll_number'),
                            ('company', 'employee', 'start_date', 'end_date'),
