@@ -42,7 +42,8 @@ class Structure(models.Model):
                               on_delete=models.PROTECT,
                               default=0)
     company = models.ForeignKey('Company',
-                                on_delete=models.PROTECT)
+                                on_delete=models.PROTECT,
+                                default=0)
 
     class Meta:
         # Define the database table
