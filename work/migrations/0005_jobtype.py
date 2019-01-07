@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='JobType',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255, serialize=False)),
                 ('description', models.TextField(blank=True)),
             ],
             options={

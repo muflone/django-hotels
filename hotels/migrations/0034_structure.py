@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Structure',
             fields=[
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255, serialize=False)),
                 ('description', models.TextField(blank=True)),
                 ('address', models.TextField(blank=True)),
                 ('phone1', models.CharField(blank=True, max_length=255)),
@@ -44,7 +45,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='building',
             name='structure',
-            field=models.ForeignKey(default='UNKNOWN', on_delete=django.db.models.deletion.CASCADE, to='hotels.Structure'),
+            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='hotels.Structure'),
             preserve_default=False,
         ),
         migrations.RunSQL(
