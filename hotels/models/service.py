@@ -31,6 +31,7 @@ class Service(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     room_service = models.BooleanField(default=False)
+    extra_service = models.BooleanField(default=False)
 
     class Meta:
         # Define the database table
@@ -42,7 +43,7 @@ class Service(models.Model):
 
 
 class ServiceAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('name', 'description', 'room_service')
+    list_display = ('name', 'description', 'room_service', 'extra_service')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
