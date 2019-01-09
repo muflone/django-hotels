@@ -21,7 +21,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Login
+from . import models
 
 
 class TimeStampLoginForm(AuthenticationForm):
@@ -31,8 +31,8 @@ class TimeStampLoginForm(AuthenticationForm):
                                   required=False)
 
     def confirm_login_allowed(self, user):
-        if Login.objects.filter(username=user):
-            obj_login = Login.objects.get(username=user)
+        if models.Login.objects.filter(username=user):
+            obj_login = models.Login.objects.get(username=user)
             active_contract = obj_login.employee.get_active_contract()
             if not active_contract:
                 raise forms.ValidationError(
@@ -44,3 +44,11 @@ class TimeStampLoginForm(AuthenticationForm):
                 'Username {USERNAME} invalid.'.format(
                 USERNAME=user),
                 code='invalid_login')
+
+
+class ActivityRoomInlineForm(forms.ModelForm):
+    class Meta:
+        fields = '__all__'
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 2, 'cols': 30}),
+        }

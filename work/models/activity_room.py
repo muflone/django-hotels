@@ -25,6 +25,8 @@ from django.contrib import admin
 
 from . import activity
 
+from ..forms import ActivityRoomInlineForm
+
 from hotels.models import Room, RoomService, Service
 
 from utility.admin_actions import ExportCSVMixin
@@ -38,6 +40,7 @@ class ActivityRoom(models.Model):
                              on_delete=models.PROTECT)
     service = models.ForeignKey(Service,
                                 on_delete=models.PROTECT)
+    description = models.TextField(blank=True)
     class Meta:
         # Define the database table
         db_table = 'work_activities_rooms'
@@ -57,6 +60,7 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
         'ACTIVITY': 'activity',
         'ROOM': 'room',
         'SERVICE': 'service',
+        'DESCRIPTION': 'description',
     })
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
@@ -87,7 +91,8 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
 
 class ActivityRoomInline(admin.TabularInline):
     model = ActivityRoom
-    fields = ('room', 'service')
+    fields = ('room', 'service', 'description')
+    form = ActivityRoomInlineForm
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
