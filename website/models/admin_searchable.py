@@ -44,9 +44,9 @@ class AdminSearchable(models.Model):
                                       in sorted(admin_models.keys())))
     field = models.CharField(max_length=255)
     ref_model = models.CharField(max_length=255,
-                             choices=((model_name, model_name)
-                                      for model_name
-                                      in sorted(admin_models.keys())))
+                                 choices=((model_name, model_name)
+                                          for model_name
+                                          in sorted(admin_models.keys())))
     ref_field = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     use_select2 = models.BooleanField()

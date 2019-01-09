@@ -48,9 +48,7 @@ class Tablet(models.Model):
     buildings = models.ManyToManyField(Building,
                                        db_table='work_tablet_buildings',
                                        blank=True)
-    guid = models.UUIDField(default=uuid.uuid4,
-                            editable=True,
-                            blank=True)
+    guid = models.UUIDField(default=uuid.uuid4, blank=True)
 
     class Meta:
         # Define the database table

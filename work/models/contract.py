@@ -63,9 +63,7 @@ class Contract(models.Model):
     level = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
     associated = models.BooleanField()
-    guid = models.UUIDField(default=uuid.uuid4,
-                            editable=True,
-                            blank=True)
+    guid = models.UUIDField(default=uuid.uuid4, blank=True)
     buildings = models.ManyToManyField(Building,
                                        db_table='work_contract_buildings',
                                        blank=True)
