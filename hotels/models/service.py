@@ -28,7 +28,7 @@ from utility.admin_actions import ExportCSVMixin
 
 class Service(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
 
     class Meta:
