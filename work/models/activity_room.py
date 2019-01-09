@@ -99,6 +99,10 @@ class ActivityRoomInline(admin.TabularInline):
         if db_field.name in ('room', 'service'):
             # dirty trick so queryset is evaluated and cached in .choices
             formfield.choices = formfield.choices
+            # Hide add/change/delete buttons
+            formfield.widget.can_add_related = False
+            formfield.widget.can_change_related = False
+            formfield.widget.can_delete_related = False
         return formfield
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
