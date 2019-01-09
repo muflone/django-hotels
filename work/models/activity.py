@@ -55,6 +55,7 @@ class Activity(models.Model):
 class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
     actions = ('action_export_csv', )
+    date_hierarchy = 'date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'CONTRACT': 'contract',
@@ -86,6 +87,7 @@ class ActivityInLinesProxy(Activity):
 class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
     inlines = [activity_room.ActivityRoomInline, ]
+    date_hierarchy = 'date'
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'timestamps':

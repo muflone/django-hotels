@@ -56,6 +56,7 @@ class ActivityRoom(models.Model):
 class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('activity', 'room', 'service', 'service_qty')
     actions = ('action_export_csv', )
+    date_hierarchy = 'activity__date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'ACTIVITY': 'activity',
