@@ -27,7 +27,7 @@ from . import activity
 
 from ..forms import ActivityRoomInlineForm
 
-from hotels.models import Room, RoomService, Service
+from hotels.models import Room, Service
 
 from utility.admin_actions import ExportCSVMixin
 
@@ -84,8 +84,7 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                     'building')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
-            kwargs['queryset'] = Service.objects.filter(
-                id__in=RoomService.objects.values_list('service_id'))
+            kwargs['queryset'] = Service.objects.filter(room_service=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -115,6 +114,5 @@ class ActivityRoomInline(admin.TabularInline):
                 ).select_related('building').prefetch_related('room_type')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
-            kwargs['queryset'] = Service.objects.filter(
-                id__in=RoomService.objects.values_list('service_id'))
+            kwargs['queryset'] = Service.objects.filter(room_service=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
