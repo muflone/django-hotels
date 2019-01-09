@@ -109,11 +109,16 @@ class ActivityRoomInline(admin.TabularInline):
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'room':
             # Optimize value lookup for field room
-            object_id = request.resolver_match.kwargs['object_id']
-            kwargs['queryset'] = Room.objects.filter(
-                building_id__in=activity.Activity.objects.get(pk=object_id)
-                .contract.buildings.values('id')
-                ).select_related('building').prefetch_related('room_type')
+            if 'object_id' in request.resolver_match.kwargs:
+                object_id = request.resolver_match.kwargs['object_id']
+                kwargs['queryset'] = Room.objects.filter(
+                    building_id__in=activity.Activity.objects.get(pk=object_id)
+                    .contract.buildings.values('id')
+                    ).select_related('building').prefetch_related('room_type')
+            else:
+                # During empty adding set no room limit
+                kwargs['queryset'] = Room.objects.all().select_related(
+                    'building')
         elif db_field.name == 'service':
             # Optimize value lookup for field service
             kwargs['queryset'] = Service.objects.filter(room_service=True)
