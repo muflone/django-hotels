@@ -40,6 +40,7 @@ class ActivityRoom(models.Model):
                              on_delete=models.PROTECT)
     service = models.ForeignKey(Service,
                                 on_delete=models.PROTECT)
+    service_qty = models.PositiveIntegerField(default=1)
     description = models.TextField(blank=True)
     class Meta:
         # Define the database table
@@ -53,7 +54,7 @@ class ActivityRoom(models.Model):
 
 
 class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('activity', 'room', 'service')
+    list_display = ('activity', 'room', 'service', 'service_qty')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -90,7 +91,7 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
 
 class ActivityRoomInline(admin.TabularInline):
     model = ActivityRoom
-    fields = ('room', 'service', 'description')
+    fields = ('room', 'service', 'service_qty', 'description')
     form = ActivityRoomInlineForm
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
