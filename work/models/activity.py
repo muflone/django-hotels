@@ -65,9 +65,17 @@ class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'timestamps':
             # Optimize value lookup for field timestamps
-            kwargs['queryset'] = (Timestamp.objects.all().order_by('-date').
-                select_related('contract', 'contract__company',
-                               'contract__employee'))
+            if 'object_id' in request.resolver_match.kwargs:
+                object_id = request.resolver_match.kwargs['object_id']
+                instance = Activity.objects.get(pk=object_id)
+                queryset = Timestamp.objects.filter(
+                    contract_id=instance.contract_id,
+                    date=instance.date)
+            else:
+                # During empty adding set no timestamp limit
+                queryset = Timestamp.objects.all()
+            kwargs['queryset'] = queryset.order_by('-date').select_related(
+                'contract', 'contract__company', 'contract__employee')
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
@@ -92,9 +100,17 @@ class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'timestamps':
             # Optimize value lookup for field timestamps
-            kwargs['queryset'] = (Timestamp.objects.all().order_by('-date').
-                select_related('contract', 'contract__company',
-                               'contract__employee'))
+            if 'object_id' in request.resolver_match.kwargs:
+                object_id = request.resolver_match.kwargs['object_id']
+                instance = Activity.objects.get(pk=object_id)
+                queryset = Timestamp.objects.filter(
+                    contract_id=instance.contract_id,
+                    date=instance.date)
+            else:
+                # During empty adding set no timestamp limit
+                queryset = Timestamp.objects.all()
+            kwargs['queryset'] = queryset.order_by('-date').select_related(
+                'contract', 'contract__company', 'contract__employee')
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
