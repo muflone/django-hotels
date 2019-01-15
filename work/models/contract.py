@@ -37,7 +37,7 @@ from .contract_type import ContractType
 from .employee import Employee
 from .job_type import JobType
 
-from hotels.models import Building, Company
+from hotels.models import Building, Company, Structure
 
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
@@ -112,6 +112,19 @@ class ContractAdminEmployeeFilter(admin.SimpleListFilter):
             return queryset.filter(employee__id=self.value())
 
 
+class ContractAdminStructureFilter(admin.SimpleListFilter):
+    title = 'structure'
+    parameter_name = 'structure'
+
+    def lookups(self, request, model_admin):
+        return Structure.objects.all().values_list('pk', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(buildings__structure__pk=self.value()
+                                  ).distinct()
+
+
 class ContractAdminJobTypeFilter(admin.SimpleListFilter):
     title = 'job type'
     parameter_name = 'jobtype'
@@ -151,6 +164,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminCompanyFilter,
                    ContractAdminEmployeeFilter,
+                   ContractAdminStructureFilter,
                    ContractAdminEmployeeRollNumberInputFilter,
                    ContractAdminJobTypeFilter,
                    ContractAdminContractTypeFilter)
