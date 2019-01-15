@@ -47,6 +47,7 @@ class Equipment(models.Model):
 
 class EquipmentAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('name', 'description')
+    list_filter = ('structure', )
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
