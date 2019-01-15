@@ -27,11 +27,14 @@ import os.path
 from django.db import models
 from django.conf import settings
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import path
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
+
+import codicefiscale
 
 import work.models
 
@@ -92,6 +95,12 @@ class Employee(models.Model):
         return '{FIRST_NAME} {LAST_NAME}'.format(
             FIRST_NAME=self.first_name,
             LAST_NAME=self.last_name)
+
+    def clean(self):
+        """Validate model fields"""
+        # Check tax code field
+        if not codicefiscale.isvalid(self.tax_code):
+            raise ValidationError({'tax_code': _('Incorrect Tax Code')})
 
     def get_active_contract_query(self, employee_ref):
         return work.models.Contract.objects.filter(

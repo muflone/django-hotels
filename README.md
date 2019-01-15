@@ -22,6 +22,7 @@ Hotels and Inns.
 * Python QRCode (https://pypi.org/project/qrcode/)
 * Python OTP (https://pypi.python.org/project/pyotp/)
 * Django Generic JSON Views (https://pypi.org/project/django-generic-json-views/)
+* Python Codice Fiscale (https://pypi.org/project/codicefiscale/)
 
 # Optional dependencies
 
