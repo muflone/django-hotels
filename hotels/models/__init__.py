@@ -22,6 +22,7 @@ from .bed_type import BedType, BedTypeAdmin
 from .brand import Brand, BrandAdmin
 from .building import Building, BuildingAdmin
 from .company import Company, CompanyAdmin
+from .equipment import Equipment, EquipmentAdmin
 from .room import Room, RoomAdmin
 from .room_type import RoomType, RoomTypeAdmin
 from .service import Service, ServiceAdmin
