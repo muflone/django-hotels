@@ -102,7 +102,9 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                    'buildings__structure',
                    ContractAdminEmployeeRollNumberInputFilter,
                    'job_type',
-                   'contract_type')
+                   'contract_type',
+                   'status',
+                   'associated')
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
