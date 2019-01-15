@@ -67,18 +67,6 @@ class LocationProvinceInputFilter(AdminTextInputFilter):
             return queryset.filter(province__icontains=self.value())
 
 
-class LocationAdminCountryFilter(admin.SimpleListFilter):
-    title = 'country'
-    parameter_name = 'country'
-
-    def lookups(self, request, model_admin):
-        return Country.objects.all().values_list('name', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(region__country=self.value())
-
-
 class LocationAdminCountryRegion(admin.SimpleListFilter):
     title = 'region'
     parameter_name = 'region'
@@ -99,7 +87,7 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationNameInputFilter,
                    LocationProvinceInputFilter,
-                   LocationAdminCountryFilter,
+                   'region__country',
                    LocationAdminCountryRegion)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):

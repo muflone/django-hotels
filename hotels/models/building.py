@@ -55,21 +55,9 @@ class Building(models.Model):
         return self.name
 
 
-class BuildingAdminCompanyFilter(admin.SimpleListFilter):
-    title = 'company'
-    parameter_name = 'company'
-
-    def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(structure__company=self.value())
-
-
 class BuildingAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('name', 'structure', 'brand', 'location', 'company')
-    list_filter = (BuildingAdminCompanyFilter, 'structure')
+    list_filter = ('structure__company', 'structure')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({

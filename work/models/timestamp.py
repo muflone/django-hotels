@@ -63,41 +63,13 @@ class Timestamp(models.Model):
         return self.contract.roll_number
 
 
-class TimestampAdminCompanyFilter(admin.SimpleListFilter):
-    title = 'company'
-    parameter_name = 'company'
-
-    def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(contract__company=self.value())
-
-
-class TimestampAdminEmployeeFilter(admin.SimpleListFilter):
-    title = 'employee'
-    parameter_name = 'employee'
-
-    def lookups(self, request, model_admin):
-        return Employee.objects.all().annotate(
-            full_name=models.functions.Concat(models.F('first_name'),
-                                              models.Value(' '),
-                                              models.F('last_name'))
-                                             ).values_list('pk', 'full_name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(contract__employee__id=self.value())
-
-
 class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
     list_display = ('id', 'first_name', 'last_name', 'direction', 'date',
                     'time', 'description')
     list_display_links = ('id', 'first_name', 'last_name', 'direction',
                           'date', 'time')
-    list_filter = (TimestampAdminCompanyFilter, TimestampAdminEmployeeFilter)
+    list_filter = ('contract__company', 'contract__employee')
     date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )

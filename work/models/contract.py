@@ -84,71 +84,6 @@ class Contract(models.Model):
             STATUS=self.status)
 
 
-class ContractAdminCompanyFilter(admin.SimpleListFilter):
-    title = 'company'
-    parameter_name = 'company'
-
-    def lookups(self, request, model_admin):
-        return Company.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(company=self.value())
-
-
-class ContractAdminEmployeeFilter(admin.SimpleListFilter):
-    title = 'employee'
-    parameter_name = 'employee'
-
-    def lookups(self, request, model_admin):
-        return Employee.objects.all().annotate(
-            full_name=models.functions.Concat(models.F('first_name'),
-                                              models.Value(' '),
-                                              models.F('last_name'))
-                                             ).values_list('pk', 'full_name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(employee__id=self.value())
-
-
-class ContractAdminStructureFilter(admin.SimpleListFilter):
-    title = 'structure'
-    parameter_name = 'structure'
-
-    def lookups(self, request, model_admin):
-        return Structure.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(buildings__structure__pk=self.value()
-                                  ).distinct()
-
-
-class ContractAdminJobTypeFilter(admin.SimpleListFilter):
-    title = 'job type'
-    parameter_name = 'jobtype'
-
-    def lookups(self, request, model_admin):
-        return JobType.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(job_type=self.value())
-
-
-class ContractAdminContractTypeFilter(admin.SimpleListFilter):
-    title = 'contract type'
-    parameter_name = 'contracttype'
-
-    def lookups(self, request, model_admin):
-        return ContractType.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(contract_type=self.value())
-
-
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
     title = 'roll number'
@@ -162,12 +97,12 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
                     'job_type', 'contract_type', 'status', 'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
-    list_filter = (ContractAdminCompanyFilter,
-                   ContractAdminEmployeeFilter,
-                   ContractAdminStructureFilter,
+    list_filter = ('company',
+                   'employee',
+                   'buildings__structure',
                    ContractAdminEmployeeRollNumberInputFilter,
-                   ContractAdminJobTypeFilter,
-                   ContractAdminContractTypeFilter)
+                   'job_type',
+                   'contract_type')
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'

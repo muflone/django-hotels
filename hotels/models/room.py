@@ -65,22 +65,9 @@ class Room(models.Model):
                                             NAME=self.name)
 
 
-class RoomAdminStructureFilter(admin.SimpleListFilter):
-    title = 'structure'
-    parameter_name = 'structure'
-
-    def lookups(self, request, model_admin):
-        return Structure.objects.all().values_list('pk', 'name')
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(building__structure=self.value())
-
-
 class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('building', 'name', 'room_type', 'bed_type')
-    list_filter = ('building', RoomAdminStructureFilter, 'room_type',
-                   'bed_type')
+    list_filter = ('building__structure', 'building', 'room_type', 'bed_type')
     change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_export_csv',
                'action_change_building',
