@@ -58,6 +58,6 @@ class TimeStampLoginView(LoginView, GenericView):
                     contract=active_contract,
                     direction='>' if access_type == 'exit' else '<',
                     date=datetime.date.today(),
-                    time=datetime.datetime.now(),
+                    time=datetime.datetime.now().replace(microsecond=0),
                     description=form.cleaned_data['description'])
                 return super().form_valid(form)
