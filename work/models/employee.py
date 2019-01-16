@@ -166,11 +166,12 @@ class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
 
 class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
-                    'photo_thumbnail', 'active_contract')
+                    'country', 'photo_thumbnail', 'active_contract')
     list_display_links = ('id', 'first_name', 'last_name', 'tax_code')
     list_filter = (EmployeeFirstNameInputFilter,
                    EmployeeLastNameInputFilter,
-                   EmployeeTaxCodeInputFilter)
+                   EmployeeTaxCodeInputFilter,
+                   'birth_location__region__country')
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
@@ -210,6 +211,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                                                          models.OuterRef('pk'))
         # Add annotated fields for contract id and company
         queryset = queryset.annotate(
+            _country=models.F('birth_location__region__country'),
             _contract_id=models.Subquery(contracts.values('pk')[:1]),
             _contract_company=models.Subquery(contracts.values('company')[:1]),
         )
@@ -369,3 +371,6 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
             CLASSES='class="{CLASSES}"'.format(CLASSES=link_classes)
                     if link_classes else '',
             TEXT=link_text))
+
+    def country(self, instance):
+        return instance._country
