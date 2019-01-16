@@ -72,7 +72,7 @@ class Employee(models.Model):
     phone2 = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
     vat_number = models.CharField(max_length=255, blank=True)
-    tax_code = models.CharField(max_length=255, blank=True)
+    tax_code = models.CharField(max_length=255)
     permit = models.CharField(max_length=255, blank=True)
     permit_location = models.ForeignKey('locations.Location',
                                         on_delete=models.PROTECT,
