@@ -26,4 +26,5 @@ from .equipment import Equipment, EquipmentAdmin
 from .room import Room, RoomAdmin
 from .room_type import RoomType, RoomTypeAdmin
 from .service import Service, ServiceAdmin
+from .service_extra import ServiceExtra, ServiceExtraAdmin
 from .structure import Structure, StructureAdmin

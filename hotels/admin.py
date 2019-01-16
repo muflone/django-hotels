@@ -28,6 +28,7 @@ from .models import (BedType, BedTypeAdmin,
                      Room, RoomAdmin,
                      RoomType, RoomTypeAdmin,
                      Service, ServiceAdmin,
+                     ServiceExtra, ServiceExtraAdmin,
                      Structure, StructureAdmin)
 
 
@@ -40,4 +41,5 @@ admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(Service, ServiceAdmin)
+admin.site.register(ServiceExtra, ServiceExtraAdmin)
 admin.site.register(Structure, StructureAdmin)
