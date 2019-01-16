@@ -107,6 +107,10 @@ class Employee(models.Model):
             elif codicefiscale.control_code(tax_code[:15]) != tax_code[15]:
                 # Unmatching check digit
                 raise ValidationError({'tax_code': _('Incorrect Tax Code')})
+            elif Employee.objects.filter(tax_code=tax_code).exclude(
+                    pk=self.id):
+                # Existing tax code
+                raise ValidationError({'tax_code': _('Existing Tax Code')})
             else:
                 # No errors
                 self.tax_code = tax_code
