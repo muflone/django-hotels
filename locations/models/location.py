@@ -67,7 +67,7 @@ class LocationProvinceInputFilter(AdminTextInputFilter):
             return queryset.filter(province__icontains=self.value())
 
 
-class LocationAdminCountryRegion(admin.SimpleListFilter):
+class LocationAdminCountryRegionFilter(admin.SimpleListFilter):
     title = 'region'
     parameter_name = 'region'
 
@@ -88,7 +88,7 @@ class LocationAdmin(admin.ModelAdmin):
     list_filter = (LocationNameInputFilter,
                    LocationProvinceInputFilter,
                    'region__country',
-                   LocationAdminCountryRegion)
+                   LocationAdminCountryRegionFilter)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'region':
