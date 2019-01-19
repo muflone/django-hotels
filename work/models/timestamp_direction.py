@@ -18,14 +18,35 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .activity import Activity, ActivityAdmin
-from .activity import ActivityInLinesProxy, ActivityInLinesAdmin
-from .activity_room import ActivityRoom, ActivityRoomAdmin
-from .contract import Contract, ContractAdmin
-from .contract_type import ContractType, ContractTypeAdmin
-from .employee import Employee, EmployeeAdmin
-from .job_type import JobType, JobTypeAdmin
-from .login import Login, LoginAdmin
-from .tablet import Tablet, TabletAdmin
-from .timestamp import Timestamp, TimestampAdmin
-from .timestamp_direction import TimestampDirection, TimestampDirectionAdmin
+import collections
+
+from django.db import models
+from django.contrib import admin
+
+from utility.admin_actions import ExportCSVMixin
+
+
+class TimestampDirection(models.Model):
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    type_enter = models.BooleanField()
+    type_exit = models.BooleanField()
+
+    class Meta:
+        # Define the database table
+        db_table = 'work_timestamp_directions'
+        ordering = ['name', ]
+
+    def __str__(self):
+        return self.name
+
+
+class TimestampDirectionAdmin(admin.ModelAdmin, ExportCSVMixin):
+    list_display = ('name', 'description')
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+    })

@@ -29,7 +29,8 @@ from .models import (Activity, ActivityAdmin,
                      JobType, JobTypeAdmin,
                      Login, LoginAdmin,
                      Tablet, TabletAdmin,
-                     Timestamp, TimestampAdmin)
+                     Timestamp, TimestampAdmin,
+                     TimestampDirection, TimestampDirectionAdmin)
 
 
 # Register your models here.
@@ -43,3 +44,4 @@ admin.site.register(JobType, JobTypeAdmin)
 admin.site.register(Login, LoginAdmin)
 admin.site.register(Tablet, TabletAdmin)
 admin.site.register(Timestamp, TimestampAdmin)
+admin.site.register(TimestampDirection, TimestampDirectionAdmin)
