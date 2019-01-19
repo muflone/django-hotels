@@ -18,5 +18,5 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-VERSION = '0.7.2'
+VERSION = '0.7.3'
 PRODUCT_NAME = 'Django Milazzo Inn'
