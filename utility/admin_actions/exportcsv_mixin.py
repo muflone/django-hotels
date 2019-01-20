@@ -26,13 +26,23 @@ from django.http import HttpResponse
 
 class ExportCSVMixin(object):
     def action_export_csv(self, request, queryset):
-        return self.do_export_data_to_csv(queryset=queryset,
+        """Export a queryset in CSV format"""
+        data = []
+        for row in queryset:
+            item = {}
+            for key in self.export_csv_fields_map.keys():
+                field = self.export_csv_fields_map[key]
+                item[field] = (getattr(row, field)
+                               if not callable(getattr(row, field))
+                               else getattr(row, field)())
+            data.append(item)
+        return self.do_export_data_to_csv(data=data,
                                           fields_map=self.export_csv_fields_map,
                                           filename=self.model._meta)
     action_export_csv.short_description = 'Export selected rows to CSV'
 
-    def do_export_data_to_csv(self, queryset, fields_map, filename):
-        """Export a queryset in CSV format"""
+    def do_export_data_to_csv(self, data, fields_map, filename):
+        """Export a list of dict items in CSV format"""
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = (
             'attachment; filename={FILENAME}.csv'.format(FILENAME=filename))
@@ -40,10 +50,8 @@ class ExportCSVMixin(object):
         # Write fields names row
         writer.writerow(fields_map.keys())
         # Write record rows
-        for item in queryset:
-            row = writer.writerow([getattr(item, field)
-                                   if not callable(getattr(item, field))
-                                   else getattr(item, field)()
+        for item in data:
+            row = writer.writerow([item[field]
                                    for field in fields_map.values()])
 
         return response
