@@ -213,7 +213,8 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
         queryset = queryset.annotate(
             _country=models.F('birth_location__region__country'),
             _contract_id=models.Subquery(contracts.values('pk')[:1]),
-            _contract_company=models.Subquery(contracts.values('company')[:1]),
+            _contract_company=models.Subquery(
+                contracts.values('company__name')[:1]),
         )
         return queryset
 
