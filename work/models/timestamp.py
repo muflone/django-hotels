@@ -137,8 +137,13 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                                         direction__in=(direction_enter,
                                                        direction_exit)):
                 if item.direction_id == direction_enter:
-                    if timestamp_export.enter_time:
-                        # Timestamp wit multiple enter
+                    if timestamp_export.exit_time:
+                        # Timestamp with a previous exit
+                        results.append(timestamp_export.extract())
+                        # Create new timestamp
+                        timestamp_export = TimestampExport(timestamp)
+                    elif timestamp_export.enter_time:
+                        # Timestamp with multiple enter
                         results.append(timestamp_export.extract())
                         # Create new timestamp
                         timestamp_export = TimestampExport(timestamp)
@@ -146,7 +151,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                     timestamp_export.enter_description = item.description
                 else:
                     if timestamp_export.exit_time:
-                        # Timestamp wit multiple exit
+                        # Timestamp with multiple exit
                         results.append(timestamp_export.extract())
                         # Create new timestamp
                         timestamp_export = TimestampExport(timestamp)
@@ -160,7 +165,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                                                            direction_exit)):
                 timestamp_export = TimestampExport(timestamp)
                 timestamp_export.other_time = item.time
-                timestamp_export.other_description = item.direction
+                timestamp_export.other_description = item.direction.description
 
                 results.append(timestamp_export.extract())
         # Export data to CSV format
