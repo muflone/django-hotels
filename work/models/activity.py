@@ -54,6 +54,7 @@ class Activity(models.Model):
 
 class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
+    list_filter = ('contract__company', 'contract__employee')
     actions = ('action_export_csv', )
     date_hierarchy = 'date'
     # Define fields and attributes to export rows to CSV
@@ -94,6 +95,7 @@ class ActivityInLinesProxy(Activity):
 
 class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
+    list_filter = ('contract__company', 'contract__employee')
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
 
