@@ -29,7 +29,7 @@
           <td>{{ login.date|date:'l' }}</td>
           <td>{{ login.date|date:'d F Y' }}</td>
           <td class="border">{{ login.time|date:'H:i' }}</td>
-          <td>{% if login.direction == '<' %}Enter{% elif login.direction == '>' %}Exit{% else %}Unexpected{% endif %}</td>
+          <td>{{ login.direction.description }}</td>
           <td class="border">{% if login.description %}<span class="glyphicon glyphicon-comment" title="{{ login.description }}"></span>{% endif %}</td>
         </tr>
     {% endfor %}
