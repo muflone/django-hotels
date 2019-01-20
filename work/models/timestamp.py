@@ -37,9 +37,8 @@ class Timestamp(models.Model):
 
     contract = models.ForeignKey('Contract',
                                  on_delete=models.PROTECT)
-    direction = models.CharField(max_length=1,
-                                 choices=(('<', 'Enter'),
-                                          ('>', 'Exit')))
+    direction = models.ForeignKey('TimestampDirection',
+                                  on_delete=models.PROTECT)
     date = models.DateField()
     time = models.TimeField()
     description = models.TextField(blank=True)
@@ -48,6 +47,7 @@ class Timestamp(models.Model):
         # Define the database table
         db_table = 'work_timestamps'
         ordering = ['contract', 'date', 'time']
+        unique_together = (('contract', 'direction', 'date', 'time'))
 
     def __str__(self):
         return '{CONTRACT} {DIRECTION} {DATE} {TIME}'.format(
@@ -103,7 +103,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(
-          'contract__employee', 'contract__company')
+          'contract__employee', 'contract__company', 'direction')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
