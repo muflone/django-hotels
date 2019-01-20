@@ -25,7 +25,6 @@ from django.contrib import admin
 
 from . import activity_room
 from .contract import Contract
-from .timestamp import Timestamp
 
 from utility.admin_actions import ExportCSVMixin
 
@@ -35,9 +34,6 @@ class Activity(models.Model):
     contract = models.ForeignKey('Contract',
                                  on_delete=models.PROTECT)
     date = models.DateField()
-    timestamps = models.ManyToManyField(Timestamp,
-                                        db_table='work_activity_timestamps',
-                                        blank=True)
 
     class Meta:
         # Define the database table
@@ -63,22 +59,6 @@ class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
         'DATE': 'date',
     })
 
-    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-        if db_field.name == 'timestamps':
-            # Optimize value lookup for field timestamps
-            if 'object_id' in request.resolver_match.kwargs:
-                object_id = request.resolver_match.kwargs['object_id']
-                instance = Activity.objects.get(pk=object_id)
-                queryset = Timestamp.objects.filter(
-                    contract_id=instance.contract_id,
-                    date=instance.date)
-            else:
-                # During empty adding set no timestamp limit
-                queryset = Timestamp.objects.all()
-            kwargs['queryset'] = queryset.order_by('-date').select_related(
-                'contract', 'contract__company', 'contract__employee')
-        return super().formfield_for_manytomany(db_field, request, **kwargs)
-
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
             # Optimize value lookup for field contract
@@ -98,22 +78,6 @@ class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_filter = ('contract__company', 'contract__employee')
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
-
-    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-        if db_field.name == 'timestamps':
-            # Optimize value lookup for field timestamps
-            if 'object_id' in request.resolver_match.kwargs:
-                object_id = request.resolver_match.kwargs['object_id']
-                instance = Activity.objects.get(pk=object_id)
-                queryset = Timestamp.objects.filter(
-                    contract_id=instance.contract_id,
-                    date=instance.date)
-            else:
-                # During empty adding set no timestamp limit
-                queryset = Timestamp.objects.all()
-            kwargs['queryset'] = queryset.order_by('-date').select_related(
-                'contract', 'contract__company', 'contract__employee')
-        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
