@@ -95,7 +95,8 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company', 'roll_number',
-                    'job_type', 'contract_type', 'status', 'photo_thumbnail')
+                    'job_type', 'contract_type', 'end_date', 'status',
+                    'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = ('company',
                    'employee',
