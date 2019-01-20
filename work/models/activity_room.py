@@ -42,6 +42,7 @@ class ActivityRoom(models.Model):
                                 on_delete=models.PROTECT)
     service_qty = models.PositiveIntegerField(default=1)
     description = models.TextField(blank=True)
+
     class Meta:
         # Define the database table
         db_table = 'work_activities_rooms'
