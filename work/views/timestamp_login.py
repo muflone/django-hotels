@@ -25,7 +25,7 @@ from django.contrib import auth
 from django.contrib.auth.views import LoginView
 
 from ..forms import TimeStampLoginForm
-from ..models import Login, Timestamp
+from ..models import Login, Timestamp, TimestampDirection
 
 from website.views import GenericView
 
@@ -56,7 +56,9 @@ class TimeStampLoginView(LoginView, GenericView):
                 access_type = form.cleaned_data['access_type']
                 Timestamp.objects.create(
                     contract=active_contract,
-                    direction='>' if access_type == 'exit' else '<',
+                    direction=(TimestampDirection.get_exit_direction()
+                               if access_type == 'exit'
+                               else TimestampDirection.get_enter_direction()),
                     date=datetime.date.today(),
                     time=datetime.datetime.now().replace(microsecond=0),
                     description=form.cleaned_data['description'])
