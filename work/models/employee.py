@@ -38,7 +38,7 @@ import codicefiscale
 
 import work.models
 
-from locations.models import Location
+from locations.models import Country, Location
 
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
@@ -160,6 +160,19 @@ class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
             return queryset.filter(tax_code__icontains=self.value())
 
 
+class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
+    parameter_name = 'birth_location'
+    title = 'Birth Location'
+
+    def lookups(self, request, model_admin):
+        return Country.objects.all().values_list('name', 'name')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(birth_location__region__country=self.value())
+
+
+
 class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
                     'country', 'photo_thumbnail', 'active_contract')
@@ -167,7 +180,7 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_filter = (EmployeeFirstNameInputFilter,
                    EmployeeLastNameInputFilter,
                    EmployeeTaxCodeInputFilter,
-                   'birth_location__region__country')
+                   EmployeeBirthLocationCountryFilter)
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
