@@ -84,9 +84,6 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                 # During empty adding set no room limit
                 kwargs['queryset'] = Room.objects.all().select_related(
                     'building')
-        elif db_field.name == 'service':
-            # Optimize value lookup for field service
-            kwargs['queryset'] = Service.objects.filter(room_service=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -119,7 +116,4 @@ class ActivityRoomInline(admin.TabularInline):
                 # During empty adding set no room limit
                 kwargs['queryset'] = Room.objects.all().select_related(
                     'building')
-        elif db_field.name == 'service':
-            # Optimize value lookup for field service
-            kwargs['queryset'] = Service.objects.filter(room_service=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
