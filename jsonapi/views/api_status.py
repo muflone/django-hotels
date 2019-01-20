@@ -110,7 +110,7 @@ class APIStatusView(APIBaseView):
                     meminfo['Buffers'] - meminfo['Cached'] -
                     meminfo['Slab'],
                     meminfo['MemFree'])
-        except:
+        except Exception:
             return (-1, -1, -1)
 
     def get_database_usage(self):
