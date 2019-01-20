@@ -116,8 +116,8 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
     def action_export_timestamps(self, request, queryset):
         queryset = queryset.order_by('date', 'contract', 'time')
         # Save TimestampDirection keys for enter and exit
-        direction_enter = TimestampDirection.objects.get(type_enter=True).pk
-        direction_exit = TimestampDirection.objects.get(type_exit=True).pk
+        direction_enter = TimestampDirection.get_enter_direction().pk
+        direction_exit = TimestampDirection.get_exit_direction().pk
         # Cycle each unique date/contract
         saved_date = None
         saved_contract_id = None

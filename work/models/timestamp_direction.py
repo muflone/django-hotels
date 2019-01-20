@@ -41,6 +41,14 @@ class TimestampDirection(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_enter_direction(cls):
+        return cls.objects.get(type_enter=True)
+
+    @classmethod
+    def get_exit_direction(cls):
+        return cls.objects.get(type_exit=True)
+
 
 class TimestampDirectionAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('name', 'description')
