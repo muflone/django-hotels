@@ -168,8 +168,8 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     def save_model(self, request, obj, form, change):
         """Generate QR Code"""
         qrcode = QRCodeImage(data=URI.otpauth_totp(secret=obj.guid.hex,
-                                       account=obj.employee.first_name,
-                                       issuer='MilazzoInn'),
+                                                   account=obj.employee.first_name,
+                                                   issuer='MilazzoInn'),
                              fit=True,
                              size=8,
                              border=1)

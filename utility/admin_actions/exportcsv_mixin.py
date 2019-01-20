@@ -36,9 +36,10 @@ class ExportCSVMixin(object):
                                if not callable(getattr(row, field))
                                else getattr(row, field)())
             data.append(item)
-        return self.do_export_data_to_csv(data=data,
-                                          fields_map=self.export_csv_fields_map,
-                                          filename=self.model._meta)
+        return self.do_export_data_to_csv(
+            data=data,
+            fields_map=self.export_csv_fields_map,
+            filename=self.model._meta)
     action_export_csv.short_description = 'Export selected rows to CSV'
 
     def do_export_data_to_csv(self, data, fields_map, filename):

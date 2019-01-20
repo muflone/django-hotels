@@ -30,5 +30,6 @@ urlpatterns.append(url(r'^login/$', TimeStampLoginView.as_view(
     extra_context={'next': '.'}),
     name='work/page_login'))
 # Logout page
-urlpatterns.append(url(r'^logout/$', TimeStampLogoutView.as_view(),
-    name='work/page_logout'))
+urlpatterns.append(url(r'^logout/$',
+                       TimeStampLogoutView.as_view(),
+                       name='work/page_logout'))

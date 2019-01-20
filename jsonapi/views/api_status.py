@@ -107,8 +107,8 @@ class APIStatusView(APIBaseView):
                         size=int(value), unit=unit[0])
             return (meminfo['MemTotal'],
                     meminfo['MemTotal'] - meminfo['MemFree'] -
-                           meminfo['Buffers'] - meminfo['Cached'] -
-                           meminfo['Slab'],
+                    meminfo['Buffers'] - meminfo['Cached'] -
+                    meminfo['Slab'],
                     meminfo['MemFree'])
         except:
             return (-1, -1, -1)

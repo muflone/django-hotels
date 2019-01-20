@@ -52,8 +52,8 @@ class APIBuildingsView(APIBaseView):
             rooms = Room.objects.filter(building_id=obj_building.id).values(
                 'id', 'name', 'description', 'room_type__description')
             buildings.append({'id': obj_building.id,
-                             'name': obj_building.name,
-                             'description': obj_building.description,
-                             'rooms': rooms})
+                              'name': obj_building.name,
+                              'description': obj_building.description,
+                              'rooms': rooms})
         context['structures'] = structures
         return context

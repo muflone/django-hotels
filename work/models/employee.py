@@ -53,10 +53,10 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     genre = models.CharField(max_length=10,
-                           default='unknown',
-                           choices=(('male', 'Male'),
-                                    ('female', 'Female'),
-                                    ('unknown', 'Unknown')))
+                             default='unknown',
+                             choices=(('male', 'Male'),
+                                      ('female', 'Female'),
+                                      ('unknown', 'Unknown')))
     birth_date = models.DateField()
     birth_location = models.ForeignKey('locations.Location',
                                        on_delete=models.PROTECT,
@@ -125,8 +125,8 @@ class Employee(models.Model):
             models.Q(start_date__lte=datetime.date.today()),
             # End date is missing or after or equal today
             (models.Q(end_date__isnull=True) |
-             models.Q(end_date__gt=datetime.date.today())
-            ))
+             models.Q(end_date__gt=datetime.date.today()))
+        )
 
     def get_active_contract(self):
         contracts = self.get_active_contract_query(self)
@@ -169,8 +169,8 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(birth_location__region__country=self.value())
-
+            return queryset.filter(
+                birth_location__region__country=self.value())
 
 
 class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
@@ -269,9 +269,9 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                                           last_name=row['LAST NAME'],
                                           description=row['DESCRIPTION'],
                                           genre=row['GENRE'],
-                                          birth_date=row['BIRTH DATE']
-                                                     if row['BIRTH DATE']
-                                                     else None,
+                                          birth_date=(row['BIRTH DATE']
+                                                      if row['BIRTH DATE']
+                                                      else None),
                                           birth_location=locations[
                                               row['BIRTH LOCATION']],
                                           address=row['ADDRESS'],
@@ -285,14 +285,13 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
                                           permit=row['PERMIT'],
                                           permit_location=locations[
                                               row['PERMIT LOCATION']],
-                                          permit_date=row['PERMIT DATE']
-                                                      if row['PERMIT DATE']
-                                                      else None,
-                                          permit_expiration=
+                                          permit_date=(row['PERMIT DATE']
+                                                       if row['PERMIT DATE']
+                                                       else None),
+                                          permit_expiration=(
                                               row['PERMIT EXPIRATION']
                                               if row['PERMIT EXPIRATION']
-                                              else None,
-                                         ))
+                                              else None)))
             # Save data only if there were not errors
             if not error_messages:
                 Employee.objects.bulk_create(employees)

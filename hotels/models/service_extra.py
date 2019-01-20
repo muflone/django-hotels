@@ -40,8 +40,7 @@ class ServiceExtra(models.Model):
     price = models.DecimalField(max_digits=11,
                                 decimal_places=2,
                                 default=0.0,
-                                validators=[MinValueValidator(0.00)]
-                               )
+                                validators=[MinValueValidator(0.00)])
 
     class Meta:
         # Define the database table

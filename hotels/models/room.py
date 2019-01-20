@@ -178,7 +178,7 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                                'items_name': 'Rooms',
                                'action': 'action_change_building',
                                'action_description': 'Change building',
-                              })
+                               })
     action_change_building.short_description = 'Change building'
 
     def action_change_bedtype(self, request, queryset):
@@ -205,5 +205,5 @@ class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
                                'items_name': 'Rooms',
                                'action': 'action_change_bedtype',
                                'action_description': 'Change bed type',
-                              })
+                               })
     action_change_bedtype.short_description = 'Change bed type'

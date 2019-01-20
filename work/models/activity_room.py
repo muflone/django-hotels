@@ -69,9 +69,9 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'activity':
             # Optimize value lookup for field activity
-            kwargs['queryset'] = (activity.Activity.objects.all()
-                .select_related('contract', 'contract__employee',
-                'contract__company'))
+            kwargs['queryset'] = (
+                activity.Activity.objects.all().select_related(
+                    'contract', 'contract__employee', 'contract__company'))
         elif db_field.name == 'room':
             # Optimize value lookup for field room
             if 'object_id' in request.resolver_match.kwargs:

@@ -169,9 +169,10 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
 
                 results.append(timestamp_export.extract())
         # Export data to CSV format
-        return self.do_export_data_to_csv(data=results,
-                                          fields_map=TimestampExport.fields_map,
-                                          filename='export_timestamps')
+        return self.do_export_data_to_csv(
+            data=results,
+            fields_map=TimestampExport.fields_map,
+            filename='export_timestamps')
 
     action_export_timestamps.short_description = 'Export Timestamps'
 
@@ -189,7 +190,7 @@ class TimestampExport(object):
                   'DURATION': 'duration',
                   'OTHER': 'other',
                   'NOTES': 'notes',
-                }
+                  }
 
     def __init__(self, timestamp):
         self.date = timestamp.date
@@ -232,4 +233,4 @@ class TimestampExport(object):
                 'duration': difference,
                 'other': self.other_time,
                 'notes': notes,
-               })
+                })
