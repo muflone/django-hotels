@@ -38,7 +38,7 @@ class Activity(models.Model):
     class Meta:
         # Define the database table
         db_table = 'work_activities'
-        ordering = ['contract', 'date']
+        ordering = ['-date', 'contract__employee']
         verbose_name_plural = 'Activities'
         unique_together = ('contract', 'date')
 
