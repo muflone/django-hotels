@@ -77,7 +77,7 @@ class APIStatusView(APIBaseView):
     def format_size(self, size):
         """Format a size using a dynamic unit"""
         if size < 1000:
-          return '%i B' % size
+            return '%i B' % size
         elif 1000 <= size < 1000000:
             return '%.2f KB' % float(size / 1000)
         elif 1000000 <= size < 1000000000:

@@ -35,4 +35,4 @@ def reverse_with_query(view, args=None, kwargs=None, query=None):
     if query:
         return '{URL}?{QUERY}'.format(URL=url, QUERY=urlencode(query))
     else:
-      return url
+        return url
