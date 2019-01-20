@@ -26,6 +26,7 @@ from django.contrib import admin
 
 from .contract import Contract
 from .employee import Employee
+from .timestamp_direction import TimestampDirection
 
 from hotels.models import Company
 
@@ -74,7 +75,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
-    actions = ('action_export_csv', )
+    actions = ('action_export_csv', 'action_export_timestamps')
     ordering = ('-date', '-time', 'contract')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -111,3 +112,119 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
             kwargs['queryset'] = Contract.objects.all().select_related(
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def action_export_timestamps(self, request, queryset):
+        queryset = queryset.order_by('date', 'contract', 'time')
+        # Save TimestampDirection keys for enter and exit
+        direction_enter = TimestampDirection.objects.get(type_enter=True).pk
+        direction_exit = TimestampDirection.objects.get(type_exit=True).pk
+        # Cycle each unique date/contract
+        saved_date = None
+        saved_contract_id = None
+        results = []
+        for timestamp in queryset:
+            # Skip duplicated date/contract_id
+            if (timestamp.date == saved_date and
+                    timestamp.contract_id == saved_contract_id):
+                continue
+            # Save unique data/contract_id
+            saved_date = timestamp.date
+            saved_contract_id = timestamp.contract_id
+            timestamp_export = TimestampExport(timestamp)
+            # Process only Enter/Exit timestamps
+            for item in queryset.filter(date=saved_date,
+                                        contract_id=saved_contract_id,
+                                        direction__in=(direction_enter,
+                                                       direction_exit)):
+                if item.direction_id == direction_enter:
+                    if timestamp_export.enter_time:
+                        # Timestamp wit multiple enter
+                        results.append(timestamp_export.extract())
+                        # Create new timestamp
+                        timestamp_export = TimestampExport(timestamp)
+                    timestamp_export.enter_time = item.time
+                    timestamp_export.enter_description = item.description
+                else:
+                    if timestamp_export.exit_time:
+                        # Timestamp wit multiple exit
+                        results.append(timestamp_export.extract())
+                        # Create new timestamp
+                        timestamp_export = TimestampExport(timestamp)
+                    timestamp_export.exit_time = item.time
+                    timestamp_export.exit_description = item.description
+            results.append(timestamp_export.extract())
+            # Process only different timestamps
+            for item in queryset.filter(date=saved_date,
+                                        contract_id=saved_contract_id).exclude(
+                                            direction__in=(direction_enter,
+                                                           direction_exit)):
+                timestamp_export = TimestampExport(timestamp)
+                timestamp_export.other_time = item.time
+                timestamp_export.other_description = item.direction
+
+                results.append(timestamp_export.extract())
+        # Export data to CSV format
+        return self.do_export_data_to_csv(data=results,
+                                          fields_map=TimestampExport.fields_map,
+                                          filename='export_timestamps')
+
+    action_export_timestamps.short_description = 'Export Timestamps'
+
+
+class TimestampExport(object):
+    fields_map = {'DATE': 'date',
+                  'COMPANY': 'company',
+                  'EMPLOYEE': 'employee',
+                  'CONTRACT_ID': 'contract_id',
+                  'ROLL_NUMBER': 'roll_number',
+                  'TIME 1': 'enter',
+                  'TIME 1 DESCRIPTION': 'enter_description',
+                  'TIME 2': 'exit',
+                  'TIME 2 DESCRIPTION': 'exit_description',
+                  'DURATION': 'duration',
+                  'OTHER': 'other',
+                  'NOTES': 'notes',
+                }
+
+    def __init__(self, timestamp):
+        self.date = timestamp.date
+        self.contract = timestamp.contract
+        self.enter_time = None
+        self.enter_description = None
+        self.exit_time = None
+        self.exit_description = None
+        self.other_time = None
+        self.other_description = None
+
+    def extract(self):
+        today = datetime.date.today()
+        enter_time = self.enter_time
+        exit_time = self.exit_time
+        notes = None
+        if not self.other_time:
+            # Regular enter/exit timestamp
+            if not enter_time:
+                enter_time = exit_time
+                notes = 'Missing enter time'
+            if not exit_time:
+                exit_time = enter_time
+                notes = 'Missing exit time'
+            difference = (datetime.datetime.combine(today, exit_time) -
+                          datetime.datetime.combine(today, enter_time))
+        else:
+            # Other timestamp (holiday, etc)
+            notes = self.other_description
+            difference = None
+        return({'date': self.date,
+                'company': self.contract.company,
+                'contract_id': self.contract.pk,
+                'employee': self.contract.employee,
+                'roll_number': self.contract.roll_number,
+                'enter': enter_time,
+                'enter_description': self.enter_description,
+                'exit': exit_time,
+                'exit_description': self.exit_description,
+                'duration': difference,
+                'other': self.other_time,
+                'notes': notes,
+               })
