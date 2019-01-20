@@ -26,20 +26,24 @@ from django.http import HttpResponse
 
 class ExportCSVMixin(object):
     def action_export_csv(self, request, queryset):
+        return self.do_export_data_to_csv(queryset=queryset,
+                                          fields_map=self.export_csv_fields_map,
+                                          filename=self.model._meta)
+    action_export_csv.short_description = 'Export selected rows to CSV'
 
+    def do_export_data_to_csv(self, queryset, fields_map, filename):
+        """Export a queryset in CSV format"""
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = (
-            'attachment; filename={NAME}.csv'.format(NAME=self.model._meta))
+            'attachment; filename={FILENAME}.csv'.format(FILENAME=filename))
         writer = csv.writer(response, delimiter=';')
         # Write fields names row
-        writer.writerow(self.export_csv_fields_map.keys())
+        writer.writerow(fields_map.keys())
         # Write record rows
         for item in queryset:
             row = writer.writerow([getattr(item, field)
                                    if not callable(getattr(item, field))
                                    else getattr(item, field)()
-                                   for field
-                                   in self.export_csv_fields_map.values()])
+                                   for field in fields_map.values()])
 
         return response
-    action_export_csv.short_description = 'Export selected rows to CSV'
