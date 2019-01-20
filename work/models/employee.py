@@ -100,24 +100,20 @@ class Employee(models.Model):
     def clean(self):
         """Validate model fields"""
         # Check tax code field
-        try:
-            tax_code = self.tax_code.upper().strip().ljust(16)
-            if not codicefiscale.isvalid(tax_code):
-                # Invalid tax code
-                raise ValidationError({'tax_code': _('Invalid Tax Code')})
-            elif codicefiscale.control_code(tax_code[:15]) != tax_code[15]:
-                # Unmatching check digit
-                raise ValidationError({'tax_code': _('Incorrect Tax Code')})
-            elif Employee.objects.filter(tax_code=tax_code).exclude(
-                    pk=self.id):
-                # Existing tax code
-                raise ValidationError({'tax_code': _('Existing Tax Code')})
-            else:
-                # No errors
-                self.tax_code = tax_code
-        except:
-            # Invalid tax code for errors
+        tax_code = self.tax_code.upper().strip().ljust(16)
+        if not codicefiscale.isvalid(tax_code):
+            # Invalid tax code
             raise ValidationError({'tax_code': _('Invalid Tax Code')})
+        elif codicefiscale.control_code(tax_code[:15]) != tax_code[15]:
+            # Unmatching check digit
+            raise ValidationError({'tax_code': _('Incorrect Tax Code')})
+        elif Employee.objects.filter(tax_code=tax_code).exclude(
+                pk=self.id):
+            # Existing tax code
+            raise ValidationError({'tax_code': _('Existing Tax Code')})
+        else:
+            # No errors
+            self.tax_code = tax_code
 
     def get_active_contract_query(self, employee_ref):
         return work.models.Contract.objects.filter(
