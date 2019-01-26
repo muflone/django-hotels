@@ -157,7 +157,9 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                         timestamp_export = TimestampExport(timestamp)
                     timestamp_export.exit_time = item.time
                     timestamp_export.exit_description = item.description
-            results.append(timestamp_export.extract())
+            # Export timestamp only if valid
+            if timestamp_export.is_valid():
+                results.append(timestamp_export.extract())
             # Process only different timestamps
             for item in queryset.filter(date=saved_date,
                                         contract_id=saved_contract_id).exclude(
@@ -202,10 +204,14 @@ class TimestampExport(object):
         self.other_time = None
         self.other_description = None
 
+    def is_valid(self):
+        return any((self.enter_time, self.exit_time, self.other_time))
+
     def extract(self):
         today = datetime.date.today()
         enter_time = self.enter_time
         exit_time = self.exit_time
+        print(self.enter_time, self.exit_time)
         notes = None
         if not self.other_time:
             # Regular enter/exit timestamp
