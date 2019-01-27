@@ -175,8 +175,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
             data=results,
             fields_map=TimestampExport.fields_map,
             filename='export_timestamps')
-
-    action_export_timestamps.short_description = 'Export Timestamps'
+    action_export_timestamps.short_description = 'Export Timestamps hours'
 
 
 class TimestampExport(object):
