@@ -211,7 +211,6 @@ class TimestampExport(object):
         today = datetime.date.today()
         enter_time = self.enter_time
         exit_time = self.exit_time
-        print(self.enter_time, self.exit_time)
         notes = None
         if not self.other_time:
             # Regular enter/exit timestamp
