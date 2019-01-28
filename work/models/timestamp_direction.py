@@ -29,6 +29,7 @@ from utility.admin_actions import ExportCSVMixin
 class TimestampDirection(models.Model):
 
     name = models.CharField(max_length=255, unique=True)
+    short_code = models.CharField(max_length=3, blank=True)
     description = models.TextField(blank=True)
     type_enter = models.BooleanField()
     type_exit = models.BooleanField()
