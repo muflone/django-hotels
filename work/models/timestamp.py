@@ -119,21 +119,21 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
         direction_enter = TimestampDirection.get_enter_direction().pk
         direction_exit = TimestampDirection.get_exit_direction().pk
         # Cycle each unique date/contract
-        saved_date = None
-        saved_contract_id = None
+        last_date = None
+        last_contract_id = None
         results = []
         for timestamp in queryset:
             # Skip duplicated date/contract_id
-            if (timestamp.date == saved_date and
-                    timestamp.contract_id == saved_contract_id):
+            if (timestamp.date == last_date and
+                    timestamp.contract_id == last_contract_id):
                 continue
             # Save unique date/contract_id
-            saved_date = timestamp.date
-            saved_contract_id = timestamp.contract_id
+            last_date = timestamp.date
+            last_contract_id = timestamp.contract_id
             timestamp_export = TimestampExport(timestamp)
             # Process only Enter/Exit timestamps
-            for item in queryset.filter(date=saved_date,
-                                        contract_id=saved_contract_id,
+            for item in queryset.filter(date=last_date,
+                                        contract_id=last_contract_id,
                                         direction__in=(direction_enter,
                                                        direction_exit)):
                 if item.direction_id == direction_enter:
@@ -161,8 +161,8 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
             if timestamp_export.is_valid():
                 results.append(timestamp_export.extract())
             # Process only different timestamps
-            for item in queryset.filter(date=saved_date,
-                                        contract_id=saved_contract_id).exclude(
+            for item in queryset.filter(date=last_date,
+                                        contract_id=last_contract_id).exclude(
                                             direction__in=(direction_enter,
                                                            direction_exit)):
                 timestamp_export = TimestampExport(timestamp)
