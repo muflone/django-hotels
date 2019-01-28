@@ -127,7 +127,7 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
             if (timestamp.date == saved_date and
                     timestamp.contract_id == saved_contract_id):
                 continue
-            # Save unique data/contract_id
+            # Save unique date/contract_id
             saved_date = timestamp.date
             saved_contract_id = timestamp.contract_id
             timestamp_export = TimestampExport(timestamp)
