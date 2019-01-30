@@ -23,6 +23,8 @@ import collections
 from django.db import models
 from django.contrib import admin
 
+from rangefilter.filter import DateRangeFilter
+
 from . import activity
 
 from ..forms import ActivityRoomInlineForm
@@ -57,6 +59,7 @@ class ActivityRoom(models.Model):
 class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('activity', 'room', 'service', 'service_qty')
     actions = ('action_export_csv', )
+    list_filter = (('activity__date', DateRangeFilter),)
     date_hierarchy = 'activity__date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({

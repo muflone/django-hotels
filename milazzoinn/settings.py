@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'work',
     'logentry_admin',
     'explorer',
+    'rangefilter',
     'jsonapi',
     'django.contrib.admin',
     'django.contrib.auth',

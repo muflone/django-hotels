@@ -7,5 +7,6 @@ qrcode==6.1
 django-sql-explorer==1.1.2
 django-iprestrict==1.7.0
 django-generic-json-views==0.8
+django-admin-rangefilter==0.3.11
 pyotp==2.2.7
 codicefiscale==0.9

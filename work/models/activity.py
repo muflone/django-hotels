@@ -23,6 +23,8 @@ import collections
 from django.db import models
 from django.contrib import admin
 
+from rangefilter.filter import DateRangeFilter
+
 from . import activity_room
 from .contract import Contract
 
@@ -50,7 +52,8 @@ class Activity(models.Model):
 
 class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
-    list_filter = ('contract__company', 'contract__employee')
+    list_filter = (('date', DateRangeFilter),
+                   'contract__company', 'contract__employee')
     actions = ('action_export_csv', )
     date_hierarchy = 'date'
     # Define fields and attributes to export rows to CSV
@@ -75,7 +78,8 @@ class ActivityInLinesProxy(Activity):
 
 class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('contract', 'date')
-    list_filter = ('contract__company', 'contract__employee')
+    list_filter = (('date', DateRangeFilter),
+                   'contract__company', 'contract__employee')
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
 

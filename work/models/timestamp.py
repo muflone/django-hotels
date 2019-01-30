@@ -24,6 +24,8 @@ import datetime
 from django.db import models
 from django.contrib import admin
 
+from rangefilter.filter import DateRangeFilter
+
 from .contract import Contract
 from .employee import Employee
 from .timestamp_direction import TimestampDirection
@@ -70,7 +72,8 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                     'time', 'description')
     list_display_links = ('id', 'first_name', 'last_name', 'direction',
                           'date', 'time')
-    list_filter = ('contract__company', 'contract__employee', 'direction')
+    list_filter = (('date', DateRangeFilter),
+                   'contract__company', 'contract__employee', 'direction')
     date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
