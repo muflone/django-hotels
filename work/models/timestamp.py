@@ -78,7 +78,9 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
-    actions = ('action_export_csv', 'action_export_timestamps')
+    actions = ('action_export_csv',
+               'action_export_timestamps',
+               'action_export_timestamps_days')
     ordering = ('-date', '-time', 'contract')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -180,6 +182,51 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
             filename='export_timestamps')
     action_export_timestamps.short_description = 'Export Timestamps hours'
 
+    def action_export_timestamps_days(self, request, queryset):
+        queryset = queryset.order_by('contract', 'date', 'time')
+        # Get minimum and maximum dates
+        range_dates = queryset.aggregate(models.Min('date'),
+                                         models.Max('date'))
+        date_min = range_dates['date__min']
+        date_max = range_dates['date__max']
+        # Save TimestampDirection keys for enter and exit
+        direction_enter = TimestampDirection.get_enter_direction()
+        direction_exit = TimestampDirection.get_exit_direction()
+        # Cycle each unique date/contract
+        saved_contract_id = None
+        results = []
+        for timestamp in queryset:
+            saved_date = None
+            # Skip duplicated contract_id
+            if (timestamp.contract_id == saved_contract_id):
+                continue
+            # Save unique contract_id
+            saved_contract_id = timestamp.contract_id
+            timestamp_export = TimestampDaysExport(timestamp)
+            for item in queryset.filter(contract_id=saved_contract_id):
+                # Skip duplicated date
+                if (item.date == saved_date):
+                    continue
+                saved_date = item.date
+                # Use enter short code for exit direction
+                timestamp_direction = (
+                    direction_enter
+                    if item.direction_id == direction_exit.pk
+                    else item.direction)
+                timestamp_export.dates[item.date.toordinal()] = (
+                    timestamp_direction.short_code)
+            results.append(timestamp_export.extract(date_min, date_max))
+        # Export data to CSV format
+        return self.do_export_data_to_csv(
+            data=results,
+            fields_map=dict(
+                **TimestampDaysExport.fields_map,
+                **dict([(datetime.date.fromordinal(day).strftime('%F'), day)
+                        for day in range(date_min.toordinal(),
+                                         date_max.toordinal() + 1)])),
+            filename='export_timestamps_days')
+    action_export_timestamps_days.short_description = 'Export Timestamps days'
+
 
 class TimestampExport(object):
     fields_map = {'DATE': 'date',
@@ -241,3 +288,28 @@ class TimestampExport(object):
                 'other': self.other_time,
                 'notes': notes,
                 })
+
+
+class TimestampDaysExport(object):
+    fields_map = {'COMPANY': 'company',
+                  'EMPLOYEE': 'employee',
+                  'CONTRACT_ID': 'contract_id',
+                  'ROLL_NUMBER': 'roll_number',
+                  }
+
+    def __init__(self, timestamp):
+        self.contract = timestamp.contract
+        self.dates = {}
+
+    def is_valid(self):
+        return any((self.dates.keys(), ))
+
+    def extract(self, min_date, max_date):
+        results = dict([(day, self.dates.get(day))
+                        for day in range(min_date.toordinal(),
+                                         max_date.toordinal() + 1)])
+        results['company'] = self.contract.company
+        results['contract_id'] = self.contract.pk
+        results['employee'] = self.contract.employee
+        results['roll_number'] = self.contract.roll_number
+        return(results)
