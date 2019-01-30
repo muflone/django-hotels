@@ -52,7 +52,7 @@ class TimestampDirection(models.Model):
 
 
 class TimestampDirectionAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('name', 'description')
+    list_display = ('name', 'description', 'short_code')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
