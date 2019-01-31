@@ -118,7 +118,6 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                    ContractAdminEmployeeRollNumberInputFilter,
                    'job_type',
                    'contract_type',
-                   'enabled',
                    'associated')
     readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
     actions = ('action_export_csv', )
