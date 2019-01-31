@@ -98,6 +98,14 @@ class Contract(models.Model):
             EMPLOYEE=self.employee,
             ROLL_NUMBER=self.roll_number)
 
+    def active(self):
+        """Return a boolean value to identify currently active contract"""
+        today = datetime.date.today()
+        return (self.enabled and
+                self.start_date <= today and
+                (self.end_date is None or self.end_date >= today))
+    active.boolean = True
+
 
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
@@ -274,11 +282,3 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
-
-    def active(self, instance):
-        """Return a boolean value to identify currently active contract"""
-        today = datetime.date.today()
-        return (instance.enabled and
-                instance.start_date <= today and
-                (instance.end_date is None or instance.end_date >= today))
-    active.boolean = True
