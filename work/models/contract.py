@@ -33,6 +33,7 @@ from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.html import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from .contract_type import ContractType
 from .employee import Employee
@@ -107,15 +108,35 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
             return queryset.filter(roll_number=self.value())
 
 
+class ContractAdminActiveFilter(admin.SimpleListFilter):
+    title = 'active'
+    parameter_name = 'active'
+
+    def lookups(self, request, model_admin):
+        return ((1, _('Yes')), (0, _('No')))
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            if self.value() == '0':
+                # Filter items with Active contract
+                return queryset.exclude(
+                    Contract.objects.get_active_contracts_query())
+            elif self.value() == '1':
+                # Filter items with not Active contract
+                return queryset.filter(
+                    Contract.objects.get_active_contracts_query())
+
+
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company',
                     'job_type', 'contract_type', 'end_date', 'active',
                     'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
-    list_filter = ('company',
+    list_filter = (ContractAdminEmployeeRollNumberInputFilter,
+                   ContractAdminActiveFilter,
+                   'company',
                    'employee',
                    'buildings__structure',
-                   ContractAdminEmployeeRollNumberInputFilter,
                    'job_type',
                    'contract_type',
                    'associated')
