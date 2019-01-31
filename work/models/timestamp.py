@@ -215,7 +215,10 @@ class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
                     else item.direction)
                 timestamp_export.dates[item.date.toordinal()] = (
                     timestamp_direction.short_code)
-            results.append(timestamp_export.extract(date_min, date_max))
+            results.append(timestamp_export.extract(
+                date_min=date_min,
+                date_max=date_max,
+                working_short_code=direction_enter.short_code))
         # Export data to CSV format
         return self.do_export_data_to_csv(
             data=results,
@@ -294,6 +297,7 @@ class TimestampDaysExport(object):
                   'EMPLOYEE': 'employee',
                   'CONTRACT_ID': 'contract_id',
                   'ROLL_NUMBER': 'roll_number',
+                  'WORKING DAYS': 'working_days',
                   }
 
     def __init__(self, timestamp):
@@ -303,12 +307,14 @@ class TimestampDaysExport(object):
     def is_valid(self):
         return any((self.dates.keys(), ))
 
-    def extract(self, min_date, max_date):
+    def extract(self, date_min, date_max, working_short_code):
         results = dict([(day, self.dates.get(day))
-                        for day in range(min_date.toordinal(),
-                                         max_date.toordinal() + 1)])
+                        for day in range(date_min.toordinal(),
+                                         date_max.toordinal() + 1)])
         results['company'] = self.contract.company
         results['contract_id'] = self.contract.pk
         results['employee'] = self.contract.employee
         results['roll_number'] = self.contract.roll_number
+        results['working_days'] = list(self.dates.values()).count(
+            working_short_code)
         return(results)
