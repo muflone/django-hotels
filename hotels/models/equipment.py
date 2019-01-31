@@ -33,6 +33,9 @@ class Equipment(models.Model):
                                   default=0)
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+    equipment_type = models.ForeignKey('EquipmentType',
+                                       on_delete=models.PROTECT,
+                                       default=0)
     quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
