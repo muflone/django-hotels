@@ -120,7 +120,7 @@ class Employee(models.Model):
             # Current employee
             models.Q(employee=employee_ref),
             # Status enabled
-            models.Q(status=True),
+            models.Q(enabled=True),
             # Start date less or equal than today
             models.Q(start_date__lte=datetime.date.today()),
             # End date is missing or after or equal today

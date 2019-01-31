@@ -61,7 +61,7 @@ class Contract(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     level = models.PositiveIntegerField()
-    status = models.BooleanField(default=True)
+    enabled = models.BooleanField(default=True)
     associated = models.BooleanField()
     guid = models.UUIDField(default=uuid.uuid4, blank=True)
     buildings = models.ManyToManyField(Building,
@@ -80,8 +80,7 @@ class Contract(models.Model):
         return '{COMPANY} - {EMPLOYEE} ({ROLL_NUMBER})'.format(
             COMPANY=self.company,
             EMPLOYEE=self.employee,
-            ROLL_NUMBER=self.roll_number,
-            STATUS=self.status)
+            ROLL_NUMBER=self.roll_number)
 
 
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
@@ -95,7 +94,7 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company',
-                    'job_type', 'contract_type', 'end_date', 'status',
+                    'job_type', 'contract_type', 'end_date', 'enabled',
                     'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = ('company',
@@ -104,7 +103,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                    ContractAdminEmployeeRollNumberInputFilter,
                    'job_type',
                    'contract_type',
-                   'status',
+                   'enabled',
                    'associated')
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )
@@ -121,7 +120,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
         'START DATE': 'start_date',
         'END DATE': 'end_date',
         'LEVEL': 'level',
-        'STATUS': 'status',
+        'ENABLED': 'enabled',
         'ASSOCIATED': 'associated',
         'GUID': 'guid',
     })
