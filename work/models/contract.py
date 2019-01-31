@@ -19,6 +19,7 @@
 ##
 
 import collections
+import datetime
 import io
 import os.path
 import uuid
@@ -44,7 +45,21 @@ from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI
 
 
+class ContractManager(models.Manager):
+    def get_active_contracts_query(self):
+        """Return a filter for only active contracts"""
+        return (models.Q(enabled=True) &
+                # Start date less or equal than today
+                models.Q(start_date__lte=datetime.date.today()) &
+                # End date is missing or after or equal today
+                (models.Q(end_date__isnull=True) |
+                 models.Q(end_date__gte=datetime.date.today())))
+
+
 class Contract(models.Model):
+
+    # Define custom manager
+    objects = ContractManager()
 
     employee = models.ForeignKey('Employee',
                                  on_delete=models.PROTECT)

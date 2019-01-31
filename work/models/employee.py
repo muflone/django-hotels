@@ -117,15 +117,10 @@ class Employee(models.Model):
 
     def get_active_contracts(self, employee_id):
         return work.models.Contract.objects.filter(
+            # Active contracts
+            work.models.Contract.objects.get_active_contracts_query(),
             # Current employee
-            models.Q(employee=employee_id),
-            # Status enabled
-            models.Q(enabled=True),
-            # Start date less or equal than today
-            models.Q(start_date__lte=datetime.date.today()),
-            # End date is missing or after or equal today
-            (models.Q(end_date__isnull=True) |
-             models.Q(end_date__gt=datetime.date.today()))
+            employee=employee_id
         )
 
     def get_active_contract(self):
