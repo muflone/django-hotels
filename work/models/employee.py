@@ -115,10 +115,10 @@ class Employee(models.Model):
             # No errors
             self.tax_code = tax_code
 
-    def get_active_contract_query(self, employee_ref):
+    def get_active_contracts(self, employee_id):
         return work.models.Contract.objects.filter(
             # Current employee
-            models.Q(employee=employee_ref),
+            models.Q(employee=employee_id),
             # Status enabled
             models.Q(enabled=True),
             # Start date less or equal than today
@@ -129,7 +129,7 @@ class Employee(models.Model):
         )
 
     def get_active_contract(self):
-        contracts = self.get_active_contract_query(self)
+        contracts = self.get_active_contracts(self.pk)
         return contracts[0] if contracts else None
 
 
@@ -216,8 +216,8 @@ class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         # Add subquery for active contract
-        contracts = self.model.get_active_contract_query(None,
-                                                         models.OuterRef('pk'))
+        contracts = self.model.get_active_contracts(None,
+                                                    models.OuterRef('pk'))
         # Add annotated fields for contract id and company
         queryset = queryset.annotate(
             _country=models.F('birth_location__region__country'),

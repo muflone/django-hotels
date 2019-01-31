@@ -60,7 +60,8 @@ class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('activity', 'room', 'service', 'service_qty')
     actions = ('action_export_csv', )
     list_filter = (('activity__date', DateRangeFilter),
-                   'activity__contract__company', 'activity__contract__employee')
+                   'activity__contract__company',
+                   'activity__contract__employee')
     date_hierarchy = 'activity__date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
