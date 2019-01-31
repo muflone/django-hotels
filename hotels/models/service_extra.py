@@ -70,7 +70,8 @@ class ServiceExtraService(admin.SimpleListFilter):
 class ServiceExtraAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('structure', 'service', 'price')
     list_display_links = ('structure', 'service')
-    list_filter = ('structure',
+    list_filter = ('structure__brand',
+                   'structure',
                    ServiceExtraService)
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
