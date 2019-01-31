@@ -49,7 +49,7 @@ class Equipment(models.Model):
 
 
 class EquipmentAdmin(admin.ModelAdmin, ExportCSVMixin):
-    list_display = ('structure', 'name', 'description')
+    list_display = ('structure', 'name', 'description', 'quantity')
     list_display_links = ('structure', 'name')
     list_filter = ('structure', )
     actions = ('action_export_csv', )
