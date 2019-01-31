@@ -163,6 +163,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
         'START DATE': 'start_date',
         'END DATE': 'end_date',
         'LEVEL': 'level',
+        'ACTIVE': 'active',
         'ENABLED': 'enabled',
         'ASSOCIATED': 'associated',
         'GUID': 'guid',
