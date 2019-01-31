@@ -31,7 +31,7 @@ class Equipment(models.Model):
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
                                   default=0)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     equipment_type = models.ForeignKey('EquipmentType',
                                        on_delete=models.PROTECT,
