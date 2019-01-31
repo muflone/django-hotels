@@ -37,7 +37,7 @@ class Equipment(models.Model):
 
     class Meta:
         # Define the database table
-        db_table = 'hotels_structure_equipments'
+        db_table = 'hotels_equipments'
         ordering = ['structure', 'name']
         unique_together = ('structure', 'name')
 
