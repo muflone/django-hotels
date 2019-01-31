@@ -239,7 +239,6 @@ class TimestampExport(object):
                   'TIME 2': 'exit',
                   'TIME 2 DESCRIPTION': 'exit_description',
                   'DURATION': 'duration',
-                  'OTHER': 'other',
                   'NOTES': 'notes',
                   }
 
