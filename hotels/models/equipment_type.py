@@ -18,14 +18,33 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .bed_type import BedType, BedTypeAdmin
-from .brand import Brand, BrandAdmin
-from .building import Building, BuildingAdmin
-from .company import Company, CompanyAdmin
-from .equipment import Equipment, EquipmentAdmin
-from .equipment_type import EquipmentType, EquipmentTypeAdmin
-from .room import Room, RoomAdmin
-from .room_type import RoomType, RoomTypeAdmin
-from .service import Service, ServiceAdmin
-from .service_extra import ServiceExtra, ServiceExtraAdmin
-from .structure import Structure, StructureAdmin
+import collections
+
+from django.db import models
+from django.contrib import admin
+
+from utility.admin_actions import ExportCSVMixin
+
+
+class EquipmentType(models.Model):
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        # Define the database table
+        db_table = 'hotels_equipments_type'
+        ordering = ['name', ]
+
+    def __str__(self):
+        return self.name
+
+
+class EquipmentTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
+    list_display = ('name', 'description')
+    actions = ('action_export_csv', )
+    # Define fields and attributes to export rows to CSV
+    export_csv_fields_map = collections.OrderedDict({
+        'NAME': 'name',
+        'DESCRIPTION': 'description',
+    })
