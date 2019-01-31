@@ -109,7 +109,7 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     list_display = ('id', 'first_name', 'last_name', 'company',
-                    'job_type', 'contract_type', 'end_date', 'enabled',
+                    'job_type', 'contract_type', 'end_date', 'active',
                     'photo_thumbnail')
     list_display_links = ('id', 'first_name', 'last_name')
     list_filter = ('company',
@@ -120,7 +120,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
                    'contract_type',
                    'enabled',
                    'associated')
-    readonly_fields = ('id', 'guid', 'qrcode_field')
+    readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
     actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
     QRCODE_SIZE = 256
@@ -176,7 +176,8 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        fields = ['id', 'active'] + [k for k in fields
+                                     if k not in ('id', 'active')]
         return fields
 
     def save_model(self, request, obj, form, change):
@@ -253,3 +254,11 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
+
+    def active(self, instance):
+        """Return a boolean value to identify currently active contract"""
+        today = datetime.date.today()
+        return (instance.enabled and
+                instance.start_date <= today and
+                (instance.end_date is None or instance.end_date >= today))
+    active.boolean = True
