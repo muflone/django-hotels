@@ -51,7 +51,6 @@ class ExportCSVMixin(object):
         writer.writerow(fields_map.keys())
         # Write record rows
         for item in data:
-            row = writer.writerow([item[field]
-                                   for field in fields_map.values()])
+            writer.writerow([item[field] for field in fields_map.values()])
 
         return response
