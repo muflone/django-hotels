@@ -18,8 +18,6 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from types import ModuleType
-
 from django.apps import apps
 from django.db import models
 from django.contrib import admin

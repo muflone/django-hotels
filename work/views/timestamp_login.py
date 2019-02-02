@@ -19,7 +19,6 @@
 ##
 
 import datetime
-import time
 
 from django.contrib import auth
 from django.contrib.auth.views import LoginView

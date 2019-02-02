@@ -23,8 +23,6 @@ import collections
 from django.db import models
 from django.contrib import admin
 
-from .company import Company
-
 from utility.admin_actions import ExportCSVMixin
 
 

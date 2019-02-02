@@ -27,10 +27,7 @@ from django.contrib import admin
 from rangefilter.filter import DateRangeFilter
 
 from .contract import Contract
-from .employee import Employee
 from .timestamp_direction import TimestampDirection
-
-from hotels.models import Company
 
 from utility.admin_actions import ExportCSVMixin
 from utility.admin_widgets import AdminTimeWidget

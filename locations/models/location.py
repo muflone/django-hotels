@@ -21,7 +21,6 @@
 from django.db import models
 from django.contrib import admin
 
-from .country import Country
 from .region import Region
 
 from utility.admin import AdminTextInputFilter

@@ -19,7 +19,6 @@
 ##
 
 import csv
-import collections
 
 from django.http import HttpResponse
 

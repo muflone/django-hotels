@@ -18,15 +18,9 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import json_views.views
-
-from django.shortcuts import get_object_or_404
-
 from hotels.models import Room
 
 from .api_base import APIBaseView
-
-from work.models import Tablet
 
 
 class APIBuildingsView(APIBaseView):

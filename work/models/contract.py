@@ -39,7 +39,7 @@ from .contract_type import ContractType
 from .employee import Employee
 from .job_type import JobType
 
-from hotels.models import Building, Company, Structure
+from hotels.models import Building, Company
 
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin

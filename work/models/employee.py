@@ -20,7 +20,6 @@
 
 import collections
 import csv
-import datetime
 import io
 import os.path
 

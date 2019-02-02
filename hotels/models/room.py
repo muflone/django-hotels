@@ -31,7 +31,6 @@ from django.urls import path
 from .bed_type import BedType
 from .building import Building
 from .room_type import RoomType
-from .structure import Structure
 
 from ..forms import RoomChangeBedTypeForm, RoomChangeBuildingForm
 
