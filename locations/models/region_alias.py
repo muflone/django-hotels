@@ -1,5 +1,5 @@
 ##
-#     Project: Django Milazzo Inn
+#     Project: Django Hotels
 # Description: A Django application to organize Hotels and Inns
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
 #   Copyright: 2018 Fabio Castelli

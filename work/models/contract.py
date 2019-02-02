@@ -1,5 +1,5 @@
 ##
-#     Project: Django Milazzo Inn
+#     Project: Django Hotels
 # Description: A Django application to organize Hotels and Inns
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
 #   Copyright: 2018 Fabio Castelli
@@ -208,7 +208,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
         account_name = obj.employee.first_name
         qrcode = QRCodeImage(data=URI.otpauth_totp(secret=obj.guid.hex,
                                                    account=account_name,
-                                                   issuer='MilazzoInn'),
+                                                   issuer='Django Hotels'),
                              fit=True,
                              size=8,
                              border=1)
@@ -235,7 +235,7 @@ class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
             account_name = instance.employee.first_name
             qrcode_data = URI.otpauth_totp(secret=instance.guid.hex,
                                            account=account_name,
-                                           issuer='MilazzoInn')
+                                           issuer='Django Hotels')
             qrcode = QRCodeImage(data=qrcode_data, fit=True, size=8, border=1)
             qrcode.save(stream)
             stream.seek(0)

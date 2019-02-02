@@ -1,4 +1,4 @@
-# Django Milazzo Inn
+# Django Hotels
 
 **Description:** A Django application to organize Hotels and Inns
 
@@ -6,14 +6,14 @@
 
 **License:** GPL-2+
 
-**Source code:** https://github.com/muflone/django-milazzoinn
+**Source code:** https://github.com/muflone/django-hotels
 
-**Documentation:** http://www.muflone.com/django-milazzoinn/
+**Documentation:** http://www.muflone.com/django-hotels/
 
 # Description
 
-Django Milazzo Inn is a Django application to organize the activities for
-Hotels and Inns.
+Django Hotels is a Django application to organize the activities for Hotels and
+Inns.
 
 # System Requirements
 

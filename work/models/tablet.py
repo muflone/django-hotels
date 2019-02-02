@@ -1,5 +1,5 @@
 ##
-#     Project: Django Milazzo Inn
+#     Project: Django Hotels
 # Description: A Django application to organize Hotels and Inns
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
 #   Copyright: 2018 Fabio Castelli
@@ -88,7 +88,7 @@ class TabletAdmin(admin.ModelAdmin, ExportCSVMixin):
         """Return the QRCode text for the instance"""
         return URI.otpauth_totp(secret=instance.guid.hex,
                                 account=instance,
-                                issuer='MilazzoInn')
+                                issuer='Django Hotels')
 
     def save_model(self, request, obj, form, change):
         """Generate QR Code"""

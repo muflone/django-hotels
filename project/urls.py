@@ -1,5 +1,5 @@
 ##
-#     Project: Django Milazzo Inn
+#     Project: Django Hotels
 # Description: A Django application to organize Hotels and Inns
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
 #   Copyright: 2018 Fabio Castelli
@@ -18,7 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-"""milazzoinn URL Configuration
+"""Django Hotels URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
