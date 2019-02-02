@@ -22,7 +22,7 @@ from django.views.generic import TemplateView
 
 from ..models import HomeSection
 
-from milazzoinn import VERSION
+from project import VERSION
 
 
 class GenericView(TemplateView):

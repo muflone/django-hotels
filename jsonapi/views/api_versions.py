@@ -24,7 +24,7 @@ import django
 
 import json_views
 
-import milazzoinn
+import project
 
 from .api_base import APIBaseView
 
@@ -34,7 +34,7 @@ class APIVersionsView(APIBaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['version'] = milazzoinn.VERSION
+        context['version'] = project.VERSION
         context['python version'] = sys.version
         context['python version info'] = sys.version_info
         context['django version'] = django.__version__

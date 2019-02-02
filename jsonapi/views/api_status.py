@@ -24,7 +24,7 @@ import sys
 
 from django.conf import settings
 
-import milazzoinn
+import project
 
 from .api_base import APIBaseView
 
@@ -36,8 +36,8 @@ class APIStatusView(APIBaseView):
         context = super().get_context_data(**kwargs)
         context['status'] = 'up'
         # Return product data
-        context['productname'] = milazzoinn.PRODUCT_NAME
-        context['version'] = milazzoinn.VERSION
+        context['productname'] = project.PRODUCT_NAME
+        context['version'] = project.VERSION
         # Return disk usage
         total_size, used_size, free_size = self.get_disk_usage()
         context['disk total'] = total_size
