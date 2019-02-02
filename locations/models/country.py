@@ -37,9 +37,9 @@ class Country(models.Model):
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
     capital = models.CharField(max_length=255, blank=True)
-    continent = models.ForeignKey(Continent,
+    continent = models.ForeignKey('Continent',
                                   on_delete=models.PROTECT)
-    languages = models.ManyToManyField(Language)
+    languages = models.ManyToManyField('Language')
 
     class Meta:
         # Define the database table

@@ -45,7 +45,7 @@ class Tablet(models.Model):
 
     description = models.TextField(blank=True)
     status = models.BooleanField(default=True)
-    buildings = models.ManyToManyField(Building,
+    buildings = models.ManyToManyField('hotels.Building',
                                        db_table='work_tablet_buildings',
                                        blank=True)
     guid = models.UUIDField(default=uuid.uuid4, blank=True)

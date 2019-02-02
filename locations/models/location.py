@@ -29,7 +29,7 @@ from utility.admin import AdminTextInputFilter
 class Location(models.Model):
 
     name = models.CharField(max_length=255)
-    region = models.ForeignKey(Region,
+    region = models.ForeignKey('Region',
                                on_delete=models.PROTECT)
     description = models.TextField(blank=True)
     province = models.CharField(max_length=255, blank=True, null=True)

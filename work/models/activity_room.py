@@ -38,9 +38,9 @@ class ActivityRoom(models.Model):
 
     activity = models.ForeignKey('Activity',
                                  on_delete=models.PROTECT)
-    room = models.ForeignKey(Room,
+    room = models.ForeignKey('hotels.Room',
                              on_delete=models.PROTECT)
-    service = models.ForeignKey(Service,
+    service = models.ForeignKey('hotels.Service',
                                 on_delete=models.PROTECT)
     service_qty = models.PositiveIntegerField(default=1)
     description = models.TextField(blank=True)

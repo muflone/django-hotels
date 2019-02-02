@@ -80,7 +80,7 @@ class Contract(models.Model):
     enabled = models.BooleanField(default=True)
     associated = models.BooleanField()
     guid = models.UUIDField(default=uuid.uuid4, blank=True)
-    buildings = models.ManyToManyField(Building,
+    buildings = models.ManyToManyField('hotels.Building',
                                        db_table='work_contract_buildings',
                                        blank=True)
 
