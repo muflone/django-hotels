@@ -25,7 +25,7 @@ import os.path
 
 from django.db import models
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.template import loader
