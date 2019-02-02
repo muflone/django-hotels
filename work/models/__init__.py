@@ -18,14 +18,15 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .activity import Activity, ActivityAdmin
-from .activity import ActivityInLinesProxy, ActivityInLinesAdmin
-from .activity_room import ActivityRoom, ActivityRoomAdmin
-from .contract import Contract, ContractAdmin
-from .contract_type import ContractType, ContractTypeAdmin
-from .employee import Employee, EmployeeAdmin
-from .job_type import JobType, JobTypeAdmin
-from .login import Login, LoginAdmin
-from .tablet import Tablet, TabletAdmin
-from .timestamp import Timestamp, TimestampAdmin
-from .timestamp_direction import TimestampDirection, TimestampDirectionAdmin
+from .activity import Activity, ActivityAdmin                     # noqa: F401
+from .activity import ActivityInLinesProxy, ActivityInLinesAdmin  # noqa: F401
+from .activity_room import ActivityRoom, ActivityRoomAdmin        # noqa: F401
+from .contract import Contract, ContractAdmin                     # noqa: F401
+from .contract_type import ContractType, ContractTypeAdmin        # noqa: F401
+from .employee import Employee, EmployeeAdmin                     # noqa: F401
+from .job_type import JobType, JobTypeAdmin                       # noqa: F401
+from .login import Login, LoginAdmin                              # noqa: F401
+from .tablet import Tablet, TabletAdmin                           # noqa: F401
+from .timestamp import Timestamp, TimestampAdmin                  # noqa: F401
+from .timestamp_direction import (TimestampDirection,             # noqa: F401
+                                  TimestampDirectionAdmin)        # noqa: F401

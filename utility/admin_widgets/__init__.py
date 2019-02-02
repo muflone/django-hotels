@@ -18,8 +18,8 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_image_widget import (AdminImageWidget,
-                                 AdminImageWidget_64x64,
-                                 AdminImageWidget_128x128,
-                                 AdminImageWidget_256x256)
-from .admin_time_widget import AdminTimeWidget
+from .admin_image_widget import (AdminImageWidget,                # noqa: F401
+                                 AdminImageWidget_64x64,          # noqa: F401
+                                 AdminImageWidget_128x128,        # noqa: F401
+                                 AdminImageWidget_256x256)        # noqa: F401
+from .admin_time_widget import AdminTimeWidget                    # noqa: F401

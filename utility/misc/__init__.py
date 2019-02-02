@@ -18,6 +18,6 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .qrcode_image import QRCodeImage
-from .reverse_with_query import reverse_with_query
-from .uri import URI
+from .qrcode_image import QRCodeImage                             # noqa: F401
+from .reverse_with_query import reverse_with_query                # noqa: F401
+from .uri import URI                                              # noqa: F401

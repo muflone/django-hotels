@@ -18,5 +18,5 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .timestamp_login import TimeStampLoginView
-from .timestamp_logout import TimeStampLogoutView
+from .timestamp_login import TimeStampLoginView                   # noqa: F401
+from .timestamp_logout import TimeStampLogoutView                 # noqa: F401

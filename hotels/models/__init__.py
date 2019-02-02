@@ -18,14 +18,14 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .bed_type import BedType, BedTypeAdmin
-from .brand import Brand, BrandAdmin
-from .building import Building, BuildingAdmin
-from .company import Company, CompanyAdmin
-from .equipment import Equipment, EquipmentAdmin
-from .equipment_type import EquipmentType, EquipmentTypeAdmin
-from .room import Room, RoomAdmin
-from .room_type import RoomType, RoomTypeAdmin
-from .service import Service, ServiceAdmin
-from .service_extra import ServiceExtra, ServiceExtraAdmin
-from .structure import Structure, StructureAdmin
+from .bed_type import BedType, BedTypeAdmin                       # noqa: F401
+from .brand import Brand, BrandAdmin                              # noqa: F401
+from .building import Building, BuildingAdmin                     # noqa: F401
+from .company import Company, CompanyAdmin                        # noqa: F401
+from .equipment import Equipment, EquipmentAdmin                  # noqa: F401
+from .equipment_type import EquipmentType, EquipmentTypeAdmin     # noqa: F401
+from .room import Room, RoomAdmin                                 # noqa: F401
+from .room_type import RoomType, RoomTypeAdmin                    # noqa: F401
+from .service import Service, ServiceAdmin                        # noqa: F401
+from .service_extra import ServiceExtra, ServiceExtraAdmin        # noqa: F401
+from .structure import Structure, StructureAdmin                  # noqa: F401

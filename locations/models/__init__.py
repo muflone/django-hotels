@@ -18,10 +18,10 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .continent import Continent, ContinentAdmin
-from .country import Country, CountryAdmin
-from .language import Language, LanguageAdmin
-from .location import Location, LocationAdmin
-from .position import Position, PositionAdmin
-from .region import Region, RegionAdmin
-from .region_alias import RegionAlias, RegionAliasAdmin
+from .continent import Continent, ContinentAdmin                  # noqa: F401
+from .country import Country, CountryAdmin                        # noqa: F401
+from .language import Language, LanguageAdmin                     # noqa: F401
+from .location import Location, LocationAdmin                     # noqa: F401
+from .position import Position, PositionAdmin                     # noqa: F401
+from .region import Region, RegionAdmin                           # noqa: F401
+from .region_alias import RegionAlias, RegionAliasAdmin           # noqa: F401
