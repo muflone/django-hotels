@@ -35,8 +35,6 @@ from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from hotels.models import Building
-
 from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI
 

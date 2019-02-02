@@ -21,8 +21,6 @@
 from django.db import models
 from django.contrib import admin
 
-from .country import Country
-
 
 class RegionAlias(models.Model):
 

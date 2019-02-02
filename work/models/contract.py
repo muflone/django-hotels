@@ -35,12 +35,6 @@ from django.urls import path
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from .contract_type import ContractType
-from .employee import Employee
-from .job_type import JobType
-
-from hotels.models import Building, Company
-
 from utility.admin import AdminTextInputFilter
 from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI

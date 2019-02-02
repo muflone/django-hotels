@@ -21,10 +21,6 @@
 from django.db import models
 from django.contrib import admin
 
-from .country import Country
-from .position import Position
-from .region_alias import RegionAlias
-
 
 class Region(models.Model):
 

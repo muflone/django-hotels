@@ -29,7 +29,7 @@ from . import activity
 
 from ..forms import ActivityRoomInlineForm
 
-from hotels.models import Room, Service
+from hotels.models import Room
 
 from utility.admin_actions import ExportCSVMixin
 
