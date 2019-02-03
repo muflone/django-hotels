@@ -24,16 +24,18 @@ from django.db.utils import OperationalError
 
 from .models import (AdminListDisplay, AdminListDisplayAdmin,
                      AdminListDisplayLink, AdminListDisplayLinkAdmin,
+                     AdminListFilter, AdminListFilterAdmin,
                      AdminSearchable, AdminSearchableAdmin,
                      AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
 
-from utility.misc import get_admin_models
+from utility.misc import get_admin_models, get_class_from_module
 
 
 # Register your models here.
 admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
 admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
+admin.site.register(AdminListFilter, AdminListFilterAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)
@@ -87,6 +89,34 @@ try:
 except OperationalError:
     # If the model AdminListDisplayLink doesn't yet exist skip the
     # customization
+    pass
+
+# Customize list_filter
+try:
+    # Clear or initialize the model list_filter
+    for model_name in admin_models:
+        admin_models[model_name].list_filter = []
+    # Add the fields to model list_display_links
+    for item in AdminListFilter.objects.filter(enabled=True).order_by(
+            'model', 'order'):
+        if '|' in item.field:
+            # The filter contains multiple fields
+            new_fields = []
+            fields = item.field.split('|')
+            for field in fields:
+                if '.' in field:
+                    # The filter contain a module.class field
+                    field = get_class_from_module(field)
+                new_fields.append(field)
+        elif '.' in item.field:
+            # The filter contain a module.class field
+            new_fields = get_class_from_module(item.field)
+        else:
+            # The filter is a string filter
+            new_fields = item.field
+        admin_models[item.model].list_filter.append(new_fields)
+except OperationalError:
+    # If the model AdminListFilter doesn't yet exist skip the customization
     pass
 
 # Final checks on every model
