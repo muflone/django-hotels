@@ -18,27 +18,15 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.apps import apps
 from django.db import models
-from django.contrib import admin
-from django.forms.widgets import MediaDefiningClass
 
+from utility.misc import get_admin_models
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class AdminSearchable(BaseModel):
 
-    admin_models = {}
-    for application in apps.app_configs.keys():
-        application_module = apps.app_configs[application]
-        application_module.import_models()
-        for module_name in dir(application_module.models_module):
-            obj = getattr(application_module.models_module, module_name)
-            if (issubclass(obj.__class__, MediaDefiningClass) and
-                    issubclass(obj, admin.options.BaseModelAdmin) and
-                    # Avoid to list the BaseModelAdmin class
-                    obj.__name__ not in ('BaseModelAdmin')):
-                admin_models[obj.__name__] = obj
+    admin_models = get_admin_models()
 
     model = models.CharField(max_length=255,
                              choices=((model_name, model_name)

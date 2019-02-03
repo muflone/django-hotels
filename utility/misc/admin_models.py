@@ -18,7 +18,22 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_models import get_admin_models                        # noqa: F401
-from .qrcode_image import QRCodeImage                             # noqa: F401
-from .reverse_with_query import reverse_with_query                # noqa: F401
-from .uri import URI                                              # noqa: F401
+from django.apps import apps
+from django.contrib import admin
+from django.forms.widgets import MediaDefiningClass
+
+
+def get_admin_models():
+    """Get all the ModelAdmin in every loaded application"""
+    admin_models = {}
+    for application in apps.app_configs.keys():
+        application_module = apps.app_configs[application]
+        application_module.import_models()
+        for module_name in dir(application_module.models_module):
+            obj = getattr(application_module.models_module, module_name)
+            if (issubclass(obj.__class__, MediaDefiningClass) and
+                    issubclass(obj, admin.options.BaseModelAdmin) and
+                    # Avoid to list the BaseModelAdmin class
+                    obj.__name__ not in ('BaseModelAdmin')):
+                admin_models[obj.__name__] = obj
+    return admin_models
