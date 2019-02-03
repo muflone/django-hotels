@@ -68,8 +68,7 @@ class RoomAdmin(BaseModelAdmin):
     list_display = ('building', 'name', 'room_type', 'bed_type')
     list_filter = ('building__structure', 'building', 'room_type', 'bed_type')
     change_list_template = 'utility/import_csv/change_list.html'
-    actions = ('action_export_csv',
-               'action_change_building',
+    actions = ('action_change_building',
                'action_change_bedtype')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({

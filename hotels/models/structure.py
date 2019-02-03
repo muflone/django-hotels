@@ -56,7 +56,6 @@ class Structure(BaseModel):
 class StructureAdmin(BaseModelAdmin):
     list_display = ('name', 'brand', 'company', 'description')
     list_filter = ('brand', 'company')
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'NAME': 'name',

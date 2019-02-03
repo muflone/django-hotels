@@ -50,7 +50,6 @@ class Company(BaseModel):
 
 class CompanyAdmin(BaseModelAdmin):
     list_display = ('name', 'description')
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'NAME': 'name',

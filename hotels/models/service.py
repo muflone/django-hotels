@@ -43,7 +43,6 @@ class Service(BaseModel):
 
 class ServiceAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'room_service', 'extra_service')
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'NAME': 'name',

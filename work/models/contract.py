@@ -143,7 +143,6 @@ class ContractAdmin(BaseModelAdmin):
                    'contract_type',
                    'associated')
     readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
-    actions = ('action_export_csv', )
     change_form_template = 'work/admin_contract_change.html'
     QRCODE_SIZE = 256
     # Define fields and attributes to export rows to CSV

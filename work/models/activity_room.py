@@ -58,7 +58,6 @@ class ActivityRoom(BaseModel):
 
 class ActivityRoomAdmin(BaseModelAdmin):
     list_display = ('activity', 'room', 'service', 'service_qty')
-    actions = ('action_export_csv', )
     list_filter = (('activity__date', DateRangeFilter),
                    'activity__contract__company',
                    'activity__contract__employee')

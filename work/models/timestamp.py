@@ -75,8 +75,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
-    actions = ('action_export_csv',
-               'action_export_timestamps',
+    actions = ('action_export_timestamps',
                'action_export_timestamps_days')
     ordering = ('-date', '-time', 'contract')
     # Define fields and attributes to export rows to CSV

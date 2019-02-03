@@ -43,7 +43,6 @@ class ContractType(BaseModel):
 
 class ContractTypeAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'daily_hours', 'weekly_hours')
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'NAME': 'name',

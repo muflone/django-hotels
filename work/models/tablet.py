@@ -64,7 +64,6 @@ class Tablet(BaseModel):
 class TabletAdmin(BaseModelAdmin):
     list_display = ('__str__', 'description')
     readonly_fields = ('id', 'guid', 'qrcode_field')
-    actions = ('action_export_csv', )
     change_form_template = 'work/admin_tablet_change.html'
     QRCODE_SIZE = 256
     # Define fields and attributes to export rows to CSV

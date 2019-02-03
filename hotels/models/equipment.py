@@ -51,7 +51,6 @@ class EquipmentAdmin(BaseModelAdmin):
     list_display = ('structure', 'name', 'description', 'quantity')
     list_display_links = ('structure', 'name')
     list_filter = ('structure', )
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'STRUCTURE': 'structure',

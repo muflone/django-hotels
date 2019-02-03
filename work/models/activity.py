@@ -53,7 +53,6 @@ class ActivityAdmin(BaseModelAdmin):
     list_display = ('contract', 'date')
     list_filter = (('date', DateRangeFilter),
                    'contract__company', 'contract__employee')
-    actions = ('action_export_csv', )
     date_hierarchy = 'date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({

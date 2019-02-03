@@ -178,7 +178,6 @@ class EmployeeAdmin(BaseModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
-    actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'FIRST NAME': 'first_name',
