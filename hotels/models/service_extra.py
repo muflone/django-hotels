@@ -68,13 +68,6 @@ class ServiceExtraService(admin.SimpleListFilter):
 
 
 class ServiceExtraAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'STRUCTURE': 'structure',
-        'SERVICE': 'service',
-        'PRICE': 'price',
-    })
-
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'service':
             # Optimize value lookup for field service

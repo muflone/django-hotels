@@ -65,12 +65,6 @@ class TabletAdmin(BaseModelAdmin):
     readonly_fields = ('id', 'guid', 'qrcode_field')
     change_form_template = 'work/admin_tablet_change.html'
     QRCODE_SIZE = 256
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'DESCRIPTION': 'description',
-        'STATUS': 'status',
-        'GUID': 'guid',
-    })
 
     def photo_thumbnail(self, instance):
         return self.detail_photo_image(instance, 48, 48)

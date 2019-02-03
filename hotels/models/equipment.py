@@ -48,10 +48,4 @@ class Equipment(BaseModel):
 
 
 class EquipmentAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'STRUCTURE': 'structure',
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-        'QUANTITY': 'quantity',
-    })
+    pass

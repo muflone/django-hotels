@@ -49,16 +49,4 @@ class Company(BaseModel):
 
 
 class CompanyAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-        'ADDRESS': 'address',
-        'PHONE1': 'phone1',
-        'PHONE2': 'phone2',
-        'FAX': 'fax',
-        'EMAIL': 'email',
-        'VAT NUMBER': 'vat_number',
-        'TAX CODE': 'tax_code',
-        'OWNER': 'owner',
-    })
+    pass

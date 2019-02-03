@@ -40,8 +40,4 @@ class RoomType(BaseModel):
 
 
 class RoomTypeAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-    })
+    pass

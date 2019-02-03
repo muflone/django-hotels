@@ -71,16 +71,6 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     actions = ('action_export_timestamps',
                'action_export_timestamps_days')
     ordering = ('-date', '-time', 'contract')
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'CONTRACT': 'contract',
-        'EMPLOYEE': 'employee',
-        'ROLL_NUMBER': 'roll_number',
-        'DIRECTION': 'direction',
-        'DATE': 'date',
-        'TIME': 'time',
-        'DESCRIPTION': 'description',
-    })
 
     def first_name(self, instance):
         return instance.contract.employee.first_name

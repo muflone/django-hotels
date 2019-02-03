@@ -171,27 +171,6 @@ class EmployeeAdmin(BaseModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'FIRST NAME': 'first_name',
-        'LAST NAME': 'last_name',
-        'DESCRIPTION': 'description',
-        'GENRE': 'genre',
-        'BIRTH DATE': 'birth_date',
-        'BIRTH LOCATION': 'birth_location',
-        'ADDRESS': 'address',
-        'LOCATION': 'location',
-        'POSTAL CODE': 'postal_code',
-        'PHONE1': 'phone1',
-        'PHONE2': 'phone2',
-        'EMAIL': 'email',
-        'VAT NUMBER': 'vat_number',
-        'TAX CODE': 'tax_code',
-        'PERMIT': 'permit',
-        'PERMIT LOCATION': 'permit_location',
-        'PERMIT DATE': 'permit_date',
-        'PERMIT EXPIRATION': 'permit_expiration',
-    })
 
     def save_model(self, request, obj, form, change):
         if not obj.photo or str(obj.photo).startswith('standard:'):

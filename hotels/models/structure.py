@@ -54,16 +54,4 @@ class Structure(BaseModel):
 
 
 class StructureAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-        'ADDRESS': 'address',
-        'LOCATION': 'location',
-        'PHONE1': 'phone1',
-        'PHONE2': 'phone2',
-        'FAX': 'fax',
-        'EMAIL': 'email',
-        'BRAND': 'brand',
-        'COMPANY': 'company',
-    })
+    pass

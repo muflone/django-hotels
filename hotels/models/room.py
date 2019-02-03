@@ -68,17 +68,6 @@ class RoomAdmin(BaseModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_change_building',
                'action_change_bedtype')
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'BUILDING': 'building',
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-        'ROOM TYPE': 'room_type',
-        'BED TYPE': 'bed_type',
-        'PHONE1': 'phone1',
-        'SEATS BASE': 'seats_base',
-        'SEATS ADDITIONAL': 'seats_additional',
-    })
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(

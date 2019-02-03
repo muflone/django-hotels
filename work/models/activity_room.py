@@ -58,13 +58,6 @@ class ActivityRoom(BaseModel):
 
 class ActivityRoomAdmin(BaseModelAdmin):
     date_hierarchy = 'activity__date'
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'ACTIVITY': 'activity',
-        'ROOM': 'room',
-        'SERVICE': 'service',
-        'DESCRIPTION': 'description',
-    })
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'activity':

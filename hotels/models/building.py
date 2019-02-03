@@ -53,20 +53,6 @@ class Building(BaseModel):
 
 
 class BuildingAdmin(BaseModelAdmin):
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'STRUCTURE': 'structure',
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-        'ADDRESS': 'address',
-        'LOCATION': 'location',
-        'POSTAL CODE': 'postal_code',
-        'PHONE1': 'phone1',
-        'PHONE2': 'phone2',
-        'FAX': 'fax',
-        'EMAIL': 'email',
-    })
-
     def brand(self, instance):
         return instance.structure.brand
     brand.short_description = 'Brand'

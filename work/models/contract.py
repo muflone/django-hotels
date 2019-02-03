@@ -133,22 +133,6 @@ class ContractAdmin(BaseModelAdmin):
     readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
     change_form_template = 'work/admin_contract_change.html'
     QRCODE_SIZE = 256
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'EMPLOYEE': 'employee',
-        'COMPANY': 'company',
-        'DESCRIPTION': 'description',
-        'CONTRACT TYPE': 'contract_type',
-        'JOB TYPE': 'job_type',
-        'ROLL NUMBER': 'roll_number',
-        'START DATE': 'start_date',
-        'END DATE': 'end_date',
-        'LEVEL': 'level',
-        'ACTIVE': 'active',
-        'ENABLED': 'enabled',
-        'ASSOCIATED': 'associated',
-        'GUID': 'guid',
-    })
 
     def first_name(self, instance):
         return instance.employee.first_name
