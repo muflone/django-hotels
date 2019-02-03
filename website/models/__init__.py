@@ -20,7 +20,10 @@
 
 from .admin_list_display import (AdminListDisplay,                # noqa: F401
                                  AdminListDisplayAdmin)           # noqa: F401
-from .admin_searchable import (AdminSearchable,                   # noqa: F401
-                               AdminSearchableAdmin)              # noqa: F401
 from .admin_section import AdminSection, AdminSectionAdmin        # noqa: F401
 from .home_section import HomeSection, HomeSectionAdmin           # noqa: F401
+
+# Keep the AdminSearchable always the last imported
+# to add all the previous models to the AdminSearchable models
+from .admin_searchable import (AdminSearchable,                   # noqa: F401
+                               AdminSearchableAdmin)              # noqa: F401
