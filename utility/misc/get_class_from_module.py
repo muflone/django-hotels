@@ -18,8 +18,10 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_models import get_admin_models                        # noqa: F401
-from .get_class_from_module import get_class_from_module          # noqa: F401
-from .qrcode_image import QRCodeImage                             # noqa: F401
-from .reverse_with_query import reverse_with_query                # noqa: F401
-from .uri import URI                                              # noqa: F401
+import importlib
+
+
+def get_class_from_module(module_class):
+    """Get Class from a module"""
+    module_name, class_name = module_class.rsplit('.', 1)
+    return getattr(importlib.import_module(module_name), class_name)
