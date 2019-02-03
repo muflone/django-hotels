@@ -47,9 +47,9 @@ except OperationalError:
 
 # Customize enabled searchables
 try:
-    for searchable in AdminSearchable.objects.filter(use_select2=True):
-        searchable.get_ref_model().search_fields = (searchable.ref_field, )
-        searchable.get_model().autocomplete_fields += (searchable.field, )
+    for item in AdminSearchable.objects.filter(use_select2=True):
+        item.get_ref_model().search_fields = (item.ref_field, )
+        item.get_model().autocomplete_fields += (item.field, )
 except OperationalError:
     # If the model AdminSearchable doesn't yet exist skip the customization
     pass
