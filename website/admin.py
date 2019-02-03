@@ -23,6 +23,7 @@ from django.db.utils import OperationalError
 
 
 from .models import (AdminListDisplay, AdminListDisplayAdmin,
+                     AdminListDisplayLink, AdminListDisplayLinkAdmin,
                      AdminSearchable, AdminSearchableAdmin,
                      AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
@@ -32,6 +33,7 @@ from utility.misc import get_admin_models
 
 # Register your models here.
 admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
+admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)
@@ -71,6 +73,20 @@ try:
         admin_models[item.model].list_display.append(item.field)
 except OperationalError:
     # If the model AdminListDisplay doesn't yet exist skip the customization
+    pass
+
+# Customize list_display_links
+try:
+    # Clear or initialize the model list_display_links
+    for model_name in admin_models:
+        admin_models[model_name].list_display_links = []
+    # Add the fields to model list_display_links
+    for item in AdminListDisplayLink.objects.filter(enabled=True).order_by(
+            'model', 'order'):
+        admin_models[item.model].list_display_links.append(item.field)
+except OperationalError:
+    # If the model AdminListDisplayLink doesn't yet exist skip the
+    # customization
     pass
 
 # Final checks on every model

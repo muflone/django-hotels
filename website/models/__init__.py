@@ -25,5 +25,7 @@ from .home_section import HomeSection, HomeSectionAdmin           # noqa: F401
 # to first include all the previous models in get_admin_models
 from .admin_list_display import (AdminListDisplay,                # noqa: F401
                                  AdminListDisplayAdmin)           # noqa: F401
+from .admin_list_display_link import (AdminListDisplayLink,       # noqa: F401
+                                      AdminListDisplayLinkAdmin)  # noqa: F401
 from .admin_searchable import (AdminSearchable,                   # noqa: F401
                                AdminSearchableAdmin)              # noqa: F401
