@@ -18,11 +18,14 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from collections import OrderedDict
+
 from django.contrib import admin
 from django.db.utils import OperationalError
 
 
-from .models import (AdminListDisplay, AdminListDisplayAdmin,
+from .models import (AdminExportCSVMap, AdminExportCSVMapAdmin,
+                     AdminListDisplay, AdminListDisplayAdmin,
                      AdminListDisplayLink, AdminListDisplayLinkAdmin,
                      AdminListFilter, AdminListFilterAdmin,
                      AdminSearchable, AdminSearchableAdmin,
@@ -33,6 +36,7 @@ from utility.misc import get_admin_models, get_class_from_module
 
 
 # Register your models here.
+admin.site.register(AdminExportCSVMap, AdminExportCSVMapAdmin)
 admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
 admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
 admin.site.register(AdminListFilter, AdminListFilterAdmin)
@@ -117,6 +121,20 @@ try:
         admin_models[item.model].list_filter.append(new_fields)
 except OperationalError:
     # If the model AdminListFilter doesn't yet exist skip the customization
+    pass
+
+# Customize export_csv_fields_map
+try:
+    # Clear or initialize the model export_csv_fields_map
+    for model_name in admin_models:
+        admin_models[model_name].export_csv_fields_map = OrderedDict()
+    # Add the fields to model export_csv_fields_map
+    for item in AdminExportCSVMap.objects.filter(enabled=True).order_by(
+            'model', 'order', 'title'):
+        admin_models[item.model].export_csv_fields_map[item.title] = item.field
+except OperationalError:
+    # If the model AdminExportCSVMap doesn't yet exist skip the
+    # customization
     pass
 
 # Final checks on every model

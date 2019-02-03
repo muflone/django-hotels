@@ -170,7 +170,8 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Admin Models list with a field referencing other models in its choices
-ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES = ('AdminListDisplayAdmin',
+ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES = ('AdminExportCSVMapAdmin',
+                                                'AdminListDisplayAdmin',
                                                 'AdminListDisplayLinkAdmin',
                                                 'AdminListFilterAdmin',
                                                 'AdminSearchableAdmin')

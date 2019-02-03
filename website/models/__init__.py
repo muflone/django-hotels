@@ -23,6 +23,8 @@ from .home_section import HomeSection, HomeSectionAdmin           # noqa: F401
 
 # Keep all the models with a field model always at the last imports
 # to first include all the previous models in get_admin_models
+from .admin_export_csv_map import (AdminExportCSVMap,             # noqa: F401
+                                   AdminExportCSVMapAdmin)        # noqa: F401
 from .admin_list_display import (AdminListDisplay,                # noqa: F401
                                  AdminListDisplayAdmin)           # noqa: F401
 from .admin_list_display_link import (AdminListDisplayLink,       # noqa: F401
