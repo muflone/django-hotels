@@ -130,7 +130,6 @@ class ContractAdminActiveFilter(admin.SimpleListFilter):
 
 
 class ContractAdmin(BaseModelAdmin):
-    list_display_links = ('id', 'first_name', 'last_name')
     list_filter = (ContractAdminEmployeeRollNumberInputFilter,
                    ContractAdminActiveFilter,
                    'company',
