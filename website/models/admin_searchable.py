@@ -51,12 +51,6 @@ class AdminSearchable(BaseModel):
         return '{MODEL} - {FIELD}'.format(MODEL=self.model,
                                           FIELD=self.field)
 
-    def get_model(self):
-        return self.admin_models[self.model]
-
-    def get_ref_model(self):
-        return self.admin_models[self.ref_model]
-
 
 class AdminSearchableAdmin(BaseModelAdmin):
     list_display = ('model', 'field', 'use_select2', 'description')

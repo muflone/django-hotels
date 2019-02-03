@@ -26,6 +26,8 @@ from .models import (AdminSearchable, AdminSearchableAdmin,
                      AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
 
+from utility.misc import get_admin_models
+
 
 # Register your models here.
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
@@ -45,11 +47,13 @@ except OperationalError:
     # If the model AdminSection doesn't yet exist skip the customization
     pass
 
-# Customize enabled searchables
+# Customize models
+admin_models = get_admin_models()
+# Customize searchables
 try:
     for item in AdminSearchable.objects.filter(use_select2=True):
-        item.get_ref_model().search_fields = (item.ref_field, )
-        item.get_model().autocomplete_fields += (item.field, )
+        admin_models[item.ref_model].search_fields = (item.ref_field, )
+        admin_models[item.model].autocomplete_fields += (item.field, )
 except OperationalError:
     # If the model AdminSearchable doesn't yet exist skip the customization
     pass
