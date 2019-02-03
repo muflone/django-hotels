@@ -22,7 +22,8 @@ from django.contrib import admin
 from django.db.utils import OperationalError
 
 
-from .models import (AdminSearchable, AdminSearchableAdmin,
+from .models import (AdminListDisplay, AdminListDisplayAdmin,
+                     AdminSearchable, AdminSearchableAdmin,
                      AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
 
@@ -30,6 +31,7 @@ from utility.misc import get_admin_models
 
 
 # Register your models here.
+admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)

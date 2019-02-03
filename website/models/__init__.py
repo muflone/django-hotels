@@ -18,6 +18,8 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from .admin_list_display import (AdminListDisplay,                # noqa: F401
+                                 AdminListDisplayAdmin)           # noqa: F401
 from .admin_searchable import (AdminSearchable,                   # noqa: F401
                                AdminSearchableAdmin)              # noqa: F401
 from .admin_section import AdminSection, AdminSectionAdmin        # noqa: F401
