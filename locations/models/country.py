@@ -53,7 +53,6 @@ class Country(BaseModel):
 
 
 class CountryAdmin(BaseModelAdmin):
-    list_display = ('name', 'description', 'continent')
     list_filter = ('continent', )
     change_list_template = 'utility/import_csv/change_list.html'
 

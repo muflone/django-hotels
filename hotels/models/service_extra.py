@@ -68,7 +68,6 @@ class ServiceExtraService(admin.SimpleListFilter):
 
 
 class ServiceExtraAdmin(BaseModelAdmin):
-    list_display = ('structure', 'service', 'price')
     list_display_links = ('structure', 'service')
     list_filter = ('structure__brand',
                    'structure',

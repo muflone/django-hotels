@@ -38,4 +38,4 @@ class Language(BaseModel):
 
 
 class LanguageAdmin(BaseModelAdmin):
-    list_display = ('name', 'description')
+    pass

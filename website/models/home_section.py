@@ -46,5 +46,4 @@ class HomeSection(BaseModel):
 
 
 class HomeSectionAdmin(BaseModelAdmin):
-    list_display = ('name', 'header_title', 'home_title', 'login_required',
-                    'admin_login_required')
+    pass

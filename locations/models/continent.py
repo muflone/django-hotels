@@ -38,4 +38,4 @@ class Continent(BaseModel):
 
 
 class ContinentAdmin(BaseModelAdmin):
-    list_display = ('name', 'description')
+    pass

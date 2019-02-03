@@ -48,7 +48,6 @@ class Equipment(BaseModel):
 
 
 class EquipmentAdmin(BaseModelAdmin):
-    list_display = ('structure', 'name', 'description', 'quantity')
     list_display_links = ('structure', 'name')
     list_filter = ('structure', )
     # Define fields and attributes to export rows to CSV

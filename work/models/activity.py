@@ -50,7 +50,6 @@ class Activity(BaseModel):
 
 
 class ActivityAdmin(BaseModelAdmin):
-    list_display = ('contract', 'date')
     list_filter = (('date', DateRangeFilter),
                    'contract__company', 'contract__employee')
     date_hierarchy = 'date'
@@ -75,7 +74,6 @@ class ActivityInLinesProxy(Activity):
 
 
 class ActivityInLinesAdmin(BaseModelAdmin):
-    list_display = ('contract', 'date')
     list_filter = (('date', DateRangeFilter),
                    'contract__company', 'contract__employee')
     inlines = [activity_room.ActivityRoomInline, ]

@@ -38,4 +38,4 @@ class AdminSection(BaseModel):
 
 
 class AdminSectionAdmin(BaseModelAdmin):
-    list_display = ('name', 'description')
+    pass

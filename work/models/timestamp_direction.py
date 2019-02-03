@@ -51,7 +51,6 @@ class TimestampDirection(BaseModel):
 
 
 class TimestampDirectionAdmin(BaseModelAdmin):
-    list_display = ('name', 'description', 'short_code')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'NAME': 'name',

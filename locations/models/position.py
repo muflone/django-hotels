@@ -38,4 +38,4 @@ class Position(BaseModel):
 
 
 class PositionAdmin(BaseModelAdmin):
-    list_display = ('name', 'description')
+    pass

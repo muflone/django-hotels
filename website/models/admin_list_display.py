@@ -49,4 +49,4 @@ class AdminListDisplay(BaseModel):
 
 
 class AdminListDisplayAdmin(BaseModelAdmin):
-    list_display = ('model', 'field', 'order')
+    pass

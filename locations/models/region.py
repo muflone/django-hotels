@@ -47,5 +47,4 @@ class Region(BaseModel):
 
 
 class RegionAdmin(BaseModelAdmin):
-    list_display = ('name', 'description', 'country', 'position')
     list_filter = ('country', 'position')

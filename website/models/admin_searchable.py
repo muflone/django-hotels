@@ -53,4 +53,4 @@ class AdminSearchable(BaseModel):
 
 
 class AdminSearchableAdmin(BaseModelAdmin):
-    list_display = ('model', 'field', 'use_select2', 'description')
+    pass

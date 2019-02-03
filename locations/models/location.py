@@ -84,7 +84,6 @@ class LocationAdminCountryRegionFilter(admin.SimpleListFilter):
 
 
 class LocationAdmin(BaseModelAdmin):
-    list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationNameInputFilter,
                    LocationProvinceInputFilter,
                    'region__country',

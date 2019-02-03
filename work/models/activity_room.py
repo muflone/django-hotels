@@ -57,7 +57,6 @@ class ActivityRoom(BaseModel):
 
 
 class ActivityRoomAdmin(BaseModelAdmin):
-    list_display = ('activity', 'room', 'service', 'service_qty')
     list_filter = (('activity__date', DateRangeFilter),
                    'activity__contract__company',
                    'activity__contract__employee')

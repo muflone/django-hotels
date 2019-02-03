@@ -168,8 +168,6 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
 
 
 class EmployeeAdmin(BaseModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'tax_code',
-                    'country', 'photo_thumbnail', 'active_contract')
     list_display_links = ('id', 'first_name', 'last_name', 'tax_code')
     list_filter = (EmployeeFirstNameInputFilter,
                    EmployeeLastNameInputFilter,

@@ -43,5 +43,4 @@ class RegionAlias(BaseModel):
 
 
 class RegionAliasAdmin(BaseModelAdmin):
-    list_display = ('name', 'description', 'country')
     list_filter = ('country', )
