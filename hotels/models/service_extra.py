@@ -68,9 +68,6 @@ class ServiceExtraService(admin.SimpleListFilter):
 
 
 class ServiceExtraAdmin(BaseModelAdmin):
-    list_filter = ('structure__brand',
-                   'structure',
-                   ServiceExtraService)
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'STRUCTURE': 'structure',

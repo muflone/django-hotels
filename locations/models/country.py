@@ -53,7 +53,6 @@ class Country(BaseModel):
 
 
 class CountryAdmin(BaseModelAdmin):
-    list_filter = ('continent', )
     change_list_template = 'utility/import_csv/change_list.html'
 
     def get_urls(self):

@@ -64,8 +64,6 @@ class Timestamp(BaseModel):
 
 
 class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
-    list_filter = (('date', DateRangeFilter),
-                   'contract__company', 'contract__employee', 'direction')
     date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )

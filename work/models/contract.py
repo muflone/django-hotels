@@ -130,14 +130,6 @@ class ContractAdminActiveFilter(admin.SimpleListFilter):
 
 
 class ContractAdmin(BaseModelAdmin):
-    list_filter = (ContractAdminEmployeeRollNumberInputFilter,
-                   ContractAdminActiveFilter,
-                   'company',
-                   'employee',
-                   'buildings__structure',
-                   'job_type',
-                   'contract_type',
-                   'associated')
     readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
     change_form_template = 'work/admin_contract_change.html'
     QRCODE_SIZE = 256

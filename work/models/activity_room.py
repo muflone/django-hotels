@@ -57,9 +57,6 @@ class ActivityRoom(BaseModel):
 
 
 class ActivityRoomAdmin(BaseModelAdmin):
-    list_filter = (('activity__date', DateRangeFilter),
-                   'activity__contract__company',
-                   'activity__contract__employee')
     date_hierarchy = 'activity__date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({

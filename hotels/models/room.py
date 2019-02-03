@@ -65,7 +65,6 @@ class Room(BaseModel):
 
 
 class RoomAdmin(BaseModelAdmin):
-    list_filter = ('building__structure', 'building', 'room_type', 'bed_type')
     change_list_template = 'utility/import_csv/change_list.html'
     actions = ('action_change_building',
                'action_change_bedtype')

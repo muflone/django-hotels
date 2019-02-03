@@ -168,10 +168,6 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
 
 
 class EmployeeAdmin(BaseModelAdmin):
-    list_filter = (EmployeeFirstNameInputFilter,
-                   EmployeeLastNameInputFilter,
-                   EmployeeTaxCodeInputFilter,
-                   EmployeeBirthLocationCountryFilter)
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
     radio_fields = {'genre': admin.HORIZONTAL}

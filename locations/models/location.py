@@ -84,11 +84,6 @@ class LocationAdminCountryRegionFilter(admin.SimpleListFilter):
 
 
 class LocationAdmin(BaseModelAdmin):
-    list_filter = (LocationNameInputFilter,
-                   LocationProvinceInputFilter,
-                   'region__country',
-                   LocationAdminCountryRegionFilter)
-
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'region':
             # Optimize value lookup for field region

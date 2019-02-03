@@ -42,7 +42,6 @@ class Login(BaseModel, User):
 
 class LoginAdmin(BaseModelAdmin, UserAdmin):
     model = Login
-    list_filter = ()
     change_form_template = 'work/admin_login_change.html'
     # Fieldset for login edit
     fieldsets = (

@@ -53,7 +53,6 @@ class Building(BaseModel):
 
 
 class BuildingAdmin(BaseModelAdmin):
-    list_filter = ('structure__company', 'structure')
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
         'STRUCTURE': 'structure',

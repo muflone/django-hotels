@@ -50,8 +50,6 @@ class Activity(BaseModel):
 
 
 class ActivityAdmin(BaseModelAdmin):
-    list_filter = (('date', DateRangeFilter),
-                   'contract__company', 'contract__employee')
     date_hierarchy = 'date'
     # Define fields and attributes to export rows to CSV
     export_csv_fields_map = collections.OrderedDict({
@@ -74,8 +72,6 @@ class ActivityInLinesProxy(Activity):
 
 
 class ActivityInLinesAdmin(BaseModelAdmin):
-    list_filter = (('date', DateRangeFilter),
-                   'contract__company', 'contract__employee')
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
 
