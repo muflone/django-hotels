@@ -19,6 +19,7 @@
 ##
 
 from django.apps import apps
+from django.conf import settings
 from django.contrib import admin
 from django.forms.widgets import MediaDefiningClass
 
@@ -36,4 +37,8 @@ def get_admin_models():
                     # Avoid to list the BaseModelAdmin class
                     obj.__name__ not in ('BaseModelAdmin')):
                 admin_models[obj.__name__] = obj
+    # Add dummy models from ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES
+    for obj in settings.ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES:
+        if obj not in admin_models:
+            admin_models[obj] = None
     return admin_models
