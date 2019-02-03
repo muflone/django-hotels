@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Region(models.Model):
+class Region(BaseModel):
 
     name = models.CharField(max_length=255)
     country = models.ForeignKey('Country',
@@ -45,6 +46,6 @@ class Region(models.Model):
                                            NAME=self.name)
 
 
-class RegionAdmin(admin.ModelAdmin):
+class RegionAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'country', 'position')
     list_filter = ('country', 'position')

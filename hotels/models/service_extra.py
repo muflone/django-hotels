@@ -26,10 +26,10 @@ from django.core.validators import MinValueValidator
 
 from .service import Service
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class ServiceExtra(models.Model):
+class ServiceExtra(BaseModel):
 
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
@@ -67,7 +67,7 @@ class ServiceExtraService(admin.SimpleListFilter):
             return queryset.filter(service__id=self.value())
 
 
-class ServiceExtraAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ServiceExtraAdmin(BaseModelAdmin):
     list_display = ('structure', 'service', 'price')
     list_display_links = ('structure', 'service')
     list_filter = ('structure__brand',

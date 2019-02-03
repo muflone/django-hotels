@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Structure(models.Model):
+class Structure(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -54,7 +53,7 @@ class Structure(models.Model):
         return self.name
 
 
-class StructureAdmin(admin.ModelAdmin, ExportCSVMixin):
+class StructureAdmin(BaseModelAdmin):
     list_display = ('name', 'brand', 'company', 'description')
     list_filter = ('brand', 'company')
     actions = ('action_export_csv', )

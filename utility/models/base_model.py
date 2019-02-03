@@ -18,32 +18,26 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import collections
-
+from django.contrib import admin
 from django.db import models
 
-from utility.models import BaseModel, BaseModelAdmin
+from utility.admin_mixins import ExportCSVMixin
 
 
-class JobType(BaseModel):
+class BaseModel(models.Model):
 
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    def __init__(self, *args, **kwargs):
+        """Base model for each other model in the application"""
+        super().__init__(*args, **kwargs)
 
     class Meta:
-        # Define the database table
-        db_table = 'work_jobtype'
-        ordering = ['name', ]
-
-    def __str__(self):
-        return self.name
+        abstract = True
 
 
-class JobTypeAdmin(BaseModelAdmin):
-    list_display = ('name', 'description')
-    actions = ('action_export_csv', )
-    # Define fields and attributes to export rows to CSV
-    export_csv_fields_map = collections.OrderedDict({
-        'NAME': 'name',
-        'DESCRIPTION': 'description',
-    })
+class BaseModelAdmin(admin.ModelAdmin, ExportCSVMixin):
+
+    def __init__(self, model, admin_site):
+        """Base Admin model for each other model in the application"""
+        super().__init__(model, admin_site)
+        # Add Export rows to CSV action
+        ExportCSVMixin.__init__(self)

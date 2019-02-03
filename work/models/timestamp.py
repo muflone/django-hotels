@@ -29,11 +29,11 @@ from rangefilter.filter import DateRangeFilter
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
 
-from utility.admin_actions import ExportCSVMixin
 from utility.admin_widgets import AdminTimeWidget
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Timestamp(models.Model):
+class Timestamp(BaseModel):
 
     contract = models.ForeignKey('Contract',
                                  on_delete=models.PROTECT)
@@ -63,7 +63,7 @@ class Timestamp(models.Model):
         return self.contract.roll_number
 
 
-class TimestampAdmin(admin.ModelAdmin, ExportCSVMixin, AdminTimeWidget):
+class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     list_display = ('id', 'first_name', 'last_name', 'direction', 'date',
                     'time', 'description')

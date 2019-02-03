@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class RegionAlias(models.Model):
+class RegionAlias(BaseModel):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -41,6 +42,6 @@ class RegionAlias(models.Model):
                                            NAME=self.name)
 
 
-class RegionAliasAdmin(admin.ModelAdmin):
+class RegionAliasAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'country')
     list_filter = ('country', )

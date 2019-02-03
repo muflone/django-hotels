@@ -21,17 +21,16 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
 from rangefilter.filter import DateRangeFilter
 
 from . import activity_room
 from .contract import Contract
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Activity(models.Model):
+class Activity(BaseModel):
 
     contract = models.ForeignKey('Contract',
                                  on_delete=models.PROTECT)
@@ -50,7 +49,7 @@ class Activity(models.Model):
             DATE=self.date)
 
 
-class ActivityAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ActivityAdmin(BaseModelAdmin):
     list_display = ('contract', 'date')
     list_filter = (('date', DateRangeFilter),
                    'contract__company', 'contract__employee')
@@ -76,7 +75,7 @@ class ActivityInLinesProxy(Activity):
         proxy = True
 
 
-class ActivityInLinesAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ActivityInLinesAdmin(BaseModelAdmin):
     list_display = ('contract', 'date')
     list_filter = (('date', DateRangeFilter),
                    'contract__company', 'contract__employee')

@@ -40,13 +40,13 @@ import work.models
 from locations.models import Country, Location
 
 from utility.admin import AdminTextInputFilter
-from utility.admin_actions import ExportCSVMixin
 from utility.admin_widgets import AdminImageWidget_128x128
 from utility.forms import CSVImportForm
 from utility.misc import reverse_with_query
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Employee(models.Model):
+class Employee(BaseModel):
 
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -167,7 +167,7 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
                 birth_location__region__country=self.value())
 
 
-class EmployeeAdmin(admin.ModelAdmin, ExportCSVMixin):
+class EmployeeAdmin(BaseModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'tax_code',
                     'country', 'photo_thumbnail', 'active_contract')
     list_display_links = ('id', 'first_name', 'last_name', 'tax_code')

@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class HomeSection(models.Model):
+class HomeSection(BaseModel):
 
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
@@ -44,6 +45,6 @@ class HomeSection(models.Model):
         return self.name
 
 
-class HomeSectionAdmin(admin.ModelAdmin):
+class HomeSectionAdmin(BaseModelAdmin):
     list_display = ('name', 'header_title', 'home_title', 'login_required',
                     'admin_login_required')

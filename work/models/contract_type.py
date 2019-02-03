@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class ContractType(models.Model):
+class ContractType(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -42,7 +41,7 @@ class ContractType(models.Model):
         return self.name
 
 
-class ContractTypeAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ContractTypeAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'daily_hours', 'weekly_hours')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV

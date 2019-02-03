@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Building(models.Model):
+class Building(BaseModel):
 
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
@@ -53,7 +52,7 @@ class Building(models.Model):
         return self.name
 
 
-class BuildingAdmin(admin.ModelAdmin, ExportCSVMixin):
+class BuildingAdmin(BaseModelAdmin):
     list_display = ('name', 'structure', 'brand', 'location', 'company')
     list_filter = ('structure__company', 'structure')
     actions = ('action_export_csv', )

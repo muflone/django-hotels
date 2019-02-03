@@ -23,8 +23,10 @@ from django.db import models
 from django.contrib import admin
 from django.forms.widgets import MediaDefiningClass
 
+from utility.models import BaseModel, BaseModelAdmin
 
-class AdminSearchable(models.Model):
+
+class AdminSearchable(BaseModel):
 
     admin_models = {}
     for application in apps.app_configs.keys():
@@ -33,7 +35,9 @@ class AdminSearchable(models.Model):
         for module_name in dir(application_module.models_module):
             obj = getattr(application_module.models_module, module_name)
             if (issubclass(obj.__class__, MediaDefiningClass) and
-                    issubclass(obj, admin.options.BaseModelAdmin)):
+                    issubclass(obj, admin.options.BaseModelAdmin) and
+                    # Avoid to list the BaseModelAdmin class
+                    obj.__name__ not in ('BaseModelAdmin')):
                 admin_models[obj.__name__] = obj
 
     model = models.CharField(max_length=255,
@@ -66,5 +70,5 @@ class AdminSearchable(models.Model):
         return self.admin_models[self.ref_model]
 
 
-class AdminSearchableAdmin(admin.ModelAdmin):
+class AdminSearchableAdmin(BaseModelAdmin):
     list_display = ('model', 'field', 'use_select2', 'description')

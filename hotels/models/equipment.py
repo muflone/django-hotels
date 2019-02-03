@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Equipment(models.Model):
+class Equipment(BaseModel):
 
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
@@ -48,7 +47,7 @@ class Equipment(models.Model):
         return self.name
 
 
-class EquipmentAdmin(admin.ModelAdmin, ExportCSVMixin):
+class EquipmentAdmin(BaseModelAdmin):
     list_display = ('structure', 'name', 'description', 'quantity')
     list_display_links = ('structure', 'name')
     list_filter = ('structure', )

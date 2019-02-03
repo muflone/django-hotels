@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Service(models.Model):
+class Service(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -42,7 +41,7 @@ class Service(models.Model):
         return self.name
 
 
-class ServiceAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ServiceAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'room_service', 'extra_service')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV

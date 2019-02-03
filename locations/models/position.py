@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Position(models.Model):
+class Position(BaseModel):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -36,5 +37,5 @@ class Position(models.Model):
         return self.name
 
 
-class PositionAdmin(admin.ModelAdmin):
+class PositionAdmin(BaseModelAdmin):
     list_display = ('name', 'description')

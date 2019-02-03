@@ -23,7 +23,7 @@ import csv
 import io
 
 from django.db import models
-from django.contrib import admin, messages
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import path
@@ -34,11 +34,11 @@ from .room_type import RoomType
 
 from ..forms import RoomChangeBedTypeForm, RoomChangeBuildingForm
 
-from utility.admin_actions import ExportCSVMixin
 from utility.forms import CSVImportForm
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Room(models.Model):
+class Room(BaseModel):
 
     building = models.ForeignKey('Building',
                                  on_delete=models.PROTECT)
@@ -64,7 +64,7 @@ class Room(models.Model):
                                             NAME=self.name)
 
 
-class RoomAdmin(admin.ModelAdmin, ExportCSVMixin):
+class RoomAdmin(BaseModelAdmin):
     list_display = ('building', 'name', 'room_type', 'bed_type')
     list_filter = ('building__structure', 'building', 'room_type', 'bed_type')
     change_list_template = 'utility/import_csv/change_list.html'

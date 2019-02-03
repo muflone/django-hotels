@@ -24,6 +24,13 @@ from django.http import HttpResponse
 
 
 class ExportCSVMixin(object):
+    export_csv_fields_map = {}
+
+    def __init__(self):
+        """Add Export rows to CSV action to the Admin model"""
+        if 'action_export_csv' not in self.actions:
+            self.__class__.actions = ('action_export_csv', *self.actions)
+
     def action_export_csv(self, request, queryset):
         """Export a queryset in CSV format"""
         data = []

@@ -36,8 +36,8 @@ from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from utility.admin import AdminTextInputFilter
-from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI
+from utility.models import BaseModel, BaseModelAdmin
 
 
 class ContractManager(models.Manager):
@@ -51,7 +51,7 @@ class ContractManager(models.Manager):
                  models.Q(end_date__gte=datetime.date.today())))
 
 
-class Contract(models.Model):
+class Contract(BaseModel):
 
     # Define custom manager
     objects = ContractManager()
@@ -129,7 +129,7 @@ class ContractAdminActiveFilter(admin.SimpleListFilter):
                     Contract.objects.get_active_contracts_query())
 
 
-class ContractAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ContractAdmin(BaseModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'company',
                     'job_type', 'contract_type', 'end_date', 'active',
                     'photo_thumbnail')

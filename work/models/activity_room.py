@@ -31,10 +31,10 @@ from ..forms import ActivityRoomInlineForm
 
 from hotels.models import Room
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class ActivityRoom(models.Model):
+class ActivityRoom(BaseModel):
 
     activity = models.ForeignKey('Activity',
                                  on_delete=models.PROTECT)
@@ -56,7 +56,7 @@ class ActivityRoom(models.Model):
         return str(self.pk)
 
 
-class ActivityRoomAdmin(admin.ModelAdmin, ExportCSVMixin):
+class ActivityRoomAdmin(BaseModelAdmin):
     list_display = ('activity', 'room', 'service', 'service_qty')
     actions = ('action_export_csv', )
     list_filter = (('activity__date', DateRangeFilter),

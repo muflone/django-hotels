@@ -22,8 +22,10 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
 
+from utility.models import BaseModel, BaseModelAdmin
 
-class Login(User):
+
+class Login(BaseModel, User):
     """User with app settings"""
     employee = models.OneToOneField('Employee',
                                     on_delete=models.PROTECT)
@@ -38,7 +40,7 @@ class Login(User):
             LAST_NAME=self.employee.last_name)
 
 
-class LoginAdmin(UserAdmin):
+class LoginAdmin(BaseModelAdmin, UserAdmin):
     model = Login
     list_display = ('username', 'first_name', 'last_name', 'is_staff')
     list_filter = ()

@@ -21,12 +21,11 @@
 import collections
 
 from django.db import models
-from django.contrib import admin
 
-from utility.admin_actions import ExportCSVMixin
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class TimestampDirection(models.Model):
+class TimestampDirection(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     short_code = models.CharField(max_length=3, blank=True)
@@ -51,7 +50,7 @@ class TimestampDirection(models.Model):
         return cls.objects.get(type_exit=True)
 
 
-class TimestampDirectionAdmin(admin.ModelAdmin, ExportCSVMixin):
+class TimestampDirectionAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'short_code')
     actions = ('action_export_csv', )
     # Define fields and attributes to export rows to CSV

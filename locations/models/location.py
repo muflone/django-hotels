@@ -24,9 +24,10 @@ from django.contrib import admin
 from .region import Region
 
 from utility.admin import AdminTextInputFilter
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Location(models.Model):
+class Location(BaseModel):
 
     name = models.CharField(max_length=255)
     region = models.ForeignKey('Region',
@@ -82,7 +83,7 @@ class LocationAdminCountryRegionFilter(admin.SimpleListFilter):
             return queryset.filter(region__id=self.value())
 
 
-class LocationAdmin(admin.ModelAdmin):
+class LocationAdmin(BaseModelAdmin):
     list_display = ('name', 'province', 'region', 'country')
     list_filter = (LocationNameInputFilter,
                    LocationProvinceInputFilter,

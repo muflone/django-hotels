@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Continent(models.Model):
+class Continent(BaseModel):
 
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
@@ -36,5 +37,5 @@ class Continent(models.Model):
         return self.name
 
 
-class ContinentAdmin(admin.ModelAdmin):
+class ContinentAdmin(BaseModelAdmin):
     list_display = ('name', 'description')

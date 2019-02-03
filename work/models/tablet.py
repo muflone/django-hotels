@@ -28,18 +28,17 @@ import pyotp
 
 from django.conf import settings
 from django.db import models
-from django.contrib import admin
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from utility.admin_actions import ExportCSVMixin
 from utility.misc import QRCodeImage, URI
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Tablet(models.Model):
+class Tablet(BaseModel):
 
     description = models.TextField(blank=True)
     status = models.BooleanField(default=True)
@@ -62,7 +61,7 @@ class Tablet(models.Model):
         return pyotp.TOTP(key).verify(password, valid_window=1)
 
 
-class TabletAdmin(admin.ModelAdmin, ExportCSVMixin):
+class TabletAdmin(BaseModelAdmin):
     list_display = ('__str__', 'description')
     readonly_fields = ('id', 'guid', 'qrcode_field')
     actions = ('action_export_csv', )

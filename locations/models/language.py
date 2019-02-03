@@ -19,10 +19,11 @@
 ##
 
 from django.db import models
-from django.contrib import admin
+
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Language(models.Model):
+class Language(BaseModel):
 
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
@@ -36,5 +37,5 @@ class Language(models.Model):
         return self.name
 
 
-class LanguageAdmin(admin.ModelAdmin):
+class LanguageAdmin(BaseModelAdmin):
     list_display = ('name', 'description')

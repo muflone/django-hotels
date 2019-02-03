@@ -22,7 +22,7 @@ import csv
 import io
 
 from django.db import models
-from django.contrib import admin, messages
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import path
 
@@ -30,9 +30,10 @@ from .continent import Continent
 from .language import Language
 
 from utility.forms import CSVImportForm
+from utility.models import BaseModel, BaseModelAdmin
 
 
-class Country(models.Model):
+class Country(BaseModel):
 
     name = models.CharField(max_length=255, primary_key=True)
     description = models.TextField(blank=True)
@@ -51,7 +52,7 @@ class Country(models.Model):
         return self.name
 
 
-class CountryAdmin(admin.ModelAdmin):
+class CountryAdmin(BaseModelAdmin):
     list_display = ('name', 'description', 'continent')
     list_filter = ('continent', )
     change_list_template = 'utility/import_csv/change_list.html'
