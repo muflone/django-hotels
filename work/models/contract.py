@@ -95,7 +95,8 @@ class Contract(BaseModel):
     def active(self):
         """Return a boolean value to identify currently active contract"""
         today = datetime.date.today()
-        return (self.enabled and
+        return (self.id is not None and
+                self.enabled and
                 self.start_date <= today and
                 (self.end_date is None or self.end_date >= today))
     active.boolean = True
