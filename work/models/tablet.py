@@ -19,7 +19,6 @@
 ##
 
 import base64
-import collections
 import io
 import os.path
 import uuid

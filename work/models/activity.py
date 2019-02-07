@@ -18,8 +18,6 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import collections
-
 from django.db import models
 
 from rangefilter.filter import DateRangeFilter
