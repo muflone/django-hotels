@@ -18,9 +18,14 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_models import get_admin_models                        # noqa: F401
-from .dates import month_start, month_end                         # noqa: F401
-from .get_class_from_module import get_class_from_module          # noqa: F401
-from .qrcode_image import QRCodeImage                             # noqa: F401
-from .reverse_with_query import reverse_with_query                # noqa: F401
-from .uri import URI                                              # noqa: F401
+import calendar
+
+
+def month_start(date):
+    """Return the date with the start of the month"""
+    return date.replace(day=1)
+
+
+def month_end(date):
+    """Return the date with the end of the month"""
+    return date.replace(day=calendar.monthrange(date.year, date.month)[1])
