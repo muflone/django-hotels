@@ -21,8 +21,6 @@
 from django.db import models
 from django.contrib import admin
 
-from rangefilter.filter import DateRangeFilter
-
 from . import activity
 
 from ..forms import ActivityRoomInlineForm

@@ -23,8 +23,6 @@ import datetime
 from django.db import models
 from django.contrib import admin
 
-from rangefilter.filter import DateRangeFilter
-
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
 

@@ -20,8 +20,6 @@
 
 from django.db import models
 
-from rangefilter.filter import DateRangeFilter
-
 from . import activity_room
 from .contract import Contract
 
