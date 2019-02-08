@@ -30,6 +30,7 @@ from .models import (BedType, BedTypeAdmin,
                      RoomType, RoomTypeAdmin,
                      Service, ServiceAdmin,
                      ServiceExtra, ServiceExtraAdmin,
+                     ServiceType, ServiceTypeAdmin,
                      Structure, StructureAdmin)
 
 
@@ -44,4 +45,5 @@ admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceExtra, ServiceExtraAdmin)
+admin.site.register(ServiceType, ServiceTypeAdmin)
 admin.site.register(Structure, StructureAdmin)

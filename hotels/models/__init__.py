@@ -28,4 +28,5 @@ from .room import Room, RoomAdmin                                 # noqa: F401
 from .room_type import RoomType, RoomTypeAdmin                    # noqa: F401
 from .service import Service, ServiceAdmin                        # noqa: F401
 from .service_extra import ServiceExtra, ServiceExtraAdmin        # noqa: F401
+from .service_type import ServiceType, ServiceTypeAdmin           # noqa: F401
 from .structure import Structure, StructureAdmin                  # noqa: F401
