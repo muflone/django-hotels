@@ -18,11 +18,17 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import datetime
+
 from django.db import models
+from django.urls import path
 
 from . import activity_room
 from .contract import Contract
 
+from hotels.models import ServiceType
+
+from utility.misc import month_start, month_end
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -46,6 +52,7 @@ class Activity(BaseModel):
 
 
 class ActivityAdmin(BaseModelAdmin):
+    change_form_template = 'work/admin_activity_change.html'
     date_hierarchy = 'date'
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
@@ -54,6 +61,63 @@ class ActivityAdmin(BaseModelAdmin):
             kwargs['queryset'] = Contract.objects.all().select_related(
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_urls(self):
+        urls = [
+            path('<int:activity_id>/export_monthly', self.export_monthly),
+        ] + super().get_urls()
+        return urls
+
+    def export_monthly(self, request, activity_id):
+        # Get dates from selected activity
+        activity_ref = Activity.objects.get(pk=activity_id)
+        date_min = month_start(activity_ref.date)
+        date_max = month_end(activity_ref.date)
+
+        # Annotate count for each service type
+        activities = Activity.objects.filter(
+            contract=activity_ref.contract,
+            date__gte=date_min,
+            date__lte=date_max).order_by('date')
+        service_types = (ServiceType.objects.filter(show_in_reports=True)
+                         .order_by('order'))
+        for service_type in service_types:
+            # Prepare services for export
+            ActivityDayExport.fields_map[service_type.name] = (
+                'count_{TYPE}'.format(TYPE=service_type.name))
+            # Maybe too little readable!
+            # Add a field called count_SERVICE_TYPE__NAME consisting of
+            # the count of the ActivityRoom rows with the same Service Type id
+            # For example:
+            # .annotate(count_other=models.Count('activityroom', filter=
+            #           models.Q(activityroom__service__service_type_id=
+            #                    service_type.pk)))
+            dict_sub_filter = {'activityroom__service__service_type_id':
+                               service_type.pk}
+            dict_annotate = {'count_{TYPE}'.format(TYPE=service_type.name):
+                             models.Count('activityroom', filter=models.Q(
+                                **dict_sub_filter))}
+            activities = activities.annotate(**dict_annotate)
+        # Loop over days
+        results = []
+        for day in range(date_min.toordinal(), date_max.toordinal() + 1):
+            activity_export = ActivityDayExport(contract=activity_ref.contract,
+                                                service_types=service_types)
+            # Get the daily activity
+            activity = activities.filter(date=datetime.date.fromordinal(day))
+            if activity:
+                # Add each service counts
+                for service_type in service_types:
+                    count_name = 'count_{TYPE}'.format(TYPE=service_type.name)
+                    activity_export.counts[count_name] = getattr(activity[0],
+                                                                 count_name)
+            results.append(activity_export.extract(
+                date=datetime.date.fromordinal(day)))
+        # Export data to CSV format
+        return self.do_export_data_to_csv(
+            data=results,
+            fields_map=ActivityDayExport.fields_map,
+            filename='export_activities_monthly')
 
 
 class ActivityInLinesProxy(Activity):
@@ -72,3 +136,32 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             kwargs['queryset'] = Contract.objects.all().select_related(
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ActivityDayExport(object):
+    fields_map = {'DATE': 'date',
+                  'COMPANY': 'company',
+                  'EMPLOYEE': 'employee',
+                  'CONTRACT_ID': 'contract_id',
+                  'ROLL_NUMBER': 'roll_number',
+                  }
+
+    def __init__(self, contract, service_types):
+        self.contract = contract
+        self.services = []
+        # Initialize services counts to zero
+        self.counts = {}
+        for service_type in service_types:
+            self.services.append(service_type.name)
+            self.counts['count_{TYPE}'.format(TYPE=service_type.name)] = 0
+
+    def extract(self, date):
+        results = {'date': date,
+                   'company': self.contract.company,
+                   'contract_id': self.contract.pk,
+                   'employee': self.contract.employee,
+                   'roll_number': self.contract.roll_number,
+                   }
+        # Append services counts
+        results = dict(results, **self.counts)
+        return(results)
