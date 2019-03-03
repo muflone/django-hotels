@@ -18,7 +18,16 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .api_buildings import APIBuildingsView                       # noqa: F401
-from .api_dates import APIDatesView                               # noqa: F401
-from .api_status import APIStatusView                             # noqa: F401
-from .api_versions import APIVersionsView                         # noqa: F401
+import datetime
+
+from .api_base import APIBaseView
+
+
+class APIDatesView(APIBaseView):
+    login_with_tablet_id = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['date'] = datetime.datetime.today().strftime('%Y-%m-%d')
+        context['time'] = datetime.datetime.today().strftime('%H:%M.%S')
+        return context

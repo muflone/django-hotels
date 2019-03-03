@@ -31,6 +31,9 @@ urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
 # Status page
 urlpatterns.append(url(r'^status/$', views.APIStatusView.as_view(),
                    name='api/status'))
+# Status page
+urlpatterns.append(url(r'^dates/$', views.APIDatesView.as_view(),
+                   name='api/dates'))
 # Buildings page
 urlpatterns.append(url(r'^buildings/'
                        '(?P<tablet_id>[0-9]+)/'
