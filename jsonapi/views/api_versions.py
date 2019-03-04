@@ -41,5 +41,6 @@ class APIVersionsView(APIBaseView):
         context['django version info'] = django.VERSION
         context['json_views version'] = json_views.__version__
         context['json_views version info'] = json_views.__version_info__
+        # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context

@@ -28,66 +28,69 @@ class APIBuildingsView(APIBaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        # List all buildings and structures for the selected tablet
         structures = {}
-        # List all buildings and structures
         for obj_building in self.tablet.buildings.all():
             obj_structure = obj_building.structure
             if obj_structure.name not in structures:
                 # Add new structure if doesn't exist
-                location = obj_structure.location
-                region = location.region
-                structures[obj_structure.name] = {
-                    'structure': {'id': obj_structure.id,
-                                  'name': obj_structure.name
-                                 },
-                    'company': {'id': obj_structure.company.pk,
-                                'name': obj_structure.company.name
-                               },
-                    'brand': {'id': obj_structure.brand.pk,
-                              'name': obj_structure.brand.name
-                             },
-                    'location': {'id': location.pk,
-                                 'name': location.name,
-                                 'address': obj_structure.address,
-                                 'region': {'id': region.pk,
-                                            'name': region.name
+                obj_location = obj_structure.location
+                obj_region = obj_location.region
+                obj_country = obj_region.country
+                structure = {'structure': {'id': obj_structure.id,
+                                           'name': obj_structure.name
                                            },
-                                 'country': {'id': region.country.pk,
-                                             'name': region.country.name
-                                            },
-                                },
-                    'buildings': []
-                }
+                             'company': {'id': obj_structure.company.pk,
+                                         'name': obj_structure.company.name
+                                         },
+                             'brand': {'id': obj_structure.brand.pk,
+                                       'name': obj_structure.brand.name
+                                       },
+                             'location': {'id': obj_location.pk,
+                                          'name': obj_location.name,
+                                          'address': obj_structure.address,
+                                          'region': {'id': obj_region.pk,
+                                                     'name': obj_region.name
+                                                     },
+                                          'country': {'id': obj_country.pk,
+                                                      'name': obj_country.name
+                                                      },
+                                          },
+                             'buildings': []
+                             }
+                structures[obj_structure.name] = structure
             # Add buildings to the structure
             structure = structures[obj_building.structure.name]
             buildings = structure['buildings']
-            location = obj_building.location
-            region = location.region
+            obj_location = obj_building.location
+            obj_region = obj_location.region
+            obj_country = obj_region.country
             rooms = Room.objects.filter(building_id=obj_building.id).values(
                 'id', 'name', 'description', 'room_type__name',
                 'bed_type__name')
-            buildings.append({'building': {'id': obj_building.id,
-                                           'name': obj_building.name,
-                                          },
-                              'location': {'id': location.pk,
-                                           'name': location.name,
-                                           'address': obj_structure.address,
-                                           'region': {'id': region.pk,
-                                                      'name': region.name
-                                                     },
-                                           'country': {'id': region.country.pk,
-                                                       'name': region.country.name
-                                                      },
-                                          },
-                              'rooms': [{'room': {'id': room['id'],
-                                                  'name': room['name']
+            building = {'building': {'id': obj_building.id,
+                                     'name': obj_building.name,
+                                     },
+                        'location': {'id': obj_location.pk,
+                                     'name': obj_location.name,
+                                     'address': obj_structure.address,
+                                     'region': {'id': obj_region.pk,
+                                                'name': obj_region.name
+                                                },
+                                     'country': {'id': obj_country.pk,
+                                                 'name': obj_country.name
                                                  },
-                                         'room_type': room['room_type__name'],
-                                         'bed type': room['bed_type__name'],
-                                        }
-                                        for room in rooms],
-                             })
+                                     },
+                        'rooms': [{'room': {'id': room['id'],
+                                            'name': room['name']
+                                            },
+                                   'room_type': room['room_type__name'],
+                                   'bed type': room['bed_type__name'],
+                                   }
+                                  for room in rooms],
+                        }
+            buildings.append(building)
         context['structures'] = structures
+        # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context

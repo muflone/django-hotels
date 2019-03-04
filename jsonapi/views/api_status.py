@@ -59,7 +59,7 @@ class APIStatusView(APIBaseView):
             total_size = self.get_database_usage()
             context['database size'] = total_size
             context['database size string'] = self.format_size(total_size)
-
+        # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
 

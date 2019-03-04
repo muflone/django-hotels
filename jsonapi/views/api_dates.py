@@ -30,5 +30,6 @@ class APIDatesView(APIBaseView):
         context = super().get_context_data(**kwargs)
         context['date'] = datetime.datetime.today().strftime('%Y-%m-%d')
         context['time'] = datetime.datetime.today().strftime('%H:%M.%S')
+        # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
