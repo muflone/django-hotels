@@ -34,20 +34,59 @@ class APIBuildingsView(APIBaseView):
         for obj_building in self.tablet.buildings.all():
             obj_structure = obj_building.structure
             if obj_structure.name not in structures:
-                buildings = []
+                # Add new structure if doesn't exist
+                location = obj_structure.location
+                region = location.region
                 structures[obj_structure.name] = {
-                    'name': obj_structure.name,
-                    'description': obj_structure.description,
-                    'buildings': buildings}
-            else:
-                structure = structures[obj_building.structure.name]
-                buildings = structure['buildings']
-
+                    'structure': {'id': obj_structure.id,
+                                  'name': obj_structure.name
+                                 },
+                    'company': {'id': obj_structure.company.pk,
+                                'name': obj_structure.company.name
+                               },
+                    'brand': {'id': obj_structure.brand.pk,
+                              'name': obj_structure.brand.name
+                             },
+                    'location': {'id': location.pk,
+                                 'name': location.name,
+                                 'address': obj_structure.address,
+                                 'region': {'id': region.pk,
+                                            'name': region.name
+                                           },
+                                 'country': {'id': region.country.pk,
+                                             'name': region.country.name
+                                            },
+                                },
+                    'buildings': []
+                }
+            # Add buildings to the structure
+            structure = structures[obj_building.structure.name]
+            buildings = structure['buildings']
+            location = obj_building.location
+            region = location.region
             rooms = Room.objects.filter(building_id=obj_building.id).values(
-                'id', 'name', 'description', 'room_type__description')
-            buildings.append({'id': obj_building.id,
-                              'name': obj_building.name,
-                              'description': obj_building.description,
-                              'rooms': rooms})
+                'id', 'name', 'description', 'room_type__name',
+                'bed_type__name')
+            buildings.append({'building': {'id': obj_building.id,
+                                           'name': obj_building.name,
+                                          },
+                              'location': {'id': location.pk,
+                                           'name': location.name,
+                                           'address': obj_structure.address,
+                                           'region': {'id': region.pk,
+                                                      'name': region.name
+                                                     },
+                                           'country': {'id': region.country.pk,
+                                                       'name': region.country.name
+                                                      },
+                                          },
+                              'rooms': [{'room': {'id': room['id'],
+                                                  'name': room['name']
+                                                 },
+                                         'room_type': room['room_type__name'],
+                                         'bed type': room['bed_type__name'],
+                                        }
+                                        for room in rooms],
+                             })
         context['structures'] = structures
         return context
