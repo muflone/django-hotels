@@ -46,3 +46,7 @@ class APIBaseView(json_views.views.JSONDataView):
         context.pop('password', None)
 
         return context
+
+    def add_status(self, context):
+        """Add context status response with OK"""
+        context['status'] = 'OK'

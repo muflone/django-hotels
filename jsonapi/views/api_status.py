@@ -34,7 +34,6 @@ class APIStatusView(APIBaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['status'] = 'up'
         # Return product data
         context['productname'] = project.PRODUCT_NAME
         context['version'] = project.VERSION
@@ -61,6 +60,7 @@ class APIStatusView(APIBaseView):
             context['database size'] = total_size
             context['database size string'] = self.format_size(total_size)
 
+        self.add_status(context)
         return context
 
     def number_from_unit(self, size, unit):

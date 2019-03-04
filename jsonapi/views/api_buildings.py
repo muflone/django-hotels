@@ -89,4 +89,5 @@ class APIBuildingsView(APIBaseView):
                                         for room in rooms],
                              })
         context['structures'] = structures
+        self.add_status(context)
         return context
