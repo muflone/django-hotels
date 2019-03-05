@@ -18,29 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import sys
-
-import django
-
-import json_views
-
-import project
-
-from .api_base import APIBaseView
-
-
-class APIVersionsView(APIBaseView):
-    login_with_tablet_id = False
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['version'] = project.VERSION
-        context['python version'] = sys.version
-        context['python version info'] = sys.version_info
-        context['django version'] = django.__version__
-        context['django version info'] = django.VERSION
-        context['json_views version'] = json_views.__version__
-        context['json_views version info'] = json_views.__version_info__
-        # Add closing status (to check for transmission errors)
-        self.add_status(context)
-        return context
+from .api_dates import APIv1DatesView                             # noqa: F401
+from .api_get import APIv1GetView                                 # noqa: F401
+from .api_status import APIv1StatusView                           # noqa: F401
+from .api_versions import APIv1VersionsView                       # noqa: F401

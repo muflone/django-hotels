@@ -162,7 +162,7 @@ EXPLORER_DEFAULT_CONNECTION = 'default'
 
 LOGIN_REDIRECT_URL = '/'
 
-API_URL = 'api/json/'
+API_URL = 'api/'
 
 # Sessions
 SESSION_COOKIE_AGE = 20 * 60

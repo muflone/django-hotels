@@ -26,10 +26,10 @@ from django.conf import settings
 
 import project
 
-from .api_base import APIBaseView
+from .api_base import APIv1BaseView
 
 
-class APIStatusView(APIBaseView):
+class APIv1StatusView(APIv1BaseView):
     login_with_tablet_id = False
 
     def get_context_data(self, **kwargs):

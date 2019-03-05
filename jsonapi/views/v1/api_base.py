@@ -18,18 +18,35 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-import datetime
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
-from .api_base import APIBaseView
+import json_views.views
+
+from work.models import Tablet
 
 
-class APIDatesView(APIBaseView):
-    login_with_tablet_id = False
+class APIv1BaseView(json_views.views.JSONDataView):
+    login_with_tablet_id = True
+    tablet = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['date'] = datetime.datetime.today().strftime('%Y-%m-%d')
-        context['time'] = datetime.datetime.today().strftime('%H:%M.%S')
-        # Add closing status (to check for transmission errors)
-        self.add_status(context)
+        if self.login_with_tablet_id:
+            try:
+                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
+                # Raise error 403 for invalid password
+                if not self.tablet.check_password(password=kwargs['password']):
+                    raise PermissionDenied
+            except Tablet.DoesNotExist:
+                # Raise error 404 for invalid tablet id
+                self.tablet = None
+                raise ObjectDoesNotExist('Tablet {TABLET_ID} not found'.format(
+                    TABLET_ID=kwargs['tablet_id']))
+        # Remove password from context
+        context.pop('password', None)
+
         return context
+
+    def add_status(self, context):
+        """Add context status response with OK"""
+        context['status'] = 'OK'

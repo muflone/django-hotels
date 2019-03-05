@@ -22,10 +22,10 @@ from hotels.models import Room
 
 from work.models import Contract
 
-from .api_base import APIBaseView
+from .api_base import APIv1BaseView
 
 
-class APIGetView(APIBaseView):
+class APIv1GetView(APIv1BaseView):
     login_with_tablet_id = True
 
     def get_context_data(self, **kwargs):

@@ -26,17 +26,20 @@ from . import views
 urlpatterns = []
 
 # Version page
-urlpatterns.append(url(r'^versions/$', views.APIVersionsView.as_view(),
-                   name='api/versions'))
+urlpatterns.append(url(r'^v1/versions/$',
+                       views.APIv1VersionsView.as_view(),
+                       name='api/v1/versions'))
 # Status page
-urlpatterns.append(url(r'^status/$', views.APIStatusView.as_view(),
-                   name='api/status'))
+urlpatterns.append(url(r'^v1/status/$',
+                       views.APIv1StatusView.as_view(),
+                       name='api/v1/status'))
 # Status page
-urlpatterns.append(url(r'^dates/$', views.APIDatesView.as_view(),
-                   name='api/dates'))
+urlpatterns.append(url(r'^v1/dates/$',
+                       views.APIv1DatesView.as_view(),
+                       name='api/v1/dates'))
 # Get page
-urlpatterns.append(url(r'^get/'
+urlpatterns.append(url(r'^v1/get/'
                        '(?P<tablet_id>[0-9]+)/'
                        '(?P<password>[0-9]+)/$',
-                       views.APIGetView.as_view(),
-                   name='api/get'))
+                       views.APIv1GetView.as_view(),
+                       name='api/v1/get'))

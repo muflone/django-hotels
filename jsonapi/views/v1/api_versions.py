@@ -18,35 +18,29 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+import sys
 
-import json_views.views
+import django
 
-from work.models import Tablet
+import json_views
+
+import project
+
+from .api_base import APIv1BaseView
 
 
-class APIBaseView(json_views.views.JSONDataView):
-    login_with_tablet_id = True
-    tablet = None
+class APIv1VersionsView(APIv1BaseView):
+    login_with_tablet_id = False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.login_with_tablet_id:
-            try:
-                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
-                # Raise error 403 for invalid password
-                if not self.tablet.check_password(password=kwargs['password']):
-                    raise PermissionDenied
-            except Tablet.DoesNotExist:
-                # Raise error 404 for invalid tablet id
-                self.tablet = None
-                raise ObjectDoesNotExist('Tablet {TABLET_ID} not found'.format(
-                    TABLET_ID=kwargs['tablet_id']))
-        # Remove password from context
-        context.pop('password', None)
-
+        context['version'] = project.VERSION
+        context['python version'] = sys.version
+        context['python version info'] = sys.version_info
+        context['django version'] = django.__version__
+        context['django version info'] = django.VERSION
+        context['json_views version'] = json_views.__version__
+        context['json_views version info'] = json_views.__version_info__
+        # Add closing status (to check for transmission errors)
+        self.add_status(context)
         return context
-
-    def add_status(self, context):
-        """Add context status response with OK"""
-        context['status'] = 'OK'
