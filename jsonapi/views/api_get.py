@@ -25,7 +25,7 @@ from work.models import Contract
 from .api_base import APIBaseView
 
 
-class APIBuildingsView(APIBaseView):
+class APIGetView(APIBaseView):
     login_with_tablet_id = True
 
     def get_context_data(self, **kwargs):
