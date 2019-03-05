@@ -20,6 +20,8 @@
 
 from hotels.models import Room
 
+from work.models import Contract
+
 from .api_base import APIBaseView
 
 
@@ -91,6 +93,42 @@ class APIBuildingsView(APIBaseView):
                         }
             buildings.append(building)
         context['structures'] = structures
+        # List all the contracts for the selected tablet
+        contracts = []
+        for obj_contract in Contract.objects.filter(
+                buildings__in=self.tablet.buildings.all()).distinct():
+            obj_employee = obj_contract.employee
+            obj_contract_type = obj_contract.contract_type
+            obj_buildings = obj_contract.buildings
+            contract = {'contract': {'id': obj_contract.pk,
+                                     'guid': obj_contract.guid,
+                                     'start': obj_contract.start_date,
+                                     'end': obj_contract.start_date,
+                                     'enabled': obj_contract.enabled,
+                                     'active': obj_contract.active()
+                                     },
+                        'employee': {'id': obj_employee.pk,
+                                     'first_name': obj_employee.first_name,
+                                     'last_name': obj_employee.last_name,
+                                     'genre': obj_employee.genre
+                                     },
+                        'company': {'id': obj_contract.company.pk,
+                                    'name': obj_contract.company.name
+                                    },
+                        'type': {'id': obj_contract_type.pk,
+                                 'name': obj_contract_type.name,
+                                 'daily': obj_contract_type.daily_hours,
+                                 'weekly': obj_contract_type.weekly_hours,
+                                 },
+                        'job': {'id': obj_contract.job_type.pk,
+                                'name': obj_contract.job_type.name,
+                                },
+                        'buildings': [building_id['id']
+                                      for building_id
+                                      in obj_buildings.values('id')]
+                        }
+            contracts.append(contract)
+        context['contracts'] = contracts
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
