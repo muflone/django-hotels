@@ -87,7 +87,7 @@ class APIv1GetView(APIv1BaseView):
                                             'name': room['name']
                                             },
                                    'room_type': room['room_type__name'],
-                                   'bed type': room['bed_type__name'],
+                                   'bed_type': room['bed_type__name'],
                                    }
                                   for room in rooms],
                         }
