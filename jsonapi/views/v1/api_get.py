@@ -20,6 +20,7 @@
 
 from hotels.models import Room
 from hotels.models import Service
+from hotels.models import ServiceExtra
 
 from work.models import Contract
 
@@ -59,8 +60,16 @@ class APIv1GetView(APIv1BaseView):
                                                       'name': obj_country.name
                                                       },
                                           },
-                             'buildings': []
+                             'buildings': [],
+                             'service_extra': [],
                              }
+                # Add service extra to structure
+                service_extras = structure['service_extra']
+                for obj_extra in ServiceExtra.objects.filter(
+                        structure_id=obj_structure.id):
+                    service_extra = {'id': obj_extra.service_id,
+                                     'price': float(obj_extra.price)}
+                    structure['service_extra'].append(service_extra)
                 structures[obj_structure.name] = structure
             # Add buildings to the structure
             structure = structures[obj_building.structure.name]
@@ -133,8 +142,8 @@ class APIv1GetView(APIv1BaseView):
             contracts.append(contract)
         context['contracts'] = contracts
         # Add services
-        context['services'] = Service.objects.filter(
-                room_service=True, extra_service=False).values('id', 'name')
+        context['services'] = Service.objects.filter(room_service=True).values(
+            'id', 'name', 'extra_service')
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
