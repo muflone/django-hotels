@@ -103,7 +103,9 @@ class APIv1GetView(APIv1BaseView):
             contract = {'contract': {'id': obj_contract.pk,
                                      'guid': obj_contract.guid,
                                      'start': obj_contract.start_date,
-                                     'end': obj_contract.start_date,
+                                     'end': obj_contract.end_date
+                                     if obj_contract.end_date is not None
+                                     else '2099-12-31',
                                      'enabled': obj_contract.enabled,
                                      'active': obj_contract.active()
                                      },
