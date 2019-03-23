@@ -19,6 +19,7 @@
 ##
 
 from hotels.models import Room
+from hotels.models import Service
 
 from work.models import Contract
 
@@ -131,6 +132,9 @@ class APIv1GetView(APIv1BaseView):
                         }
             contracts.append(contract)
         context['contracts'] = contracts
+        # Add services
+        context['services'] = Service.objects.filter(
+                room_service=True, extra_service=False).values('id', 'name')
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
