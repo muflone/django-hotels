@@ -50,11 +50,11 @@ class Employee(BaseModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    genre = models.CharField(max_length=10,
-                             default='unknown',
-                             choices=(('male', 'Male'),
-                                      ('female', 'Female'),
-                                      ('unknown', 'Unknown')))
+    gender = models.CharField(max_length=10,
+                              default='unknown',
+                              choices=(('male', 'Male'),
+                                       ('female', 'Female'),
+                                       ('unknown', 'Unknown')))
     birth_date = models.DateField()
     birth_location = models.ForeignKey('locations.Location',
                                        on_delete=models.PROTECT,
@@ -82,7 +82,7 @@ class Employee(BaseModel):
     permit_expiration = models.DateField(blank=True, null=True, default=None)
     photo = models.ImageField(null=True, blank=True,
                               upload_to='hotels/images/employees/',
-                              default='standard:genre_unknown_1')
+                              default='standard:gender_unknown_1')
 
     class Meta:
         # Define the database table
@@ -169,7 +169,7 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
 class EmployeeAdmin(BaseModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
-    radio_fields = {'genre': admin.HORIZONTAL}
+    radio_fields = {'gender': admin.HORIZONTAL}
 
     def save_model(self, request, obj, form, change):
         if not obj.photo or str(obj.photo).startswith('standard:'):
@@ -232,7 +232,7 @@ class EmployeeAdmin(BaseModelAdmin):
                 employees.append(Employee(first_name=row['FIRST NAME'],
                                           last_name=row['LAST NAME'],
                                           description=row['DESCRIPTION'],
-                                          genre=row['GENRE'],
+                                          gender=row['GENDER'],
                                           birth_date=(row['BIRTH DATE']
                                                       if row['BIRTH DATE']
                                                       else None),
@@ -313,18 +313,18 @@ class EmployeeAdmin(BaseModelAdmin):
         template = loader.get_template('hotels/employee_standard_photos.html')
         context = {
             'photo': str(instance.photo).replace('standard:', ''),
-            'iconsets': ('genre_unknown_1',
-                         'genre_female_1',
-                         'genre_female_2',
-                         'genre_female_3',
-                         'genre_female_4',
-                         'genre_male_1',
-                         'genre_male_2',
-                         'genre_male_3',
-                         'genre_male_4',
-                         'genre_male_5',
-                         'genre_male_6',
-                         'genre_male_7')
+            'iconsets': ('gender_unknown_1',
+                         'gender_female_1',
+                         'gender_female_2',
+                         'gender_female_3',
+                         'gender_female_4',
+                         'gender_male_1',
+                         'gender_male_2',
+                         'gender_male_3',
+                         'gender_male_4',
+                         'gender_male_5',
+                         'gender_male_6',
+                         'gender_male_7')
         }
         return template.render(context)
 

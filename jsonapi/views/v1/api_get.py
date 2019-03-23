@@ -112,7 +112,7 @@ class APIv1GetView(APIv1BaseView):
                         'employee': {'id': obj_employee.pk,
                                      'first_name': obj_employee.first_name,
                                      'last_name': obj_employee.last_name,
-                                     'genre': obj_employee.genre
+                                     'gender': obj_employee.gender
                                      },
                         'company': {'id': obj_contract.company.pk,
                                     'name': obj_contract.company.name

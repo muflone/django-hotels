@@ -25,17 +25,17 @@ Copyright: Hopnguyen Mr
 License: Free for commercial use
 Source: https://www.iconfinder.com/iconsets/business-avatar-1
 Files/Directories:
-    hotels/static/hotels/images/genre female 1
-    hotels/static/hotels/images/genre female 2
-    hotels/static/hotels/images/genre female 3
-    hotels/static/hotels/images/genre female 4
-    hotels/static/hotels/images/genre male 1
-    hotels/static/hotels/images/genre male 2
-    hotels/static/hotels/images/genre male 3
-    hotels/static/hotels/images/genre male 4
-    hotels/static/hotels/images/genre male 5
-    hotels/static/hotels/images/genre male 6
-    hotels/static/hotels/images/genre male 7
+    hotels/static/hotels/images/gender female 1
+    hotels/static/hotels/images/gender female 2
+    hotels/static/hotels/images/gender female 3
+    hotels/static/hotels/images/gender female 4
+    hotels/static/hotels/images/gender male 1
+    hotels/static/hotels/images/gender male 2
+    hotels/static/hotels/images/gender male 3
+    hotels/static/hotels/images/gender male 4
+    hotels/static/hotels/images/gender male 5
+    hotels/static/hotels/images/gender male 6
+    hotels/static/hotels/images/gender male 7
 
 ----
 
@@ -43,4 +43,4 @@ Copyright: Archil Imnadze
 License: Free for commercial use
 Source: https://www.iconfinder.com/iconsets/geosm-e-commerce
 Files/Directories:
-    hotels/static/hotels/images/genre unknown 1
+    hotels/static/hotels/images/gender unknown 1
