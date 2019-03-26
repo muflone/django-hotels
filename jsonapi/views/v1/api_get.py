@@ -23,6 +23,7 @@ from hotels.models import Service
 from hotels.models import ServiceExtra
 
 from work.models import Contract
+from work.models import TimestampDirection
 
 from .api_base import APIv1BaseView
 
@@ -144,6 +145,9 @@ class APIv1GetView(APIv1BaseView):
         # Add services
         context['services'] = Service.objects.filter(room_service=True).values(
             'id', 'name', 'extra_service')
+        # Add timestamp directions
+        context['timestamp_directions'] = TimestampDirection.objects.values(
+            'name', 'description', 'short_code', 'type_enter', 'type_exit')
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
