@@ -43,3 +43,14 @@ urlpatterns.append(url(r'^v1/get/'
                        '(?P<password>\d+)/$',
                        views.APIv1GetView.as_view(),
                        name='api/v1/get'))
+# Put timestamp page
+urlpatterns.append(url(r'^v1/put/timestamp/'
+                       '(?P<tablet_id>\d+)/'
+                       '(?P<password>\d+)/'
+                       '(?P<contract_id>\d+)/'
+                       '(?P<direction>\w+)/'
+                       '(?P<date>\d+)/'
+                       '(?P<time>\d+)/'
+                       '(?P<description>.*)/$',
+                       views.APIv1PutTimestamp.as_view(),
+                       name='api/v1/put/timestamp'))
