@@ -39,7 +39,7 @@ urlpatterns.append(url(r'^v1/dates/$',
                        name='api/v1/dates'))
 # Get page
 urlpatterns.append(url(r'^v1/get/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/$',
+                       '(?P<tablet_id>\d+)/'
+                       '(?P<password>\d+)/$',
                        views.APIv1GetView.as_view(),
                        name='api/v1/get'))
