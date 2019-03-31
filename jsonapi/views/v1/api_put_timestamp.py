@@ -32,10 +32,9 @@ class APIv1PutTimestamp(APIv1BaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        direction = TimestampDirection.objects.get(name=context['direction'])
         timestamp_query = Timestamp.objects.filter(
             contract_id=int(context['contract_id']),
-            direction=direction,
+            direction_id=int(context['direction_id']),
             date=datetime.datetime.fromtimestamp(int(context['datetime'])),
             time=datetime.datetime.fromtimestamp(int(context['datetime'])))
         if timestamp_query:
@@ -46,7 +45,7 @@ class APIv1PutTimestamp(APIv1BaseView):
             # No existing timestamp
             timestamp = Timestamp.objects.create(
                 contract_id=int(context['contract_id']),
-                direction=direction,
+                direction_id=int(context['direction_id']),
                 date=datetime.datetime.fromtimestamp(int(context['datetime'])),
                 time=datetime.datetime.fromtimestamp(int(context['datetime'])),
                 description=context['description'])

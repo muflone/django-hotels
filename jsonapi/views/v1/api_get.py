@@ -147,7 +147,8 @@ class APIv1GetView(APIv1BaseView):
             'id', 'name', 'extra_service')
         # Add timestamp directions
         context['timestamp_directions'] = TimestampDirection.objects.values(
-            'name', 'description', 'short_code', 'type_enter', 'type_exit')
+            'id', 'name', 'description', 'short_code',
+            'type_enter', 'type_exit')
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
