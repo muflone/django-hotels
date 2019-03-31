@@ -49,8 +49,7 @@ urlpatterns.append(url(r'^v1/put/timestamp/'
                        '(?P<password>\d+)/'
                        '(?P<contract_id>\d+)/'
                        '(?P<direction>\w+)/'
-                       '(?P<date>\d+)/'
-                       '(?P<time>\d+)/'
+                       '(?P<datetime>\d+)/'
                        '(?P<description>.*)/$',
                        views.APIv1PutTimestamp.as_view(),
                        name='api/v1/put/timestamp'))

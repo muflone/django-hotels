@@ -36,8 +36,8 @@ class APIv1PutTimestamp(APIv1BaseView):
         timestamp_query = Timestamp.objects.filter(
             contract_id=int(context['contract_id']),
             direction=direction,
-            date=datetime.datetime.fromtimestamp(int(context['date'])),
-            time=datetime.datetime.fromtimestamp(int(context['time'])))
+            date=datetime.datetime.fromtimestamp(int(context['datetime'])),
+            time=datetime.datetime.fromtimestamp(int(context['datetime'])))
         if timestamp_query:
             # Whether the timestamp already exists reply with an EXISTING status
             timestamp = timestamp_query[0]
@@ -47,8 +47,8 @@ class APIv1PutTimestamp(APIv1BaseView):
             timestamp = Timestamp.objects.create(
                 contract_id=int(context['contract_id']),
                 direction=direction,
-                date=datetime.datetime.fromtimestamp(int(context['date'])),
-                time=datetime.datetime.fromtimestamp(int(context['time'])),
+                date=datetime.datetime.fromtimestamp(int(context['datetime'])),
+                time=datetime.datetime.fromtimestamp(int(context['datetime'])),
                 description=context['description'])
             # Add closing status (to check for transmission errors)
             self.add_status(context)
