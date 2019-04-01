@@ -29,6 +29,7 @@ class Service(BaseModel):
     description = models.TextField(blank=True)
     room_service = models.BooleanField(default=False)
     extra_service = models.BooleanField(default=False)
+    show_in_app = models.BooleanField(default=False)
     service_type = models.ForeignKey('ServiceType',
                                      on_delete=models.PROTECT,
                                      default=0)

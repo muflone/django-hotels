@@ -144,7 +144,7 @@ class APIv1GetView(APIv1BaseView):
         context['contracts'] = contracts
         # Add services
         context['services'] = Service.objects.filter(room_service=True).values(
-            'id', 'name', 'extra_service')
+            'id', 'name', 'extra_service', 'show_in_app')
         # Add timestamp directions
         context['timestamp_directions'] = TimestampDirection.objects.values(
             'id', 'name', 'description', 'short_code',
