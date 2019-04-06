@@ -20,6 +20,7 @@
 
 from .v1 import (APIv1DatesView,                                  # noqa: F401
                  APIv1GetView,                                    # noqa: F401
+                 APIv1PutActivity,                                # noqa: F401
                  APIv1PutTimestamp,                               # noqa: F401
                  APIv1StatusView,                                 # noqa: F401
                  APIv1VersionsView)                               # noqa: F401
