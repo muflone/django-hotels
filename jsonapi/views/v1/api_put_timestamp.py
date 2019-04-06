@@ -27,7 +27,7 @@ from .api_base import APIv1BaseView
 
 
 class APIv1PutTimestamp(APIv1BaseView):
-    login_with_tablet_id = False
+    login_with_tablet_id = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
