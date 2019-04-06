@@ -33,7 +33,8 @@ class APIv1BaseView(json_views.views.JSONDataView):
         context = super().get_context_data(**kwargs)
         if self.login_with_tablet_id:
             try:
-                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
+                self.tablet = Tablet.objects.get(id=kwargs['tablet_id'],
+                                                 status=True)
                 # Raise error 403 for invalid password
                 if not self.tablet.check_password(password=kwargs['password']):
                     raise PermissionDenied
