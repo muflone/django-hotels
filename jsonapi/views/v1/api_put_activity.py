@@ -32,6 +32,8 @@ class APIv1PutActivity(APIv1BaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if 'description' not in context:
+            context['description'] = ''
 
         activity_date = (datetime.datetime.fromtimestamp(
             int(context['datetime'])).replace(hour=0,

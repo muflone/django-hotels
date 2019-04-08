@@ -32,6 +32,8 @@ class APIv1PutTimestamp(APIv1BaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if 'description' not in context:
+            context['description'] = ''
 
         timestamp_query = Timestamp.objects.filter(
             contract_id=int(context['contract_id']),
