@@ -19,6 +19,7 @@
 ##
 
 import datetime
+import urllib.parse
 
 from work.models import Activity
 from work.models import ActivityRoom
@@ -54,7 +55,8 @@ class APIv1PutActivity(APIv1BaseView):
             room_id=int(context['room_id']),
             service_id=int(context['service_id']),
             service_qty=int(context['service_qty']),
-            description=context['description'])
+            description=urllib.parse.unquote_plus(
+                context['description'].replace('\\n', '\n')))
         if activity_query:
             # Whether the activity already exists reply with an EXISTING status
             activity = activity_query[0]
@@ -66,7 +68,8 @@ class APIv1PutActivity(APIv1BaseView):
                 room_id=int(context['room_id']),
                 service_id=int(context['service_id']),
                 service_qty=int(context['service_qty']),
-                description=context['description'])
+                description=urllib.parse.unquote_plus(
+                    context['description'].replace('\\n', '\n')))
             # Add closing status (to check for transmission errors)
             self.add_status(context)
         # Return timestamp id

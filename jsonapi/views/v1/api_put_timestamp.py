@@ -19,6 +19,7 @@
 ##
 
 import datetime
+import urllib.parse
 
 from work.models import Timestamp
 from work.models import TimestampDirection
@@ -48,7 +49,8 @@ class APIv1PutTimestamp(APIv1BaseView):
                 direction_id=int(context['direction_id']),
                 date=datetime.datetime.fromtimestamp(int(context['datetime'])),
                 time=datetime.datetime.fromtimestamp(int(context['datetime'])),
-                description=context['description'])
+                description=urllib.parse.unquote_plus(
+                    context['description'].replace('\\n', '\n')))
             # Add closing status (to check for transmission errors)
             self.add_status(context)
         # Return timestamp id
