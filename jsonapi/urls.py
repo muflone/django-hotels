@@ -52,7 +52,7 @@ urlpatterns.append(url(r'^v1/put/activity/'
                        '(?P<service_id>\d+)/'
                        '(?P<service_qty>\d+)/'
                        '(?P<datetime>\d+)/'
-                       '(?P<description>.*)/$',
+                       '(?:(?P<description>.*))?/$',
                        views.APIv1PutActivity.as_view(),
                        name='api/v1/put/activity'))
 # Put timestamp page
@@ -62,6 +62,6 @@ urlpatterns.append(url(r'^v1/put/timestamp/'
                        '(?P<contract_id>\d+)/'
                        '(?P<direction_id>\w+)/'
                        '(?P<datetime>\d+)/'
-                       '(?P<description>.*)/$',
+                       '(?:(?P<description>.*))?/$',
                        views.APIv1PutTimestamp.as_view(),
                        name='api/v1/put/timestamp'))
