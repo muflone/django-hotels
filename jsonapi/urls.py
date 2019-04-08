@@ -52,9 +52,19 @@ urlpatterns.append(url(r'^v1/put/activity/'
                        '(?P<service_id>\d+)/'
                        '(?P<service_qty>\d+)/'
                        '(?P<datetime>\d+)/'
-                       '(?:(?P<description>.*))?/$',
+                       '(?P<description>.*)/$',
                        views.APIv1PutActivity.as_view(),
                        name='api/v1/put/activity'))
+urlpatterns.append(url(r'^v1/put/activity/'
+                       '(?P<tablet_id>\d+)/'
+                       '(?P<password>\d+)/'
+                       '(?P<contract_id>\d+)/'
+                       '(?P<room_id>\d+)/'
+                       '(?P<service_id>\d+)/'
+                       '(?P<service_qty>\d+)/'
+                       '(?P<datetime>\d+)/$',
+                       views.APIv1PutActivity.as_view(),
+                       name='api/v1/put/activity_no_description'))
 # Put timestamp page
 urlpatterns.append(url(r'^v1/put/timestamp/'
                        '(?P<tablet_id>\d+)/'
@@ -62,6 +72,14 @@ urlpatterns.append(url(r'^v1/put/timestamp/'
                        '(?P<contract_id>\d+)/'
                        '(?P<direction_id>\w+)/'
                        '(?P<datetime>\d+)/'
-                       '(?:(?P<description>.*))?/$',
+                       '(?P<description>.*)/$',
                        views.APIv1PutTimestamp.as_view(),
                        name='api/v1/put/timestamp'))
+urlpatterns.append(url(r'^v1/put/timestamp/'
+                       '(?P<tablet_id>\d+)/'
+                       '(?P<password>\d+)/'
+                       '(?P<contract_id>\d+)/'
+                       '(?P<direction_id>\w+)/'
+                       '(?P<datetime>\d+)/$',
+                       views.APIv1PutTimestamp.as_view(),
+                       name='api/v1/put/timestamp_no_description'))
