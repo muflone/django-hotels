@@ -35,6 +35,7 @@ class APIv1GetView(APIv1BaseView):
         context = super().get_context_data(**kwargs)
         # List all buildings and structures for the selected tablet
         structures = {}
+        buildings_set = set()
         for obj_building in self.tablet.buildings.all():
             obj_structure = obj_building.structure
             if obj_structure.name not in structures:
@@ -102,6 +103,7 @@ class APIv1GetView(APIv1BaseView):
                                    }
                                   for room in rooms],
                         }
+            buildings_set.add(obj_building.id)
             buildings.append(building)
         context['structures'] = structures
         # List all the contracts for the selected tablet
@@ -138,7 +140,8 @@ class APIv1GetView(APIv1BaseView):
                                 },
                         'buildings': [building_id['id']
                                       for building_id
-                                      in obj_buildings.values('id')]
+                                      in obj_buildings.values('id')
+                                      if building_id['id'] in buildings_set]
                         }
             contracts.append(contract)
         context['contracts'] = contracts
