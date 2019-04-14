@@ -82,29 +82,30 @@ class APIv1GetView(APIv1BaseView):
             rooms = Room.objects.filter(building_id=obj_building.id).values(
                 'id', 'name', 'description', 'room_type__name',
                 'bed_type__name')
-            building = {'building': {'id': obj_building.id,
-                                     'name': obj_building.name,
-                                     },
-                        'location': {'id': obj_location.pk,
-                                     'name': obj_location.name,
-                                     'address': obj_structure.address,
-                                     'region': {'id': obj_region.pk,
-                                                'name': obj_region.name
+            if rooms:
+                building = {'building': {'id': obj_building.id,
+                                         'name': obj_building.name,
+                                         },
+                            'location': {'id': obj_location.pk,
+                                         'name': obj_location.name,
+                                         'address': obj_structure.address,
+                                         'region': {'id': obj_region.pk,
+                                                    'name': obj_region.name
+                                                    },
+                                         'country': {'id': obj_country.pk,
+                                                     'name': obj_country.name
+                                                     },
+                                         },
+                            'rooms': [{'room': {'id': room['id'],
+                                                'name': room['name']
                                                 },
-                                     'country': {'id': obj_country.pk,
-                                                 'name': obj_country.name
-                                                 },
-                                     },
-                        'rooms': [{'room': {'id': room['id'],
-                                            'name': room['name']
-                                            },
-                                   'room_type': room['room_type__name'],
-                                   'bed_type': room['bed_type__name'],
-                                   }
-                                  for room in rooms],
-                        }
-            buildings_set.add(obj_building.id)
-            buildings.append(building)
+                                       'room_type': room['room_type__name'],
+                                       'bed_type': room['bed_type__name'],
+                                       }
+                                      for room in rooms],
+                            }
+                buildings_set.add(obj_building.id)
+                buildings.append(building)
         context['structures'] = structures
         # List all the contracts for the selected tablet
         contracts = []
