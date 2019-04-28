@@ -33,7 +33,7 @@ urlpatterns.append(url(r'^v1/versions/$',
 urlpatterns.append(url(r'^v1/status/$',
                        views.APIv1StatusView.as_view(),
                        name='api/v1/status'))
-# Status page
+# Dates page
 urlpatterns.append(url(r'^v1/dates/$',
                        views.APIv1DatesView.as_view(),
                        name='api/v1/dates'))
