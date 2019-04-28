@@ -22,7 +22,6 @@ import datetime
 import urllib.parse
 
 from work.models import Timestamp
-from work.models import TimestampDirection
 
 from .api_base import APIv1BaseView
 
