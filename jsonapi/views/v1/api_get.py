@@ -66,7 +66,6 @@ class APIv1GetView(APIv1BaseView):
                              'service_extra': [],
                              }
                 # Add service extra to structure
-                service_extras = structure['service_extra']
                 for obj_extra in ServiceExtra.objects.filter(
                         structure_id=obj_structure.id):
                     service_extra = {'id': obj_extra.service_id,

@@ -41,7 +41,7 @@ class APIv1PutTimestamp(APIv1BaseView):
             date=datetime.datetime.fromtimestamp(int(context['datetime'])),
             time=datetime.datetime.fromtimestamp(int(context['datetime'])))
         if timestamp_query:
-            # Whether the timestamp already exists reply with an EXISTING status
+            # If the timestamp already exists reply with an EXISTING status
             timestamp = timestamp_query[0]
             context['status'] = 'EXISTING'
         else:
