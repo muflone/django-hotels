@@ -39,47 +39,47 @@ urlpatterns.append(url(r'^v1/dates/$',
                        name='api/v1/dates'))
 # Get page
 urlpatterns.append(url(r'^v1/get/'
-                       '(?P<tablet_id>\d+)/'
-                       '(?P<password>\d+)/$',
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/$',
                        views.APIv1GetView.as_view(),
                        name='api/v1/get'))
 # Put activity page
 urlpatterns.append(url(r'^v1/put/activity/'
-                       '(?P<tablet_id>\d+)/'
-                       '(?P<password>\d+)/'
-                       '(?P<contract_id>\d+)/'
-                       '(?P<room_id>\d+)/'
-                       '(?P<service_id>\d+)/'
-                       '(?P<service_qty>\d+)/'
-                       '(?P<datetime>\d+)/'
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/'
+                       '(?P<contract_id>[0-9]+)/'
+                       '(?P<room_id>[0-9]+)/'
+                       '(?P<service_id>[0-9]+)/'
+                       '(?P<service_qty>[0-9]+)/'
+                       '(?P<datetime>[0-9]+)/'
                        '(?P<description>.*)/$',
                        views.APIv1PutActivity.as_view(),
                        name='api/v1/put/activity'))
 urlpatterns.append(url(r'^v1/put/activity/'
-                       '(?P<tablet_id>\d+)/'
-                       '(?P<password>\d+)/'
-                       '(?P<contract_id>\d+)/'
-                       '(?P<room_id>\d+)/'
-                       '(?P<service_id>\d+)/'
-                       '(?P<service_qty>\d+)/'
-                       '(?P<datetime>\d+)/$',
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/'
+                       '(?P<contract_id>[0-9]+)/'
+                       '(?P<room_id>[0-9]+)/'
+                       '(?P<service_id>[0-9]+)/'
+                       '(?P<service_qty>[0-9]+)/'
+                       '(?P<datetime>[0-9]+)/$',
                        views.APIv1PutActivity.as_view(),
                        name='api/v1/put/activity_no_description'))
 # Put timestamp page
 urlpatterns.append(url(r'^v1/put/timestamp/'
-                       '(?P<tablet_id>\d+)/'
-                       '(?P<password>\d+)/'
-                       '(?P<contract_id>\d+)/'
-                       '(?P<direction_id>\w+)/'
-                       '(?P<datetime>\d+)/'
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/'
+                       '(?P<contract_id>[0-9]+)/'
+                       '(?P<direction_id>[A-Za-z0-9_]+)/'
+                       '(?P<datetime>[0-9]+)/'
                        '(?P<description>.*)/$',
                        views.APIv1PutTimestamp.as_view(),
                        name='api/v1/put/timestamp'))
 urlpatterns.append(url(r'^v1/put/timestamp/'
-                       '(?P<tablet_id>\d+)/'
-                       '(?P<password>\d+)/'
-                       '(?P<contract_id>\d+)/'
-                       '(?P<direction_id>\w+)/'
-                       '(?P<datetime>\d+)/$',
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<password>[0-9]+)/'
+                       '(?P<contract_id>[0-9]+)/'
+                       '(?P<direction_id>[A-Za-z0-9_]+)/'
+                       '(?P<datetime>[0-9]+)/$',
                        views.APIv1PutTimestamp.as_view(),
                        name='api/v1/put/timestamp_no_description'))
