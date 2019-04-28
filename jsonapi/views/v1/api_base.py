@@ -18,9 +18,13 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import datetime
+
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 import json_views.views
+
+from jsonapi.models import ApiLog
 
 from work.models import Tablet
 
@@ -31,17 +35,30 @@ class APIv1BaseView(json_views.views.JSONDataView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        self.add_log(message_level=0,
+                     tablet_id=kwargs.get('tablet_id', 0),
+                     extra=None)
         if self.login_with_tablet_id:
             try:
                 self.tablet = Tablet.objects.get(id=kwargs['tablet_id'])
                 if not self.tablet.check_password(password=kwargs['password']):
                     # Raise error 403 for invalid password
+                    self.add_log(message_level=20,
+                                 tablet_id=kwargs.get('tablet_id', 0),
+                                 extra='Permission denied for invalid password'
+                                 )
                     raise PermissionDenied
                 elif not self.tablet.status:
                     # Raise error 403 for status disabled
+                    self.add_log(message_level=20,
+                                 tablet_id=kwargs.get('tablet_id', 0),
+                                 extra='Permission denied for disabled status')
                     raise PermissionDenied
             except Tablet.DoesNotExist:
                 # Raise error 404 for invalid tablet id
+                self.add_log(message_level=20,
+                             tablet_id=kwargs.get('tablet_id', 0),
+                             extra='Tablet does not exist')
                 self.tablet = None
                 raise ObjectDoesNotExist('Tablet {TABLET_ID} not found'.format(
                     TABLET_ID=kwargs['tablet_id']))
@@ -53,3 +70,28 @@ class APIv1BaseView(json_views.views.JSONDataView):
     def add_status(self, context):
         """Add context status response with OK"""
         context['status'] = 'OK'
+
+    def add_log(self, message_level, tablet_id, extra):
+        """Add an entry to the ApiLog"""
+        ApiLog.objects.create(
+            date=datetime.date.today(),
+            time=datetime.datetime.now().replace(microsecond=0),
+            message_level=message_level,
+            method=self.request.method,
+            path=self.request.path,
+            raw_uri=self.request.get_raw_uri(),
+            url_name=self.request.resolver_match.url_name,
+            func_name=self.request.resolver_match.func.__name__,
+            remote_addr=self.request.META.get('REMOTE_ADDR', ''),
+            forwarded_for=self.request.META.get('HTTP_X_FORWARDED_FOR', ''),
+            user_agent=self.request.META.get('HTTP_USER_AGENT', ''),
+            client_agent=self.request.META.get('HTTP_CLIENT_AGENT', ''),
+            client_version=self.request.META.get('HTTP_CLIENT_VERSION', ''),
+            user=self.request.user,
+            tablet_id=tablet_id,
+            kwargs=(str(self.request.resolver_match.kwargs)
+                    if self.request.resolver_match.kwargs else ''),
+            args=(str(self.request.resolver_match.args)
+                  if self.request.resolver_match.args else ''),
+            extra=extra if extra is not None else '',
+            api_version=1)
