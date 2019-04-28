@@ -29,12 +29,24 @@ urlpatterns = []
 urlpatterns.append(url(r'^v1/versions/$',
                        views.APIv1VersionsView.as_view(),
                        name='api/v1/versions'))
+urlpatterns.append(url(r'^v1/versions/'
+                       '(?P<tablet_id>[0-9]+)/$',
+                       views.APIv1VersionsView.as_view(),
+                       name='api/v1/versions'))
 # Status page
 urlpatterns.append(url(r'^v1/status/$',
                        views.APIv1StatusView.as_view(),
                        name='api/v1/status'))
+urlpatterns.append(url(r'^v1/status/'
+                       '(?P<tablet_id>[0-9]+)/$',
+                       views.APIv1StatusView.as_view(),
+                       name='api/v1/status'))
 # Dates page
 urlpatterns.append(url(r'^v1/dates/$',
+                       views.APIv1DatesView.as_view(),
+                       name='api/v1/dates'))
+urlpatterns.append(url(r'^v1/dates/'
+                       '(?P<tablet_id>[0-9]+)/$',
                        views.APIv1DatesView.as_view(),
                        name='api/v1/dates'))
 # Get page
