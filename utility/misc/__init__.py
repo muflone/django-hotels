@@ -24,3 +24,4 @@ from .get_class_from_module import get_class_from_module          # noqa: F401
 from .qrcode_image import QRCodeImage                             # noqa: F401
 from .reverse_with_query import reverse_with_query                # noqa: F401
 from .uri import URI                                              # noqa: F401
+from .xhtml2pdf_link_callback import xhtml2pdf_link_callback      # noqa: F401
