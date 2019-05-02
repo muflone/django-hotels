@@ -10,3 +10,4 @@ django-generic-json-views==0.8
 django-admin-rangefilter==0.3.11
 pyotp==2.2.7
 codicefiscale==0.9
+xhtml2pdf==0.2.3
