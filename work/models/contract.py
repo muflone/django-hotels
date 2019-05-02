@@ -34,9 +34,13 @@ from django.urls import path
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
+from xhtml2pdf import pisa
+
 from utility.admin import AdminTextInputFilter
-from utility.misc import QRCodeImage, URI
+from utility.misc import QRCodeImage, URI, xhtml2pdf_link_callback
 from utility.models import BaseModel, BaseModelAdmin
+
+from website.models import AdminSection
 
 
 class ContractManager(models.Manager):
@@ -192,6 +196,7 @@ class ContractAdmin(BaseModelAdmin):
     def get_urls(self):
         urls = [
             path('<int:contract_id>/qrcode/<str:format>', self.qrcode),
+            path('<int:contract_id>/idcard/', self.idcard),
         ] + super().get_urls()
         return urls
 
@@ -248,3 +253,28 @@ class ContractAdmin(BaseModelAdmin):
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
+
+    def idcard(self, request, contract_id):
+        """
+        Create an ID card in PDF format
+        """
+        contract = Contract.objects.get(pk=contract_id)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = (
+            'attachment; filename="id_card {ID}.pdf"'.format(ID=contract_id))
+        admin_section = AdminSection.objects.get(name='contract_id_card')
+        html = admin_section.description.format(
+            CONTRACT_START_DATE=contract.start_date,
+            CONTRACT_GUID=contract.guid,
+            EMPLOYEE_FIRST_NAME=contract.employee.first_name,
+            EMPLOYEE_LAST_NAME=contract.employee.last_name,
+            EMPLOYEE_BIRTH_DATE=contract.employee.birth_date,
+            COMPANY_NAME=contract.company.name,
+            COMPANY_ADDRESS=contract.company.address,
+            COMPANY_VAT_NUMBER=contract.company.vat_number,
+            COMPANY_OWNER=contract.company.owner,
+            )
+        pisa.CreatePDF(src=html,
+                       dest=response,
+                       link_callback=xhtml2pdf_link_callback)
+        return response
