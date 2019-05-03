@@ -18,11 +18,9 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_models import get_admin_models                        # noqa: F401
-from .dates import month_start, month_end                         # noqa: F401
-from .get_class_from_module import get_class_from_module          # noqa: F401
-from .get_full_host import get_full_host                          # noqa: F401
-from .qrcode_image import QRCodeImage                             # noqa: F401
-from .reverse_with_query import reverse_with_query                # noqa: F401
-from .uri import URI                                              # noqa: F401
-from .xhtml2pdf_link_callback import xhtml2pdf_link_callback      # noqa: F401
+def get_full_host(request):
+    return ''.join(('http',
+                    ('', 's')[request.is_secure()],
+                    '://',
+                    request.META['HTTP_HOST'],
+                    '/'))
