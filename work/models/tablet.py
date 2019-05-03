@@ -32,8 +32,9 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils.html import mark_safe
 
-from utility.misc import QRCodeImage, URI
+from utility.misc import QRCodeImage, URI, get_full_host
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -61,7 +62,7 @@ class Tablet(BaseModel):
 
 
 class TabletAdmin(BaseModelAdmin):
-    readonly_fields = ('id', 'guid', 'qrcode_field')
+    readonly_fields = ('id', 'guid', 'qrcode_field', 'autoconfiguration_link')
     change_form_template = 'work/admin_tablet_change.html'
     QRCODE_SIZE = 256
 
@@ -72,6 +73,7 @@ class TabletAdmin(BaseModelAdmin):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
         fields = ['id', ] + [k for k in fields if k not in ('id')]
+        self.full_host = get_full_host(request)
         return fields
 
     def _get_qrcode_text(self, instance):
@@ -148,3 +150,19 @@ class TabletAdmin(BaseModelAdmin):
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
+
+    def autoconfiguration_link(self, instance):
+        """Autoconfiguration link for Hotels app"""
+        if instance.id:
+            url = ('https://hotels.android.muflone.com/api/v1/configuration/'
+                   '?tablet_id={ID}'
+                   '&tablet_key={GUID}'
+                   '&timezone={TIMEZONE}'
+                   '&api_url={ROOT_URL}'.format(ID=instance.id,
+                                                GUID=instance.guid.hex,
+                                                TIMEZONE=settings.TIME_ZONE,
+                                                ROOT_URL=self.full_host))
+            return url
+        else:
+            # Invalid tablet ID
+            return ''
