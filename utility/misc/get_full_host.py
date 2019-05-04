@@ -18,7 +18,9 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+
 def get_full_host(request):
+    """Return the full schema + host name (https://hostname/)"""
     return ''.join(('http',
                     ('', 's')[request.is_secure()],
                     '://',

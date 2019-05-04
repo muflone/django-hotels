@@ -32,7 +32,6 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
-from django.utils.html import mark_safe
 
 from utility.misc import QRCodeImage, URI, get_full_host
 from utility.models import BaseModel, BaseModelAdmin
