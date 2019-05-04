@@ -149,9 +149,9 @@ class APIv1GetView(APIv1BaseView):
         context['services'] = Service.objects.filter(room_service=True).values(
             'id', 'name', 'extra_service', 'show_in_app')
         # Add timestamp directions
-        context['timestamp_directions'] = TimestampDirection.objects.values(
-            'id', 'name', 'description', 'short_code',
-            'type_enter', 'type_exit')
+        context['timestamp_directions'] = TimestampDirection.objects.exclude(
+            id=0).values('id', 'name', 'description', 'short_code',
+                         'type_enter', 'type_exit')
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
