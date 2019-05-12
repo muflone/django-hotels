@@ -27,6 +27,7 @@ from .employee import Employee, EmployeeAdmin                     # noqa: F401
 from .job_type import JobType, JobTypeAdmin                       # noqa: F401
 from .login import Login, LoginAdmin                              # noqa: F401
 from .tablet import Tablet, TabletAdmin                           # noqa: F401
+from .tablet_setting import TabletSetting, TabletSettingAdmin     # noqa: F401
 from .timestamp import Timestamp, TimestampAdmin                  # noqa: F401
 from .timestamp_direction import (TimestampDirection,             # noqa: F401
                                   TimestampDirectionAdmin)        # noqa: F401
