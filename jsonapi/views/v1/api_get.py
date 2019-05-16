@@ -18,11 +18,14 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from django.db import models
+
 from hotels.models import Room
 from hotels.models import Service
 from hotels.models import ServiceExtra
 
 from work.models import Contract
+from work.models import TabletSetting
 from work.models import TimestampDirection
 
 from .api_base import APIv1BaseView
@@ -152,6 +155,17 @@ class APIv1GetView(APIv1BaseView):
         context['timestamp_directions'] = TimestampDirection.objects.exclude(
             id=0).values('id', 'name', 'description', 'short_code',
                          'type_enter', 'type_exit')
+        # Add tablet settings
+        settings = {}
+        for setting in TabletSetting.objects.filter(
+                # Filter for every tablet or only the selected tablet
+                (models.Q(tablets=None) |
+                 models.Q(tablets__in=(self.tablet.pk, )))):
+            settings[setting.configuration.name] = {
+                'name': setting.configuration.name,
+                'data': setting.data
+            }
+        context['settings'] = settings.values()
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
