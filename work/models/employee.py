@@ -224,38 +224,41 @@ class EmployeeAdmin(BaseModelAdmin):
             for row in reader:
                 if row['BIRTH LOCATION'] not in locations:
                     append_error('location', row['BIRTH LOCATION'])
-                if row['LOCATION'] not in locations:
+                elif row['LOCATION'] not in locations:
                     append_error('location', row['LOCATION'])
-                if row['PERMIT LOCATION'] not in locations:
+                elif row['PERMIT LOCATION'] not in locations:
                     append_error('location', row['PERMIT LOCATION'])
-                # If no error create a new Room object
-                employees.append(Employee(first_name=row['FIRST NAME'],
-                                          last_name=row['LAST NAME'],
-                                          description=row['DESCRIPTION'],
-                                          gender=row['GENDER'],
-                                          birth_date=(row['BIRTH DATE']
-                                                      if row['BIRTH DATE']
-                                                      else None),
-                                          birth_location=locations[
-                                              row['BIRTH LOCATION']],
-                                          address=row['ADDRESS'],
-                                          location=locations[row['LOCATION']],
-                                          postal_code=row['POSTAL CODE'],
-                                          phone1=row['PHONE1'],
-                                          phone2=row['PHONE2'],
-                                          email=row['EMAIL'],
-                                          vat_number=row['VAT NUMBER'],
-                                          tax_code=row['TAX CODE'],
-                                          permit=row['PERMIT'],
-                                          permit_location=locations[
-                                              row['PERMIT LOCATION']],
-                                          permit_date=(row['PERMIT DATE']
-                                                       if row['PERMIT DATE']
-                                                       else None),
-                                          permit_expiration=(
-                                              row['PERMIT EXPIRATION']
-                                              if row['PERMIT EXPIRATION']
-                                              else None)))
+                else:
+                    # If no error create a new Employee object
+                    employees.append(Employee(first_name=row['FIRST NAME'],
+                                              last_name=row['LAST NAME'],
+                                              description=row['DESCRIPTION'],
+                                              gender=row['GENDER'],
+                                              birth_date=(row['BIRTH DATE']
+                                                          if row['BIRTH DATE']
+                                                          else None),
+                                              birth_location=locations[
+                                                  row['BIRTH LOCATION']],
+                                              address=row['ADDRESS'],
+                                              location=locations[
+                                                  row['LOCATION']],
+                                              postal_code=row['POSTAL CODE'],
+                                              phone1=row['PHONE1'],
+                                              phone2=row['PHONE2'],
+                                              email=row['EMAIL'],
+                                              vat_number=row['VAT NUMBER'],
+                                              tax_code=row['TAX CODE'],
+                                              permit=row['PERMIT'],
+                                              permit_location=locations[
+                                                  row['PERMIT LOCATION']],
+                                              permit_date=(
+                                                  row['PERMIT DATE']
+                                                  if row['PERMIT DATE']
+                                                  else None),
+                                              permit_expiration=(
+                                                  row['PERMIT EXPIRATION']
+                                                  if row['PERMIT EXPIRATION']
+                                                  else None)))
             # Save data only if there were not errors
             if not error_messages:
                 Employee.objects.bulk_create(employees)
