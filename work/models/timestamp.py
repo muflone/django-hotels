@@ -18,15 +18,20 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import csv
 import datetime
+import io
 
 from django.db import models
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.shortcuts import render, redirect
+from django.urls import path
 
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
 
 from utility.admin_widgets import AdminTimeWidget
+from utility.forms import CSVImportForm
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -61,6 +66,7 @@ class Timestamp(BaseModel):
 
 
 class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
+    change_list_template = 'utility/import_csv/change_list.html'
     date_hierarchy = 'date'
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
@@ -86,6 +92,12 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(
           'contract__employee', 'contract__company', 'direction')
+
+    def get_urls(self):
+        urls = [
+            path('import/', self.import_csv),
+        ] + super().get_urls()
+        return urls
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -205,6 +217,56 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                          date_max.toordinal() + 1)])),
             filename='export_timestamps_days')
     action_export_timestamps_days.short_description = 'Export Timestamps days'
+
+    def import_csv(self, request):
+        def append_error(type_name, item):
+            """Append an error message to the messages list"""
+            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
+                                                                ITEM=item)
+            if error_message not in error_messages:
+                error_messages.append(error_message)
+                self.message_user(request, error_message, messages.ERROR)
+
+        if request.method == 'POST':
+            # Preload contracts
+            contracts = {}
+            for item in Contract.objects.all():
+                contracts[str(item.id)] = item
+            # Preload timestamp directions
+            directions = {}
+            for item in TimestampDirection.objects.all():
+                directions[str(item)] = item
+            # Load CSV file content
+            csv_file = io.TextIOWrapper(
+                request.FILES['csv_file'].file,
+                encoding=request.POST['encoding'])
+            reader = csv.DictReader(
+                csv_file,
+                delimiter=request.POST['delimiter'])
+            # Load data from CSV
+            error_messages = []
+            timestamps = []
+            for row in reader:
+                if row['DIRECTION'] not in directions:
+                    append_error('direction', row['DIRECTION'])
+                elif row['CONTRACT'] not in contracts:
+                    append_error('contract', row['CONTRACT'])
+                else:
+                    # If no error create a new Timestamp object
+                    timestamps.append(Timestamp(
+                        contract=contracts[row['CONTRACT']],
+                        direction=directions[row['DIRECTION']],
+                        date=row['DATE'],
+                        time=row['TIME'],
+                        description=row['DESCRIPTION']))
+            # Save data only if there were not errors
+            if not error_messages:
+                Timestamp.objects.bulk_create(timestamps)
+                self.message_user(request, 'Your CSV file has been imported')
+            return redirect('..')
+        return render(request,
+                      'utility/import_csv/form.html',
+                      {'form': CSVImportForm()})
 
 
 class TimestampExport(object):
