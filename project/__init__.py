@@ -18,5 +18,5 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-VERSION = '0.9.7'
+VERSION = '0.9.8'
 PRODUCT_NAME = 'Django Hotels'
