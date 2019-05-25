@@ -46,7 +46,11 @@ urlpatterns.append(url(r'^v1/dates/$',
                        views.APIv1DatesView.as_view(),
                        name='api/v1/dates'))
 urlpatterns.append(url(r'^v1/dates/'
-                       '(?P<tablet_id>[0-9]+)/$',
+                       '(?P<tablet_id>[0-9]+)/'
+                       '(?P<tablet_date>[0-9]{4}-[0-9]{2}-[0-9]{2})/'
+                       '(?P<tablet_time>[0-9]{2}:[0-9]{2}.[0-9]{2})/'
+                       '(?P<tablet_timezone>[A-Za-z0-9_ :+-]+)/'
+                       '(?P<tablet_timezone_id>[A-Za-z0-9_ :+-]+)/$',
                        views.APIv1DatesView.as_view(),
                        name='api/v1/dates'))
 # Get page
