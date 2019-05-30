@@ -18,6 +18,8 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import datetime
+
 from django.db import models
 
 from hotels.models import Room
@@ -113,7 +115,15 @@ class APIv1GetView(APIv1BaseView):
         # List all the contracts for the selected tablet
         contracts = []
         for obj_contract in Contract.objects.filter(
-                buildings__in=self.tablet.buildings.all()).distinct():
+                # Include only contracts with some buildings
+                models.Q(buildings__in=self.tablet.buildings.all()),
+                # Include only enabled contracts
+                models.Q(enabled=True),
+                # Include only started contracts
+                models.Q(start_date__lte=datetime.date.today()),
+                # Include only not expired contracts
+                (models.Q(end_date__isnull=True) |
+                 models.Q(end_date__gte=datetime.date.today()))).distinct():
             obj_employee = obj_contract.employee
             obj_contract_type = obj_contract.contract_type
             obj_buildings = obj_contract.buildings
