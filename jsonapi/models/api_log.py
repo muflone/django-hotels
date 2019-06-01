@@ -52,7 +52,7 @@ class ApiLog(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'api_log'
-        ordering = ['date', 'time', 'id']
+        ordering = ['-date', '-time', '-id']
 
     def __str__(self):
         return str(self.id)
