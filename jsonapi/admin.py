@@ -20,10 +20,12 @@
 
 from django.contrib import admin
 
-from .models import (ApiContextType, ApiContextTypeAdmin,
+from .models import (ApiCommandType, ApiCommandTypeAdmin,
+                     ApiContextType, ApiContextTypeAdmin,
                      ApiLog, ApiLogAdmin)
 
 
 # Register your models here.
+admin.site.register(ApiCommandType, ApiCommandTypeAdmin)
 admin.site.register(ApiContextType, ApiContextTypeAdmin)
 admin.site.register(ApiLog, ApiLogAdmin)

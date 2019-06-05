@@ -18,6 +18,25 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .api_command_type import ApiCommandType, ApiCommandTypeAdmin # noqa: F401
-from .api_context_type import ApiContextType, ApiContextTypeAdmin # noqa: F401
-from .api_log import ApiLog, ApiLogAdmin                          # noqa: F401
+from django.db import models
+
+from utility.models import BaseModel, BaseModelAdmin
+
+
+class ApiCommandType(BaseModel):
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    command = models.TextField(blank=True)
+
+    class Meta:
+        # Define the database table
+        db_table = 'api_command_types'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ApiCommandTypeAdmin(BaseModelAdmin):
+    pass
