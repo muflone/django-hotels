@@ -18,16 +18,32 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.contrib import admin
+from django.db import models
 
-from .models import (ApiCommand, ApiCommandAdmin,
-                     ApiCommandType, ApiCommandTypeAdmin,
-                     ApiContextType, ApiContextTypeAdmin,
-                     ApiLog, ApiLogAdmin)
+from utility.models import BaseModel, BaseModelAdmin
 
 
-# Register your models here.
-admin.site.register(ApiCommand, ApiCommandAdmin)
-admin.site.register(ApiCommandType, ApiCommandTypeAdmin)
-admin.site.register(ApiContextType, ApiContextTypeAdmin)
-admin.site.register(ApiLog, ApiLogAdmin)
+class ApiCommand(BaseModel):
+
+    command_type = models.ForeignKey('ApiCommandType',
+                                     on_delete=models.PROTECT)
+    context_type = models.ForeignKey('ApiContextType',
+                                     on_delete=models.PROTECT)
+    enabled = models.BooleanField(default=True)
+    description = models.TextField(blank=True)
+    tablets = models.ManyToManyField('work.tablet',
+                                     blank=True)
+    starting = models.DateTimeField(blank=True, null=True, default=None)
+    ending = models.DateTimeField(blank=True, null=True, default=None)
+
+    class Meta:
+        # Define the database table
+        db_table = 'api_commands'
+        ordering = ['id']
+
+    def __str__(self):
+        return str(self.id)
+
+
+class ApiCommandAdmin(BaseModelAdmin):
+    pass
