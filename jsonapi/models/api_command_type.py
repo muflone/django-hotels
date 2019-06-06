@@ -27,7 +27,7 @@ class ApiCommandType(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
-    command = models.TextField(blank=True)
+    command = models.TextField()
 
     class Meta:
         # Define the database table
