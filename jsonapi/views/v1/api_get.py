@@ -19,12 +19,16 @@
 ##
 
 import datetime
+import json
 
 from django.db import models
+from django.utils import timezone
 
 from hotels.models import Room
 from hotels.models import Service
 from hotels.models import ServiceExtra
+
+from jsonapi.models import ApiCommand
 
 from work.models import Contract
 from work.models import TabletSetting
@@ -177,6 +181,41 @@ class APIv1GetView(APIv1BaseView):
                 'data': setting.data
             }
         context['settings'] = settings.values()
+        # Add commands
+        commands = []
+        command_types = {}
+        for command in ApiCommand.objects.filter(
+                # Filter for every tablet or only the selected tablet
+                (models.Q(tablets=None) | models.Q(tablets=self.tablet.pk)),
+                # Filter for after and before values
+                (models.Q(starting=None) |
+                    models.Q(starting__lte=timezone.now())),
+                (models.Q(ending=None) |
+                    models.Q(ending__gte=timezone.now())),
+                enabled=True):
+            commands.append({
+                'id': command.id,
+                'command_type': command.command_type.name,
+                'context': command.context_type.name,
+                'starting': timezone.localtime(command.starting).strftime(
+                                '%Y-%m-%d %H:%M.%S')
+                            if command.starting
+                            else '1900-01-01 00:00.00',
+                'ending': timezone.localtime(command.ending).strftime(
+                                '%Y-%m-%d %H:%M.%S')
+                            if command.ending
+                            else '2099-12-31 23:59.59'            # noqa: E128
+            })
+            # Save command type
+            if command.command_type.name not in command_types:
+                command_types[command.command_type.name] = {
+                    'id': command.command_type.name,
+                    'type': '{COMMAND} - '.format(
+                        COMMAND=command.command_type.name).split(' -')[0],
+                    'command': json.loads(command.command_type.command)
+                }
+        context['command_types'] = command_types
+        context['commands'] = commands
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context
