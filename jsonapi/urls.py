@@ -41,6 +41,14 @@ urlpatterns.append(url(r'^v1/status/'
                        '(?P<tablet_id>[0-9]+)/$',
                        views.APIv1StatusView.as_view(),
                        name='api/v1/status'))
+# Usage page
+urlpatterns.append(url(r'^v1/usage/$',
+                       views.APIv1UsageView.as_view(),
+                       name='api/v1/usage'))
+urlpatterns.append(url(r'^v1/usage/'
+                       '(?P<tablet_id>[0-9]+)/$',
+                       views.APIv1UsageView.as_view(),
+                       name='api/v1/usage'))
 # Dates page
 urlpatterns.append(url(r'^v1/dates/$',
                        views.APIv1DatesView.as_view(),
