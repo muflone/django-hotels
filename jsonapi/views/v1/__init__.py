@@ -23,4 +23,5 @@ from .api_get import APIv1GetView                                 # noqa: F401
 from .api_put_activity import APIv1PutActivity                    # noqa: F401
 from .api_put_timestamp import APIv1PutTimestamp                  # noqa: F401
 from .api_status import APIv1StatusView                           # noqa: F401
+from .api_usage import APIv1UsageView                             # noqa: F401
 from .api_versions import APIv1VersionsView                       # noqa: F401
