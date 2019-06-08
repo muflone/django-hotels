@@ -55,14 +55,19 @@ class APIv1PutActivity(APIv1BaseView):
         activity_query = ActivityRoom.objects.filter(
             activity_id=activity.pk,
             room_id=int(context['room_id']),
-            service_id=int(context['service_id']),
-            service_qty=int(context['service_qty']),
-            description=urllib.parse.unquote_plus(
-                context['description'].replace('\\n', '\n')))
+            service_id=int(context['service_id']))
         if activity_query:
-            # Whether the activity already exists reply with an EXISTING status
             activity = activity_query[0]
-            context['status'] = 'EXISTING'
+            if activity.service_qty != int(context['service_qty']):
+                # Existing activity but with a different quantity
+                context['status'] = 'QUANTITY'
+            elif activity.description != urllib.parse.unquote_plus(
+                    context['description'].replace('\\n', '\n')):
+                # Existing activity but with a different description
+                context['status'] = 'DESCRIPTION'
+            else:
+                # Existing matching activity
+                context['status'] = 'EXISTING'
         else:
             # No existing timestamp
             activity = ActivityRoom.objects.create(
