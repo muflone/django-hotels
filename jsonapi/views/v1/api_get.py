@@ -183,7 +183,6 @@ class APIv1GetView(APIv1BaseView):
         context['settings'] = settings.values()
         # Add commands
         commands = []
-        command_types = {}
         for command in ApiCommand.objects.filter(
                 # Filter for every tablet or only the selected tablet
                 (models.Q(tablets=None) | models.Q(tablets=self.tablet.pk)),
@@ -195,21 +194,15 @@ class APIv1GetView(APIv1BaseView):
                 enabled=True):
             commands.append({
                 'id': command.id,
-                'command_type': command.command_type.name,
+                'name': command.command_type.name,
+                'command_type': '{COMMAND} - '.format(
+                        COMMAND=command.command_type.name).split(' -')[0],
                 'context': command.context_type.name,
                 'uses': command.uses,
                 'command': json.loads(command.command)
                            if command.command
                            else json.loads(command.command_type.command)
             })
-            # Save command type
-            if command.command_type.name not in command_types:
-                command_types[command.command_type.name] = {
-                    'id': command.command_type.name,
-                    'type': '{COMMAND} - '.format(
-                        COMMAND=command.command_type.name).split(' -')[0]
-                }
-        context['command_types'] = command_types
         context['commands'] = commands
         # Add closing status (to check for transmission errors)
         self.add_status(context)
