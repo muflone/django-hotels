@@ -31,6 +31,7 @@ class ApiCommand(BaseModel):
                                      on_delete=models.PROTECT)
     enabled = models.BooleanField(default=True)
     description = models.TextField(blank=True)
+    command = models.TextField(blank=True)
     tablets = models.ManyToManyField('work.tablet',
                                      blank=True)
     starting = models.DateTimeField(blank=True, null=True, default=None)

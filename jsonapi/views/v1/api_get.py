@@ -197,15 +197,17 @@ class APIv1GetView(APIv1BaseView):
                 'id': command.id,
                 'command_type': command.command_type.name,
                 'context': command.context_type.name,
-                'uses': command.uses
+                'uses': command.uses,
+                'command': json.loads(command.command)
+                           if command.command
+                           else json.loads(command.command_type.command)
             })
             # Save command type
             if command.command_type.name not in command_types:
                 command_types[command.command_type.name] = {
                     'id': command.command_type.name,
                     'type': '{COMMAND} - '.format(
-                        COMMAND=command.command_type.name).split(' -')[0],
-                    'command': json.loads(command.command_type.command)
+                        COMMAND=command.command_type.name).split(' -')[0]
                 }
         context['command_types'] = command_types
         context['commands'] = commands
