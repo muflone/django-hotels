@@ -35,6 +35,7 @@ class ApiCommand(BaseModel):
                                      blank=True)
     starting = models.DateTimeField(blank=True, null=True, default=None)
     ending = models.DateTimeField(blank=True, null=True, default=None)
+    uses = models.PositiveIntegerField(default=0)
 
     class Meta:
         # Define the database table

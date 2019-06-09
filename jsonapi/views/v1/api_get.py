@@ -196,7 +196,8 @@ class APIv1GetView(APIv1BaseView):
             commands.append({
                 'id': command.id,
                 'command_type': command.command_type.name,
-                'context': command.context_type.name
+                'context': command.context_type.name,
+                'uses': command.uses
             })
             # Save command type
             if command.command_type.name not in command_types:
