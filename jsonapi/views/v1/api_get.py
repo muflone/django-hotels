@@ -19,12 +19,16 @@
 ##
 
 import datetime
+import json
 
 from django.db import models
+from django.utils import timezone
 
 from hotels.models import Room
 from hotels.models import Service
 from hotels.models import ServiceExtra
+
+from jsonapi.models import ApiCommand
 
 from work.models import Contract
 from work.models import TabletSetting
@@ -177,6 +181,29 @@ class APIv1GetView(APIv1BaseView):
                 'data': setting.data
             }
         context['settings'] = settings.values()
+        # Add commands
+        commands = []
+        for command in ApiCommand.objects.filter(
+                # Filter for every tablet or only the selected tablet
+                (models.Q(tablets=None) | models.Q(tablets=self.tablet.pk)),
+                # Filter for after and before values
+                (models.Q(starting=None) |
+                    models.Q(starting__lte=timezone.now())),
+                (models.Q(ending=None) |
+                    models.Q(ending__gte=timezone.now())),
+                enabled=True):
+            commands.append({
+                'id': command.id,
+                'name': command.command_type.name,
+                'command_type': '{COMMAND} - '.format(
+                        COMMAND=command.command_type.name).split(' -')[0],
+                'context': command.context_type.name,
+                'uses': command.uses,
+                'command': json.loads(command.command)              # noqa E131
+                           if command.command
+                           else json.loads(command.command_type.command)
+            })
+        context['commands'] = commands
         # Add closing status (to check for transmission errors)
         self.add_status(context)
         return context

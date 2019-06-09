@@ -18,16 +18,25 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.contrib import admin
+from django.db import models
 
-from .models import (ApiCommand, ApiCommandAdmin,
-                     ApiCommandType, ApiCommandTypeAdmin,
-                     ApiContextType, ApiContextTypeAdmin,
-                     ApiLog, ApiLogAdmin)
+from utility.models import BaseModel, BaseModelAdmin
 
 
-# Register your models here.
-admin.site.register(ApiCommand, ApiCommandAdmin)
-admin.site.register(ApiCommandType, ApiCommandTypeAdmin)
-admin.site.register(ApiContextType, ApiContextTypeAdmin)
-admin.site.register(ApiLog, ApiLogAdmin)
+class ApiCommandType(BaseModel):
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    command = models.TextField()
+
+    class Meta:
+        # Define the database table
+        db_table = 'api_command_types'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ApiCommandTypeAdmin(BaseModelAdmin):
+    pass

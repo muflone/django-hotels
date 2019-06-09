@@ -18,4 +18,9 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from .api_command import ApiCommand, ApiCommandAdmin              # noqa: F401
+from .api_command_type import (ApiCommandType,                    # noqa: F401
+                               ApiCommandTypeAdmin)               # noqa: F401
+from .api_context_type import (ApiContextType,                    # noqa: F401
+                               ApiContextTypeAdmin)               # noqa: F401
 from .api_log import ApiLog, ApiLogAdmin                          # noqa: F401
