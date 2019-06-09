@@ -199,7 +199,7 @@ class APIv1GetView(APIv1BaseView):
                         COMMAND=command.command_type.name).split(' -')[0],
                 'context': command.context_type.name,
                 'uses': command.uses,
-                'command': json.loads(command.command)
+                'command': json.loads(command.command)              # noqa E131
                            if command.command
                            else json.loads(command.command_type.command)
             })
