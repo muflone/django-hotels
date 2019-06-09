@@ -196,15 +196,7 @@ class APIv1GetView(APIv1BaseView):
             commands.append({
                 'id': command.id,
                 'command_type': command.command_type.name,
-                'context': command.context_type.name,
-                'starting': timezone.localtime(command.starting).strftime(
-                                '%Y-%m-%d %H:%M.%S')
-                            if command.starting
-                            else '1900-01-01 00:00.00',
-                'ending': timezone.localtime(command.ending).strftime(
-                                '%Y-%m-%d %H:%M.%S')
-                            if command.ending
-                            else '2099-12-31 23:59.59'            # noqa: E128
+                'context': command.context_type.name
             })
             # Save command type
             if command.command_type.name not in command_types:
