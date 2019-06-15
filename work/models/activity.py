@@ -19,8 +19,10 @@
 ##
 
 import datetime
+from collections import defaultdict
 
 from django.db import models
+from django.template.response import TemplateResponse
 from django.urls import path
 
 from . import activity_room
@@ -129,6 +131,7 @@ class ActivityInLinesProxy(Activity):
 class ActivityInLinesAdmin(BaseModelAdmin):
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
+    actions = ('action_report_daily', )
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -136,6 +139,42 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             kwargs['queryset'] = Contract.objects.all().select_related(
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def action_report_daily(self, request, queryset):
+        queryset = queryset.order_by('date', 'contract')
+        # Cycle each unique date/contract
+        results = []
+        grand_totals = defaultdict(int)
+        for activity in queryset:
+            services = []
+            totals = defaultdict(int)
+            for activityroom in activity_room.ActivityRoom.objects.filter(
+                    activity=activity).order_by(
+                    'room__building__name', 'room__name'):
+                services.append({'building': activityroom.room.building.name,
+                                 'room': activityroom.room.name,
+                                 'service': activityroom.service.name
+                                 })
+                totals[activityroom.service.name] += 1
+                grand_totals[activityroom.service.name] += 1
+            results.append({'activity': str(activity),
+                            'services': services,
+                            'totals': ['%s: %d' % (i[0], i[1])
+                                       for i in totals.items()]
+                            })
+        # Export report
+        context = dict(
+            # Include common variables for rendering the admin template
+            self.admin_site.each_context(request),
+            results=results,
+            grand_totals=sorted(['%s: %d' % (i[0], i[1])
+                                for i in grand_totals.items()])
+        )
+        response = TemplateResponse(request,
+                                    'work/admin_action_report_daily.html',
+                                    context)
+        return response
+    action_report_daily.short_description = 'Report daily activities'
 
 
 class ActivityDayExport(object):

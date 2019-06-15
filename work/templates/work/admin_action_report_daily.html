@@ -1,0 +1,44 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Activity</th>
+        <th>Building</th>
+        <th>Room</th>
+        <th>Service</th>
+        <th>Totals</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for item in results %}
+    {% for service in item.services %}
+      <tr>
+      {# Set the activity name, once for all services #}
+      {% if forloop.first %}
+        <td rowspan="{{ item.services | length }}">{{ item.activity }}</td>
+      {% endif %}
+        <td>{{ service.building }}</td>
+        <td>{{ service.room }}</td>
+        <td>{{ service.service }}</td>
+      {% if forloop.first %}
+        <td rowspan="{{ item.services | length }}">
+        {% for total in item.totals %}
+            <div>{{ total }}</div>
+        {% endfor %}
+        </td>
+      {% endif %}
+      </tr>
+    {% endfor %}
+  {% endfor %}
+    </tbody>
+    <tfoot>
+  {% for item in grand_totals %}
+      <tr>
+        <td colspan="5">{{ item }}</td>
+      </tr>
+  {% endfor %}
+    </tfoot>
+  </table>
+{% endblock %}
