@@ -28,7 +28,7 @@ from django.urls import path
 from . import activity_room
 from .contract import Contract
 
-from hotels.models import ServiceType
+from hotels.models import Service, ServiceType
 
 from utility.misc import month_start, month_end
 from utility.models import BaseModel, BaseModelAdmin
@@ -153,7 +153,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                     'room__building__name', 'room__name'):
                 services.append({'building': activityroom.room.building.name,
                                  'room': activityroom.room.name,
-                                 'service': activityroom.service.name
+                                 'service': activityroom.service.name,
+                                 'service_id': activityroom.service_id
                                  })
                 totals[activityroom.service.name] += 1
                 grand_totals[activityroom.service.name] += 1
@@ -168,7 +169,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             self.admin_site.each_context(request),
             results=results,
             grand_totals=sorted(['%s: %d' % (i[0], i[1])
-                                for i in grand_totals.items()])
+                                for i in grand_totals.items()]),
+            services=Service.objects.values('id', 'name',
+                                            'forecolor', 'backcolor')
         )
         response = TemplateResponse(request,
                                     'work/admin_action_report_daily.html',
