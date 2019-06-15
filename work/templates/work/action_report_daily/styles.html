@@ -1,0 +1,8 @@
+<style>
+  {% for item in services %}
+  td.service_{{ item.id }} {
+    background-color: {{ item.backcolor }};
+    color: {{ item.forecolor }};
+  }
+  {% endfor %}
+</style>

@@ -1,17 +1,3 @@
-{% extends "admin/base_site.html" %}
-
-{% block extrastyle %}
-<style>
-  {% for item in services %}
-  td.service_{{ item.id }} {
-    background-color: {{ item.backcolor }};
-    color: {{ item.forecolor }};
-  }
-  {% endfor %}
-</style>
-{% endblock %}
-
-{% block content %}
   <table border="1">
     <thead>
       <tr>
@@ -55,4 +41,3 @@
   {% endfor %}
     </tfoot>
   </table>
-{% endblock %}
