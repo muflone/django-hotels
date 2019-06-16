@@ -1,0 +1,17 @@
+{% block extrastyle %}
+  <style>
+    @page {
+      size: a4 landscape;
+      margin: 1cm;
+    }
+    th, td {
+      padding-left: 4px;
+      padding-top: 4px;
+    }
+  </style>
+  {% include 'work/action_report_daily/styles.html' %}
+{% endblock %}
+
+{% block content %}
+  {% include 'work/action_report_daily/content.html' %}
+{% endblock %}

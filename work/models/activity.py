@@ -19,16 +19,19 @@
 ##
 
 import datetime
+from collections import defaultdict
 
 from django.db import models
+from django.template.response import TemplateResponse
 from django.urls import path
 
 from . import activity_room
 from .contract import Contract
 
-from hotels.models import ServiceType
+from hotels.models import Service, ServiceType
 
-from utility.misc import month_start, month_end
+from utility.misc import (month_start, month_end,
+                          xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -129,6 +132,8 @@ class ActivityInLinesProxy(Activity):
 class ActivityInLinesAdmin(BaseModelAdmin):
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
+    actions = ('action_report_daily_html',
+               'action_report_daily_pdf')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -136,6 +141,57 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             kwargs['queryset'] = Contract.objects.all().select_related(
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def report_daily(self, request, queryset):
+        queryset = queryset.order_by('date', 'contract')
+        # Cycle each unique date/contract
+        results = []
+        grand_totals = defaultdict(int)
+        for activity in queryset:
+            services = []
+            totals = defaultdict(int)
+            for activityroom in activity_room.ActivityRoom.objects.filter(
+                    activity=activity).order_by(
+                    'room__building__name', 'room__name'):
+                services.append({'building': activityroom.room.building.name,
+                                 'room': activityroom.room.name,
+                                 'service': activityroom.service.name,
+                                 'service_id': activityroom.service_id
+                                 })
+                totals[activityroom.service.name] += 1
+                grand_totals[activityroom.service.name] += 1
+            results.append({'activity': str(activity),
+                            'services': services,
+                            'totals': ['%s: %d' % (i[0], i[1])
+                                       for i in totals.items()]
+                            })
+        # Export report
+        context = dict(
+            # Include common variables for rendering the admin template
+            self.admin_site.each_context(request),
+            results=results,
+            grand_totals=sorted(['%s: %d' % (i[0], i[1])
+                                for i in grand_totals.items()]),
+            services=Service.objects.values('id', 'name',
+                                            'forecolor', 'backcolor')
+        )
+        return context
+
+    def action_report_daily_html(self, request, queryset):
+        response = TemplateResponse(request,
+                                    'work/action_report_daily/admin.html',
+                                    self.report_daily(request, queryset))
+        return response
+    action_report_daily_html.short_description = 'Daily activities'
+
+    def action_report_daily_pdf(self, request, queryset):
+        response = xhtml2pdf_render_from_template_response(
+            response=TemplateResponse(request,
+                                      'work/action_report_daily/pdf.html',
+                                      self.report_daily(request, queryset)),
+            filename='')
+        return response
+    action_report_daily_pdf.short_description = 'Daily activities (PDF)'
 
 
 class ActivityDayExport(object):
