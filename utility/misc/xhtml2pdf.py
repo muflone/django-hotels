@@ -18,9 +18,13 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import io
 import os.path
 
 from django.conf import settings
+from django.http import HttpResponse
+
+from xhtml2pdf import pisa
 
 
 def xhtml2pdf_link_callback(uri, rel):
@@ -46,3 +50,26 @@ def xhtml2pdf_link_callback(uri, rel):
     if not os.path.isfile(path):
         raise Exception('media URI must start with %s or %s' % (sUrl, mUrl))
     return path
+
+
+def xhtml2pdf_render_from_html(html, filename):
+    """
+    Convert a HTML text in PDF
+    """
+    response = HttpResponse(content_type='application/pdf')
+    if filename:
+        response['Content-Disposition'] = ('attachment; filename="%s"' %
+                                           filename)
+    pisa.CreatePDF(src=io.StringIO(html),
+                   dest=response,
+                   link_callback=xhtml2pdf_link_callback)
+    return response
+
+
+def xhtml2pdf_render_from_template_response(response, filename):
+    """
+    Convert a TemplateResponse object to PDF
+    """
+    return xhtml2pdf_render_from_html(
+        html=response.render().content.decode('utf-8'),
+        filename=filename)

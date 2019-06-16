@@ -19,22 +19,19 @@
 ##
 
 import datetime
-import io
 from collections import defaultdict
 
 from django.db import models
-from django.http import HttpResponse
 from django.template.response import TemplateResponse
 from django.urls import path
-
-from xhtml2pdf import pisa
 
 from . import activity_room
 from .contract import Contract
 
 from hotels.models import Service, ServiceType
 
-from utility.misc import month_start, month_end, xhtml2pdf_link_callback
+from utility.misc import (month_start, month_end,
+                          xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -188,14 +185,11 @@ class ActivityInLinesAdmin(BaseModelAdmin):
     action_report_daily_html.short_description = 'Daily activities (HTML)'
 
     def action_report_daily_pdf(self, request, queryset):
-        html = TemplateResponse(request, 'work/action_report_daily/pdf.html',
-                                self.report_daily(request, queryset)
-                                ).render().content.decode('utf-8')
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        pisa.CreatePDF(src=io.StringIO(html),
-                       dest=response,
-                       link_callback=xhtml2pdf_link_callback)
+        response = xhtml2pdf_render_from_template_response(
+            response=TemplateResponse(request,
+                                      'work/action_report_daily/pdf.html',
+                                      self.report_daily(request, queryset)),
+            filename='')
         return response
     action_report_daily_pdf.short_description = 'Daily activities (PDF)'
 
