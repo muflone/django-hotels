@@ -182,7 +182,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                     'work/action_report_daily/admin.html',
                                     self.report_daily(request, queryset))
         return response
-    action_report_daily_html.short_description = 'Daily activities (HTML)'
+    action_report_daily_html.short_description = 'Daily activities'
 
     def action_report_daily_pdf(self, request, queryset):
         response = xhtml2pdf_render_from_template_response(
