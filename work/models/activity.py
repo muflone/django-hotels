@@ -179,7 +179,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
 
     def action_report_daily_html(self, request, queryset):
         response = TemplateResponse(request,
-                                    'work/action_report_daily/admin.html',
+                                    'work/report_activities_daily/admin.html',
                                     self.report_daily(request, queryset))
         return response
     action_report_daily_html.short_description = 'Daily activities'
@@ -187,7 +187,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
     def action_report_daily_pdf(self, request, queryset):
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
-                                      'work/action_report_daily/pdf.html',
+                                      'work/report_activities_daily/pdf.html',
                                       self.report_daily(request, queryset)),
             filename='')
         return response
