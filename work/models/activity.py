@@ -34,6 +34,8 @@ from utility.misc import (month_start, month_end,
                           xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
+from website.models import AdminSection
+
 
 class Activity(BaseModel):
 
@@ -173,7 +175,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             grand_totals=sorted(['%s: %d' % (i[0], i[1])
                                 for i in grand_totals.items()]),
             services=Service.objects.values('id', 'name',
-                                            'forecolor', 'backcolor')
+                                            'forecolor', 'backcolor'),
+            single_page=AdminSection.objects.get(
+                name='report_activities_daily.single_page').description == '1'
         )
         return context
 

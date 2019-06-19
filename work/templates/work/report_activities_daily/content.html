@@ -1,43 +1,52 @@
-  <table border="1">
-    <thead>
+{# Table header for non single page layout #}
+{% if not single_page %}
+  {% include 'work/report_activities_daily/table_header.html' %}
+{% endif %}
+
+{% for item in results %}
+  {# Table header for non single page layout #}
+  {% if single_page %}
+    {% include 'work/report_activities_daily/table_header.html' %}
+  {% endif %}
+
+  {% for service in item.services %}
       <tr>
-        <th>Activity</th>
-        <th>Building</th>
-        <th>Room</th>
-        <th>Service</th>
-        <th>Totals</th>
-      </tr>
-    </thead>
-    <tbody>
-  {% for item in results %}
-    {% for service in item.services %}
-      <tr>
-      {# Set the activity name, once for all services #}
-      {% if forloop.first %}
+    {# Set the activity name, once for all services #}
+    {% if forloop.first %}
         <td rowspan="{{ item.services | length }}">{{ item.activity }}</td>
-      {% endif %}
+    {% endif %}
         <td>{{ service.building }}</td>
         <td>{{ service.room }}</td>
         <td class="service_{{ service.service_id }}">{{ service.service }}</td>
-      {% if forloop.first %}
+    {% if forloop.first %}
         <td rowspan="{{ item.services | length }}">
-        {% for total in item.totals %}
+      {% for total in item.totals %}
             <div>{{ total }}</div>
-        {% endfor %}
+      {% endfor %}
         </td>
-      {% endif %}
+    {% endif %}
       </tr>
-    {% endfor %}
   {% endfor %}
+
+  {# Table footer for single page layout #}
+  {% if single_page %}
+    {% include 'work/report_activities_daily/table_footer.html' %}
+      <pdf:nextpage />
+  {% endif %}
+{% endfor %}
+
+{# Table footer for non single page layout #}
+{% if not single_page %}
+  {% include 'work/report_activities_daily/table_footer.html' %}
+{% endif %}
+
+{# Totals table #}
+  <table border="1">
+    <tbody>
+{% for item in grand_totals %}
+      <tr>
+        <td>{{ item }}</td>
+      </tr>
+{% endfor %}
     </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="5">&nbsp;</td>
-      </tr>
-  {% for item in grand_totals %}
-      <tr>
-        <td colspan="5">{{ item }}</td>
-      </tr>
-  {% endfor %}
-    </tfoot>
   </table>
