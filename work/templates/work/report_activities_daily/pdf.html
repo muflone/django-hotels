@@ -4,9 +4,11 @@
       size: a4 landscape;
       margin: 1cm;
     }
+
     th, td {
       padding-left: 4px;
       padding-top: 4px;
+      font-size: {{ font_size | default:'10px' }};
     }
   </style>
   {% include 'work/report_activities_daily/styles.html' %}

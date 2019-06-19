@@ -177,7 +177,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             services=Service.objects.values('id', 'name',
                                             'forecolor', 'backcolor'),
             single_page=AdminSection.objects.get(
-                name='report_activities_daily.single_page').description == '1'
+                name='report_activities_daily.single_page').description == '1',
+            font_size=AdminSection.objects.get(
+                name='report_activities_daily.font-size').description
         )
         return context
 
