@@ -1,14 +1,6 @@
 {% block extrastyle %}
   <style>
-    @page {
-      size: a4 landscape;
-      margin: 1cm;
-    }
-
-    th, td {
-      padding: {{ padding | default:'2px' }};
-      font-size: {{ font_size | default:'10px' }};
-    }
+    {{ styles }}
   </style>
   {% include 'work/report_activities_daily/styles.html' %}
 {% endblock %}

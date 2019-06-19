@@ -178,10 +178,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                             'forecolor', 'backcolor'),
             single_page=AdminSection.objects.get(
                 name='report_activities_daily.single_page').description == '1',
-            font_size=AdminSection.objects.get(
-                name='report_activities_daily.font-size').description,
-            padding=AdminSection.objects.get(
-                name='report_activities_daily.padding').description
+            styles=AdminSection.objects.get(
+                name='report_activities_daily.styles').description
         )
         return context
 
