@@ -22,6 +22,7 @@ from django.db import models
 
 from utility.models import BaseModel, BaseModelAdmin
 
+# noinspection PyPackageRequirements
 from colorful.fields import RGBColorField
 
 

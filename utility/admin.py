@@ -21,6 +21,7 @@
 from django.contrib import admin
 
 
+# noinspection PyAbstractClass
 class AdminTextInputFilter(admin.SimpleListFilter):
     template = 'utility/admin_text_input_filter/form.html'
 

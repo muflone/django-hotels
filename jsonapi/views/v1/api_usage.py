@@ -94,6 +94,7 @@ class APIv1UsageView(APIv1BaseView):
 
     def get_memory_usage(self):
         """Return memory usage tuple (total, used, free)"""
+        # noinspection PyBroadException
         try:
             meminfo = {}
             with open('/proc/meminfo') as file:

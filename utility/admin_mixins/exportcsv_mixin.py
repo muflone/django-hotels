@@ -42,6 +42,7 @@ class ExportCSVMixin(object):
                                if not callable(getattr(row, field))
                                else getattr(row, field)())
             data.append(item)
+        # noinspection PyProtectedMember
         return self.do_export_data_to_csv(
             data=data,
             fields_map=self.export_csv_fields_map,

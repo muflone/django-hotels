@@ -96,6 +96,7 @@ class Contract(BaseModel):
     def active(self):
         """Return a boolean value to identify currently active contract"""
         today = datetime.date.today()
+        # noinspection PyTypeChecker,PyUnresolvedReferences
         return (self.id is not None and
                 self.enabled and
                 self.start_date <= today and
@@ -222,6 +223,7 @@ class ContractAdmin(BaseModelAdmin):
         elif format == 'admin':
             # Show the admin template
             contract = Contract.objects.get(pk=contract_id)
+            # noinspection PyProtectedMember,PyProtectedMember
             context = dict(
                self.admin_site.each_context(request),
                opts=self.model._meta,

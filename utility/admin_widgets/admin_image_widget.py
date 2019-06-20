@@ -38,16 +38,19 @@ class AdminImageWidget(AdminFileWidget):
         return mark_safe(result)
 
 
+# noinspection PyPep8Naming
 class AdminImageWidget_64x64(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
         return super().render(name, value, attrs, 64, 64)
 
 
+# noinspection PyPep8Naming
 class AdminImageWidget_128x128(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
         return super().render(name, value, attrs, 128, 128)
 
 
+# noinspection PyPep8Naming
 class AdminImageWidget_256x256(AdminImageWidget):
     def render(self, name, value, attrs=None, renderer=None):
         return super().render(name, value, attrs, 256, 256)

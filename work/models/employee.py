@@ -331,6 +331,7 @@ class EmployeeAdmin(BaseModelAdmin):
         }
         return template.render(context)
 
+    # noinspection PyProtectedMember
     def active_contract(self, instance):
         if instance._contract_id:
             link = reverse_with_query(view='admin:work_contract_change',
@@ -349,4 +350,5 @@ class EmployeeAdmin(BaseModelAdmin):
             TEXT=link_text))
 
     def country(self, instance):
+        # noinspection PyProtectedMember
         return instance._country

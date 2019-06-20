@@ -72,6 +72,7 @@ class TabletAdmin(BaseModelAdmin):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
         fields = ['id', ] + [k for k in fields if k not in ('id')]
+        # noinspection PyAttributeOutsideInit
         self.full_host = get_full_host(request)
         return fields
 
@@ -120,6 +121,7 @@ class TabletAdmin(BaseModelAdmin):
         elif format == 'admin':
             # Show the admin template
             tablet = Tablet.objects.get(pk=tablet_id)
+            # noinspection PyProtectedMember
             context = dict(
                self.admin_site.each_context(request),
                opts=self.model._meta,

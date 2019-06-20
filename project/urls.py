@@ -48,6 +48,7 @@ if settings.DEBUG:
                           document_root=settings.MEDIA_ROOT)
     # Import Django Debug Toolbar
     try:
+        # noinspection PyPackageRequirements
         import debug_toolbar
         urlpatterns.append(path('__debug__', include(debug_toolbar.urls)))
     except ImportError:
