@@ -227,4 +227,4 @@ class ActivityDayExport(object):
                    }
         # Append services counts
         results = dict(results, **self.counts)
-        return(results)
+        return results

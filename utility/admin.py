@@ -27,7 +27,7 @@ class AdminTextInputFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         # Dummy, required to show the filter.
-        return (('', ''),)
+        return ('', ''),
 
     def choices(self, changelist):
         # Grab only the "all" option.

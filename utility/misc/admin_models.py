@@ -35,7 +35,7 @@ def get_admin_models():
             if (issubclass(obj.__class__, MediaDefiningClass) and
                     issubclass(obj, admin.options.BaseModelAdmin) and
                     # Avoid to list the BaseModelAdmin class
-                    obj.__name__ not in ('BaseModelAdmin')):
+                    obj.__name__ not in 'BaseModelAdmin'):
                 admin_models[obj.__name__] = obj
     # Add dummy models from ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES
     for obj in settings.ADMIN_MODELS_REFERENCING_MODELS_WITH_CHOICES:

@@ -309,7 +309,7 @@ class EmployeeAdmin(BaseModelAdmin):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        fields = ['id', ] + [k for k in fields if k not in 'id']
         return fields
 
     def standard_photos(self, instance):

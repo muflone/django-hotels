@@ -49,7 +49,7 @@ class Timestamp(BaseModel):
         # Define the database table
         db_table = 'work_timestamps'
         ordering = ['contract', 'date', 'time']
-        unique_together = (('contract', 'direction', 'date', 'time'))
+        unique_together = ('contract', 'direction', 'date', 'time')
 
     def __str__(self):
         return '{CONTRACT} {DIRECTION} {DATE} {TIME}'.format(
@@ -71,7 +71,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
-    actions = ('action_export_timestamps',
+    actions = ('action_export_timestamps_hours',
                'action_export_timestamps_days')
     ordering = ('-date', '-time', 'contract')
 
@@ -86,7 +86,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        fields = ['id', ] + [k for k in fields if k not in 'id']
         return fields
 
     def get_queryset(self, request):
@@ -106,7 +106,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def action_export_timestamps(self, request, queryset):
+    def action_export_timestamps_hours(self, request, queryset):
         queryset = queryset.order_by('date', 'contract', 'time')
         # Save TimestampDirection keys for enter and exit
         direction_enter = TimestampDirection.get_enter_direction().pk
@@ -168,7 +168,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             data=results,
             fields_map=TimestampExport.fields_map,
             filename='export_timestamps')
-    action_export_timestamps.short_description = 'Export Timestamps hours'
+    action_export_timestamps_hours.short_description = 'Export Timestamps hours'
 
     def action_export_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')
@@ -186,14 +186,14 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         for timestamp in queryset:
             saved_date = None
             # Skip duplicated contract_id
-            if (timestamp.contract_id == saved_contract_id):
+            if timestamp.contract_id == saved_contract_id:
                 continue
             # Save unique contract_id
             saved_contract_id = timestamp.contract_id
             timestamp_export = TimestampDaysExport(timestamp)
             for item in queryset.filter(contract_id=saved_contract_id):
                 # Skip duplicated date
-                if (item.date == saved_date):
+                if item.date == saved_date:
                     continue
                 saved_date = item.date
                 # Use enter short code for exit direction
@@ -355,4 +355,4 @@ class TimestampDaysExport(object):
         results['roll_number'] = self.contract.roll_number
         results['working_days'] = list(self.dates.values()).count(
             working_short_code)
-        return(results)
+        return results

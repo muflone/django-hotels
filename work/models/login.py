@@ -61,7 +61,7 @@ class LoginAdmin(BaseModelAdmin, UserAdmin):
     def get_readonly_fields(self, request, obj=None):
         """Protect fields after creation"""
         if obj:
-            return ('employee', 'username')
+            return 'employee', 'username'
         else:
             return ()
 

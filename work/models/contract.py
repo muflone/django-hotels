@@ -118,7 +118,7 @@ class ContractAdminActiveFilter(admin.SimpleListFilter):
     parameter_name = 'active'
 
     def lookups(self, request, model_admin):
-        return ((1, _('Yes')), (0, _('No')))
+        return (1, _('Yes')), (0, _('No'))
 
     def queryset(self, request, queryset):
         if self.value() is not None:
@@ -199,12 +199,12 @@ class ContractAdmin(BaseModelAdmin):
         ] + super().get_urls()
         return urls
 
-    def qrcode(self, request, contract_id, format):
+    def qrcode(self, request, contract_id, export_format):
         """
         Show QR Code using direct rendering or redirect to cached image
         """
         instance = Contract.objects.get(pk=contract_id)
-        if format == 'raw':
+        if export_format == 'raw':
             # Direct result from QR Code render in memory
             stream = io.BytesIO()
             account_name = instance.employee.first_name
@@ -215,12 +215,12 @@ class ContractAdmin(BaseModelAdmin):
             qrcode.save(stream)
             stream.seek(0)
             response = HttpResponse(content=stream, content_type='image/png')
-        elif format == 'png':
+        elif export_format == 'png':
             # Redirection to MEDIA folder image
             response = redirect('{PATH}/{FILENAME}'.format(
                     PATH='{MEDIA}qrcode'.format(MEDIA=settings.MEDIA_URL),
                     FILENAME='{GUID}.png'.format(GUID=instance.guid)))
-        elif format == 'admin':
+        elif export_format == 'admin':
             # Show the admin template
             contract = Contract.objects.get(pk=contract_id)
             # noinspection PyProtectedMember,PyProtectedMember
@@ -237,7 +237,7 @@ class ContractAdmin(BaseModelAdmin):
             response = TemplateResponse(request,
                                         'work/admin_qrcode.html',
                                         context)
-        elif format == 'template':
+        elif export_format == 'template':
             # Show the QR Code template (used by qrcode_field)
             template = loader.get_template('work/qrcode.html')
             context = {

@@ -50,7 +50,7 @@ class Tablet(BaseModel):
         # Define the database table
         db_table = 'work_tablet'
         ordering = ['id', ]
-        unique_together = (('guid', ))
+        unique_together = ('guid',)
 
     def __str__(self):
         return 'Tablet {ID}'.format(ID=self.id)
@@ -71,7 +71,7 @@ class TabletAdmin(BaseModelAdmin):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in ('id')]
+        fields = ['id', ] + [k for k in fields if k not in 'id']
         # noinspection PyAttributeOutsideInit
         self.full_host = get_full_host(request)
         return fields
@@ -100,12 +100,12 @@ class TabletAdmin(BaseModelAdmin):
         ] + super().get_urls()
         return urls
 
-    def qrcode(self, request, tablet_id, format):
+    def qrcode(self, request, tablet_id, export_format):
         """
         Show QR Code using direct rendering or redirect to cached image
         """
         instance = Tablet.objects.get(pk=tablet_id)
-        if format == 'raw':
+        if export_format == 'raw':
             # Direct result from QR Code render in memory
             stream = io.BytesIO()
             qrcode_data = self._get_qrcode_text(instance)
@@ -113,12 +113,12 @@ class TabletAdmin(BaseModelAdmin):
             qrcode.save(stream)
             stream.seek(0)
             response = HttpResponse(content=stream, content_type='image/png')
-        elif format == 'png':
+        elif export_format == 'png':
             # Redirection to MEDIA folder image
             response = redirect('{PATH}/{FILENAME}'.format(
                     PATH='{MEDIA}tablets'.format(MEDIA=settings.MEDIA_URL),
                     FILENAME='{GUID}.png'.format(GUID=instance.guid)))
-        elif format == 'admin':
+        elif export_format == 'admin':
             # Show the admin template
             tablet = Tablet.objects.get(pk=tablet_id)
             # noinspection PyProtectedMember
@@ -135,7 +135,7 @@ class TabletAdmin(BaseModelAdmin):
             response = TemplateResponse(request,
                                         'work/admin_qrcode.html',
                                         context)
-        elif format == 'template':
+        elif export_format == 'template':
             # Show the QR Code template (used by qrcode_field)
             template = loader.get_template('work/qrcode.html')
             context = {

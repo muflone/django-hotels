@@ -112,7 +112,7 @@ class APIv1UsageView(APIv1BaseView):
                     meminfo['Slab'],
                     meminfo['MemFree'])
         except Exception:
-            return (-1, -1, -1)
+            return -1, -1, -1
 
     def get_database_usage(self):
         """Return default database usage"""
