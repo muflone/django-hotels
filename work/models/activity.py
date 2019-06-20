@@ -134,8 +134,8 @@ class ActivityInLinesProxy(Activity):
 class ActivityInLinesAdmin(BaseModelAdmin):
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
-    actions = ('action_report_daily_html',
-               'action_report_daily_pdf')
+    actions = ('action_daily_activities_html',
+               'action_daily_activities_pdf')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -144,7 +144,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def report_daily(self, request, queryset):
+    def get_daily_activities(self, request, queryset):
         queryset = queryset.order_by('date', 'contract')
         # Cycle each unique date/contract
         results = []
@@ -184,21 +184,23 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         )
         return context
 
-    def action_report_daily_html(self, request, queryset):
+    def action_daily_activities_html(self, request, queryset):
         response = TemplateResponse(request,
                                     'work/report_activities_daily/admin.html',
-                                    self.report_daily(request, queryset))
+                                    self.get_daily_activities(request,
+                                                              queryset))
         return response
-    action_report_daily_html.short_description = 'Daily activities (HTML)'
+    action_daily_activities_html.short_description = 'Daily activities (HTML)'
 
-    def action_report_daily_pdf(self, request, queryset):
+    def action_daily_activities_pdf(self, request, queryset):
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/report_activities_daily/pdf.html',
-                                      self.report_daily(request, queryset)),
+                                      self.get_daily_activities(request,
+                                                                queryset)),
             filename='')
         return response
-    action_report_daily_pdf.short_description = 'Daily activities (PDF)'
+    action_daily_activities_pdf.short_description = 'Daily activities (PDF)'
 
 
 class ActivityDayExport(object):
