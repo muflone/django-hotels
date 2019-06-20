@@ -153,7 +153,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             services = []
             totals = defaultdict(int)
             for activityroom in activity_room.ActivityRoom.objects.filter(
-                    activity=activity).order_by(
+                    activity=activity).select_related(
+                    'room', 'room__building', 'service').order_by(
                     'room__building__name', 'room__name'):
                 services.append({'building': activityroom.room.building.name,
                                  'room': activityroom.room.name,
