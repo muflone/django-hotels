@@ -72,7 +72,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
     actions = ('action_timestamps_hours_csv',
-               'action_export_timestamps_days')
+               'action_timestamps_days_csv')
     ordering = ('-date', '-time', 'contract')
 
     def first_name(self, instance):
@@ -173,7 +173,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             filename='timestamps_hours')
     action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
 
-    def action_export_timestamps_days(self, request, queryset):
+    def get_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')
         # Get minimum and maximum dates
         range_dates = queryset.aggregate(models.Min('date'),
@@ -210,7 +210,12 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 date_min=date_min,
                 date_max=date_max,
                 working_short_code=direction_enter.short_code))
+        return results, date_min, date_max
+
+    def action_timestamps_days_csv(self, request, queryset):
         # Export data to CSV format
+        results, date_min, date_max = self.get_timestamps_days(request,
+                                                               queryset)
         return self.do_export_data_to_csv(
             data=results,
             fields_map=dict(
@@ -218,8 +223,8 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 **dict([(datetime.date.fromordinal(day).strftime('%F'), day)
                         for day in range(date_min.toordinal(),
                                          date_max.toordinal() + 1)])),
-            filename='export_timestamps_days')
-    action_export_timestamps_days.short_description = 'Export Timestamps days'
+            filename='timestamps_days')
+    action_timestamps_days_csv.short_description = 'Timestamps days (CSV)'
 
     def import_csv(self, request):
         def append_error(type_name, item):
