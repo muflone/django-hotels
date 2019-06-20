@@ -33,10 +33,10 @@ def xhtml2pdf_link_callback(uri, rel):
     resources
     """
     # use short variable names
-    static_url = settings.STATIC_URL    # Typically /static/
-    static_root = settings.STATIC_ROOT  # Typically /home/userX/project_static/
-    media_url = settings.MEDIA_URL     # Typically /static/media/
-    media_root = settings.MEDIA_ROOT   # Typically /home/userX/project_static/media/
+    static_url = settings.STATIC_URL
+    static_root = settings.STATIC_ROOT
+    media_url = settings.MEDIA_URL
+    media_root = settings.MEDIA_ROOT
 
     # convert URIs to absolute system paths
     if uri.startswith(media_url):
@@ -48,7 +48,8 @@ def xhtml2pdf_link_callback(uri, rel):
 
     # make sure that file exists
     if not os.path.isfile(path):
-        raise Exception('media URI must start with %s or %s' % (static_url, media_url))
+        raise Exception('media URI must start with %s or %s' % (static_url,
+                                                                media_url))
     return path
 
 
