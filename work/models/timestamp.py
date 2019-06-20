@@ -71,7 +71,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     list_select_related = ('contract', 'contract__employee')
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
-    actions = ('action_export_timestamps_hours',
+    actions = ('action_timestamps_hours_csv',
                'action_export_timestamps_days')
     ordering = ('-date', '-time', 'contract')
 
@@ -106,7 +106,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 'employee', 'company')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def action_export_timestamps_hours(self, request, queryset):
+    def get_timestamps_hours(self, request, queryset):
         queryset = queryset.order_by('date', 'contract', 'time')
         # Save TimestampDirection keys for enter and exit
         direction_enter = TimestampDirection.get_enter_direction().pk
@@ -163,12 +163,15 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 timestamp_export.other_description = item.direction.description
 
                 results.append(timestamp_export.extract())
+        return results
+
+    def action_timestamps_hours_csv(self, request, queryset):
         # Export data to CSV format
         return self.do_export_data_to_csv(
-            data=results,
+            data=self.get_timestamps_hours(request, queryset),
             fields_map=TimestampExport.fields_map,
-            filename='export_timestamps')
-    action_export_timestamps_hours.short_description = 'Export Timestamps hours'
+            filename='timestamps_hours')
+    action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
 
     def action_export_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')
