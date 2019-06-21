@@ -20,6 +20,7 @@
 
 import datetime
 from collections import defaultdict
+import sys
 
 from django.db import models
 from django.template.response import TemplateResponse
@@ -30,7 +31,8 @@ from .contract import Contract
 
 from hotels.models import Service, ServiceType
 
-from utility.misc import (month_start, month_end,
+from utility.misc import (get_admin_sections_options,
+                          month_start, month_end,
                           xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
@@ -176,28 +178,30 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             grand_totals=sorted(['%s: %d' % (i[0], i[1])
                                 for i in grand_totals.items()]),
             services=Service.objects.values('id', 'name',
-                                            'forecolor', 'backcolor'),
-            single_page=AdminSection.objects.get(
-                name='report_daily_activities.single_page').description == '1',
-            styles=AdminSection.objects.get(
-                name='report_daily_activities.styles').description
+                                            'forecolor', 'backcolor')
         )
         return context
 
     def action_daily_activities_html(self, request, queryset):
+        context = self.get_daily_activities(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = TemplateResponse(request,
                                     'work/report_activities_daily/admin.html',
-                                    self.get_daily_activities(request,
-                                                              queryset))
+                                    context)
         return response
     action_daily_activities_html.short_description = 'Daily activities (HTML)'
 
     def action_daily_activities_pdf(self, request, queryset):
+        context = self.get_daily_activities(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/report_activities_daily/pdf.html',
-                                      self.get_daily_activities(request,
-                                                                queryset)),
+                                      context),
             filename='')
         return response
     action_daily_activities_pdf.short_description = 'Daily activities (PDF)'

@@ -6,3 +6,10 @@
   }
   {% endfor %}
 </style>
+
+{# Additional styles #}
+{% if styles %}
+<style>
+  {{ styles }}
+</style>
+{% endif %}
