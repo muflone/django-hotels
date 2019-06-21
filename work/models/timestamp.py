@@ -21,6 +21,7 @@
 import csv
 import datetime
 import io
+import locale
 import sys
 
 from django.db import models
@@ -78,7 +79,8 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     actions = ('action_timestamps_hours_csv',
                'action_timestamps_hours_html',
                'action_timestamps_hours_pdf',
-               'action_timestamps_days_csv')
+               'action_timestamps_days_csv',
+               'action_timestamps_days_html')
     ordering = ('-date', '-time', 'contract')
 
     def first_name(self, instance):
@@ -255,7 +257,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             # Include common variables for rendering the admin template
             self.admin_site.each_context(request),
             results=results,
+            # Ordinals are the numeric days, used for keys
             ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),
+            # Dates are the date objects
             dates=[datetime.date.fromordinal(day)
                    for day
                    in range(date_min.toordinal(), date_max.toordinal() + 1)]
@@ -278,6 +282,28 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                         for day in context['ordinals']])),
             filename='timestamps_days')
     action_timestamps_days_csv.short_description = 'Timestamps days (CSV)'
+
+    def action_timestamps_days_html(self, request, queryset):
+        context = self.get_timestamps_days(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Save locale and restore it after getting the days names
+        old_locale = locale.getlocale(locale.LC_TIME)
+        if context.get('locale'):
+            # Format days headers
+            locale.setlocale(locale.LC_TIME, context['locale'])
+        context['days'] = [date.strftime('%a') for date in context['dates']]
+        locale.setlocale(locale.LC_TIME, old_locale)
+        if context.get('format_date'):
+            # Format dates headers
+            context['dates'] = [date.strftime(context['format_date'])
+                                for date in context['dates']]
+        response = TemplateResponse(request,
+                                    'work/report_timestamps_days/admin.html',
+                                    context)
+        return response
+    action_timestamps_days_html.short_description = 'Timestamps days (HTML)'
 
     def import_csv(self, request):
         def append_error(type_name, item):

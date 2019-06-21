@@ -1,0 +1,20 @@
+  <table border="1" repeat="1">
+    <thead>
+      <tr>
+        <th colspan="5">&nbsp;</th>
+{% for day in days %}
+        <th class="day day_{{ day | lower }}">{{ day }}</th>
+{% endfor %}
+      </tr>
+      <tr>
+        <th class="company">Company</th>
+        <th class="employee">Employee</th>
+        <th class="contract">Contract ID</th>
+        <th class="rollnr">Roll NR</th>
+        <th class="workdays">Working Days</th>
+{% for date in dates %}
+        <th class="date">{{ date }}</th>
+{% endfor %}
+      </tr>
+    </thead>
+    <tbody>

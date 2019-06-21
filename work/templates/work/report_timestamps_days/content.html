@@ -1,0 +1,17 @@
+{% load get_dict_value %}
+{% include 'work/report_timestamps_days/table_header.html' %}
+
+{% for item in results %}
+      <tr>
+        <td class="company">{{ item.company }}</td>
+        <td class="employee">{{ item.employee }}</td>
+        <td class="contract">{{ item.contract_id }}</td>
+        <td class="rollnr">{{ item.roll_number }}</td>
+        <td class="workdays">{{ item.working_days }}</td>
+  {% for day in ordinals %}
+        <td class="date date_{{ item|get_dict_value:day | default:'' }}">{{ item|get_dict_value:day | default:'&nbsp;' }}</td>
+  {% endfor %}
+      </tr>
+{% endfor %}
+
+{% include 'work/report_timestamps_days/table_footer.html' %}
