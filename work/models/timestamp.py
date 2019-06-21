@@ -256,7 +256,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             self.admin_site.each_context(request),
             results=results,
             ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),
-            dates=[datetime.date.fromordinal(day).strftime('%d')
+            dates=[datetime.date.fromordinal(day)
                    for day
                    in range(date_min.toordinal(), date_max.toordinal() + 1)]
         )
@@ -272,7 +272,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             data=context['results'],
             fields_map=dict(
                 **TimestampDaysExport.fields_map,
-                **dict([(datetime.date.fromordinal(day).strftime('%F'), day)
+                **dict([(datetime.date.fromordinal(day).strftime(
+                        # Format dates headers
+                        context.get('format_date', '%F')), day)
                         for day in context['ordinals']])),
             filename='timestamps_days')
     action_timestamps_days_csv.short_description = 'Timestamps days (CSV)'
