@@ -168,7 +168,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                             'totals': ['%s: %d' % (i[0], i[1])
                                        for i in totals.items()]
                             })
-        # Export report
+        # Export data
         context = dict(
             # Include common variables for rendering the admin template
             self.admin_site.each_context(request),
@@ -178,9 +178,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             services=Service.objects.values('id', 'name',
                                             'forecolor', 'backcolor'),
             single_page=AdminSection.objects.get(
-                name='report_activities_daily.single_page').description == '1',
+                name='report_daily_activities.single_page').description == '1',
             styles=AdminSection.objects.get(
-                name='report_activities_daily.styles').description
+                name='report_daily_activities.styles').description
         )
         return context
 
