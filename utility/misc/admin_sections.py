@@ -18,14 +18,12 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .admin_models import get_admin_models                        # noqa: F401
-from .admin_sections import get_admin_sections_options            # noqa: F401
-from .dates import month_start, month_end                         # noqa: F401
-from .get_class_from_module import get_class_from_module          # noqa: F401
-from .get_full_host import get_full_host                          # noqa: F401
-from .qrcode_image import QRCodeImage                             # noqa: F401
-from .reverse_with_query import reverse_with_query                # noqa: F401
-from .uri import URI                                              # noqa: F401
-from .xhtml2pdf import (xhtml2pdf_link_callback,                  # noqa: F401
-                        xhtml2pdf_render_from_html,               # noqa: F401
-                        xhtml2pdf_render_from_template_response)  # noqa: F401
+from website.models import AdminSection
+
+
+def get_admin_sections_options(prefix):
+    """Get all the AdminSection with a prefix"""
+    admin_sections = {}
+    for option in AdminSection.objects.filter(name__startswith='%s.' % prefix):
+        admin_sections[option.name[len(prefix) + 1:]] = option.description
+    return admin_sections
