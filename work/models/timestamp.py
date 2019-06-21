@@ -34,7 +34,8 @@ from .timestamp_direction import TimestampDirection
 
 from utility.admin_widgets import AdminTimeWidget
 from utility.forms import CSVImportForm
-from utility.misc import get_admin_sections_options
+from utility.misc import (get_admin_sections_options,
+                          xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -76,6 +77,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     radio_fields = {'direction': admin.HORIZONTAL}
     actions = ('action_timestamps_hours_csv',
                'action_timestamps_hours_html',
+               'action_timestamps_hours_pdf',
                'action_timestamps_days_csv')
     ordering = ('-date', '-time', 'contract')
 
@@ -193,6 +195,19 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                     context)
         return response
     action_timestamps_hours_html.short_description = 'Timestamps hours (HTML)'
+
+    def action_timestamps_hours_pdf(self, request, queryset):
+        context = self.get_timestamps_hours(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        response = xhtml2pdf_render_from_template_response(
+            response=TemplateResponse(request,
+                                      'work/report_timestamps_hours/pdf.html',
+                                      context),
+            filename='')
+        return response
+    action_timestamps_hours_pdf.short_description = 'Timestamps hours (PDF)'
 
     def get_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')
