@@ -2,17 +2,21 @@
 
 {% for item in results %}
       <tr>
-        <td>{{ item.date }}</td>
-        <td>{{ item.company }}</td>
-        <td>{{ item.employee }}</td>
-        <td>{{ item.contract_id }}</td>
-        <td>{{ item.roll_number }}</td>
-        <td>{{ item.enter | default:'&nbsp;' }}</td>
-        <td>{{ item.enter_description | default:'&nbsp;' }}</td>
-        <td>{{ item.exit | default:'&nbsp;' }}</td>
-        <td>{{ item.exit_description | default:'&nbsp;' }}</td>
-        <td>{{ item.duration | default:'&nbsp;' }}</td>
-        <td>{{ item.notes | default:'&nbsp;' }}</td>
+        <td class="date">{{ item.date }}</td>
+        <td class="company">{{ item.company }}</td>
+        <td class="employee">{{ item.employee }}</td>
+        <td class="contract">{{ item.contract_id }}</td>
+        <td class="rollnr">{{ item.roll_number }}</td>
+        <td class="enter">{{ item.enter | default:'&nbsp;' }}</td>
+        <td class="enter_description">{{ item.enter_description | default:'&nbsp;' }}</td>
+        <td class="exit">{{ item.exit | default:'&nbsp;' }}</td>
+        <td class="exit_description">{{ item.exit_description | default:'&nbsp;' }}</td>
+        <td class="duration">{{ item.duration | default:'&nbsp;' }}</td>
+  {% if item.notes %}
+        <td class="notes">{{ item.notes }}</td>
+  {% else %}
+        <td class="notes_empty">&nbsp;</td>
+  {% endif %}
       </tr>
 {% endfor %}
 

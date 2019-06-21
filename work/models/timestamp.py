@@ -21,6 +21,7 @@
 import csv
 import datetime
 import io
+import sys
 
 from django.db import models
 from django.contrib import admin, messages
@@ -28,12 +29,12 @@ from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from website.models import AdminSection
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
 
 from utility.admin_widgets import AdminTimeWidget
 from utility.forms import CSVImportForm
+from utility.misc import get_admin_sections_options
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -170,11 +171,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         context = dict(
             # Include common variables for rendering the admin template
             self.admin_site.each_context(request),
-            results=results,
-            single_page=AdminSection.objects.get(
-                name='report_timestamps_hours.single_page').description == '1',
-            styles=AdminSection.objects.get(
-                name='report_timestamps_hours.styles').description
+            results=results
         )
         return context
 
@@ -187,10 +184,13 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
 
     def action_timestamps_hours_html(self, request, queryset):
+        context = self.get_timestamps_hours(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = TemplateResponse(request,
                                     'work/report_timestamps_hours/admin.html',
-                                    self.get_timestamps_hours(request,
-                                                              queryset))
+                                    context)
         return response
     action_timestamps_hours_html.short_description = 'Timestamps hours (HTML)'
 
