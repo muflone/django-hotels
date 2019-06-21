@@ -25,8 +25,10 @@ import io
 from django.db import models
 from django.contrib import admin, messages
 from django.shortcuts import render, redirect
+from django.template.response import TemplateResponse
 from django.urls import path
 
+from website.models import AdminSection
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
 
@@ -72,6 +74,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     readonly_fields = ('id', )
     radio_fields = {'direction': admin.HORIZONTAL}
     actions = ('action_timestamps_hours_csv',
+               'action_timestamps_hours_html',
                'action_timestamps_days_csv')
     ordering = ('-date', '-time', 'contract')
 
@@ -163,15 +166,33 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 timestamp_export.other_description = item.direction.description
 
                 results.append(timestamp_export.extract())
-        return results
+        # Export data
+        context = dict(
+            # Include common variables for rendering the admin template
+            self.admin_site.each_context(request),
+            results=results,
+            single_page=AdminSection.objects.get(
+                name='report_timestamps_hours.single_page').description == '1',
+            styles=AdminSection.objects.get(
+                name='report_timestamps_hours.styles').description
+        )
+        return context
 
     def action_timestamps_hours_csv(self, request, queryset):
         # Export data to CSV format
         return self.do_export_data_to_csv(
-            data=self.get_timestamps_hours(request, queryset),
+            data=self.get_timestamps_hours(request, queryset)['results'],
             fields_map=TimestampExport.fields_map,
             filename='timestamps_hours')
     action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
+
+    def action_timestamps_hours_html(self, request, queryset):
+        response = TemplateResponse(request,
+                                    'work/report_timestamps_hours/admin.html',
+                                    self.get_timestamps_hours(request,
+                                                              queryset))
+        return response
+    action_timestamps_hours_html.short_description = 'Timestamps hours (HTML)'
 
     def get_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')

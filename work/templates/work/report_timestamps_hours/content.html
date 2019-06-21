@@ -1,0 +1,19 @@
+{% include 'work/report_timestamps_hours/table_header.html' %}
+
+{% for item in results %}
+      <tr>
+        <td>{{ item.date }}</td>
+        <td>{{ item.company }}</td>
+        <td>{{ item.employee }}</td>
+        <td>{{ item.contract_id }}</td>
+        <td>{{ item.roll_number }}</td>
+        <td>{{ item.enter | default:'&nbsp;' }}</td>
+        <td>{{ item.enter_description | default:'&nbsp;' }}</td>
+        <td>{{ item.exit | default:'&nbsp;' }}</td>
+        <td>{{ item.exit_description | default:'&nbsp;' }}</td>
+        <td>{{ item.duration | default:'&nbsp;' }}</td>
+        <td>{{ item.notes | default:'&nbsp;' }}</td>
+      </tr>
+{% endfor %}
+
+{% include 'work/report_timestamps_hours/table_footer.html' %}
