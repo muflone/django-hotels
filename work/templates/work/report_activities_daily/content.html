@@ -1,11 +1,11 @@
-{# Table header for non single page layout #}
-{% if not single_page %}
+{# Table header for non single mode layout #}
+{% if single_mode != '1' %}
   {% include 'work/report_activities_daily/table_header.html' %}
 {% endif %}
 
 {% for item in results %}
-  {# Table header for non single page layout #}
-  {% if single_page %}
+  {# Table header for non single mode layout #}
+  {% if single_mode == '1' %}
     {% include 'work/report_activities_daily/table_header.html' %}
   {% endif %}
 
@@ -28,15 +28,15 @@
       </tr>
   {% endfor %}
 
-  {# Table footer for single page layout #}
-  {% if single_page %}
+  {# Table footer for single mode layout #}
+  {% if single_mode == '1' %}
     {% include 'work/report_activities_daily/table_footer.html' %}
       <pdf:nextpage />
   {% endif %}
 {% endfor %}
 
-{# Table footer for non single page layout #}
-{% if not single_page %}
+{# Table footer for non single mode layout #}
+{% if single_mode != '1' %}
   {% include 'work/report_activities_daily/table_footer.html' %}
 {% endif %}
 
