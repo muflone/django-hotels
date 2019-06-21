@@ -179,8 +179,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def action_timestamps_hours_csv(self, request, queryset):
         # Export data to CSV format
+        context = self.get_timestamps_hours(request, queryset)
         return self.do_export_data_to_csv(
-            data=self.get_timestamps_hours(request, queryset)['results'],
+            data=context['results'],
             fields_map=TimestampExport.fields_map,
             filename='timestamps_hours')
     action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
@@ -246,19 +247,27 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 date_min=date_min,
                 date_max=date_max,
                 working_short_code=direction_enter.short_code))
-        return results, date_min, date_max
+        # Export data
+        context = dict(
+            # Include common variables for rendering the admin template
+            self.admin_site.each_context(request),
+            results=results,
+            ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),
+            dates=[datetime.date.fromordinal(day).strftime('%d')
+                   for day
+                   in range(date_min.toordinal(), date_max.toordinal() + 1)]
+        )
+        return context
 
     def action_timestamps_days_csv(self, request, queryset):
         # Export data to CSV format
-        results, date_min, date_max = self.get_timestamps_days(request,
-                                                               queryset)
+        context = self.get_timestamps_days(request, queryset)
         return self.do_export_data_to_csv(
-            data=results,
+            data=context['results'],
             fields_map=dict(
                 **TimestampDaysExport.fields_map,
                 **dict([(datetime.date.fromordinal(day).strftime('%F'), day)
-                        for day in range(date_min.toordinal(),
-                                         date_max.toordinal() + 1)])),
+                        for day in context['ordinals']])),
             filename='timestamps_days')
     action_timestamps_days_csv.short_description = 'Timestamps days (CSV)'
 
