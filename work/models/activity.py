@@ -36,8 +36,6 @@ from utility.misc import (get_admin_sections_options,
                           xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
-from website.models import AdminSection
-
 
 class Activity(BaseModel):
 
