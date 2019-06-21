@@ -19,6 +19,7 @@
 ##
 
 import csv
+import operator
 
 from django.http import HttpResponse
 
@@ -38,9 +39,9 @@ class ExportCSVMixin(object):
             item = {}
             for key in self.export_csv_fields_map.keys():
                 field = self.export_csv_fields_map[key]
-                item[field] = (getattr(row, field)
-                               if not callable(getattr(row, field))
-                               else getattr(row, field)())
+                item[field] = (operator.attrgetter(field)(row)
+                               if not callable(operator.attrgetter(field)(row))
+                               else operator.attrgetter(field)(row)())
             data.append(item)
         # noinspection PyProtectedMember
         return self.do_export_data_to_csv(
