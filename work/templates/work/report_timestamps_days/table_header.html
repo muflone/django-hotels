@@ -3,7 +3,7 @@
       <tr>
         <th colspan="5">&nbsp;</th>
 {% for day in days %}
-        <th class="day day_{{ day | lower }}">{{ day }}</th>
+        <th class="day day_{{ day | lower }}">{{ day | upper }}</th>
 {% endfor %}
       </tr>
       <tr>
