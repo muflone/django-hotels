@@ -199,7 +199,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         context.update(get_admin_sections_options('%s.%s' % (
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = TemplateResponse(request,
-                                    'work/report_timestamps_hours/admin.html',
+                                    'work/timestamps_hours/admin.html',
                                     context)
         return response
     action_timestamps_hours_html.short_description = 'Timestamps hours (HTML)'
@@ -211,7 +211,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
-                                      'work/report_timestamps_hours/pdf.html',
+                                      'work/timestamps_hours/pdf.html',
                                       context),
             filename='')
         return response
