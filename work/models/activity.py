@@ -17,7 +17,7 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
-
+import collections
 import datetime
 from collections import defaultdict
 import sys
@@ -135,7 +135,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
     inlines = [activity_room.ActivityRoomInline, ]
     date_hierarchy = 'date'
     actions = ('action_daily_activities_html',
-               'action_daily_activities_pdf')
+               'action_daily_activities_pdf',
+               'action_monthly_activities_html')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -203,6 +204,64 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             filename='')
         return response
     action_daily_activities_pdf.short_description = 'Daily activities (PDF)'
+
+    def get_monthly_activities(self, request, queryset):
+        queryset = queryset.order_by('date')
+        # Get minimum and maximum dates
+        range_dates = queryset.aggregate(models.Min('date'),
+                                         models.Max('date'))
+        date_min = range_dates['date__min']
+        date_max = range_dates['date__max']
+        results = {}
+        totals = {}
+        for day in range(date_min.toordinal(), date_max.toordinal() + 1):
+            results[str(day)] = defaultdict(int)
+            totals[str(day)] = 0
+        # Get every used service
+        Service = collections.namedtuple('Service', 'id name')
+        services = [Service(service[0], service[1])
+                    for service in activity_room.ActivityRoom.objects.filter(
+                    activity_id__in=queryset.values_list('id')).values_list(
+                    'service_id', 'service__name').order_by(
+                    'service_id').distinct()]
+        # Cycle each unique date
+        for activity in queryset:
+            day = activity.date.toordinal()
+            # Get totals for each activity
+            for total in activity_room.ActivityRoom.objects.filter(
+                    activity=activity).select_related('service').values(
+                    'service_id').annotate(
+                    count=models.Count('service_id')).order_by('service_id'):
+                results[str(day)][total['service_id']] += total['count']
+                totals[str(day)] += total['count']
+        # Export data
+        context = dict(
+            # Include common variables for rendering the admin template
+            self.admin_site.each_context(request),
+            results=results,
+            totals=totals,
+            # Ordinals are the numeric days, used for keys
+            ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),
+            # Dates are the date objects
+            dates=dict([(str(day), datetime.date.fromordinal(day))
+                        for day in range(date_min.toordinal(),
+                                         date_max.toordinal() + 1)]),
+            # Services list
+            services=services
+        )
+        return context
+
+    def action_monthly_activities_html(self, request, queryset):
+        context = self.get_monthly_activities(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        response = TemplateResponse(request,
+                                    'work/report_activities_monthly/admin.html',
+                                    context)
+        return response
+    action_monthly_activities_html.short_description = (
+        'Monthly activities (HTML)')
 
 
 class ActivityDayExport(object):

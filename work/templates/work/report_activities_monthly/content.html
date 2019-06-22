@@ -1,0 +1,15 @@
+{% load get_dict_value %}
+
+{% include 'work/report_activities_monthly/table_header.html' %}
+
+{% for key, value in results.items %}
+      <tr>
+        <td class="date">{{ dates | get_dict_value:key }}</td>
+  {% for service in services %}
+        <td class="service service_{{ service.id }}">{{ value | get_dict_value:service.id | default:'&nbsp;' }}</td>
+  {% endfor %}
+        <td class="totals">{{ totals | get_dict_value:key }}</td>
+      </tr>
+{% endfor %}
+
+{% include 'work/report_activities_monthly/table_footer.html' %}
