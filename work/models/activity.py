@@ -219,8 +219,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             results[str(day)] = defaultdict(int)
             totals[str(day)] = 0
         # Get every used service
-        Service = collections.namedtuple('Service', 'id name')
-        services = [Service(service[0], service[1])
+        ServiceNM = collections.namedtuple('Service', 'id name')
+        services = [ServiceNM(service[0], service[1])
                     for service in activity_room.ActivityRoom.objects.filter(
                     activity_id__in=queryset.values_list('id')).values_list(
                     'service_id', 'service__name').order_by(
@@ -230,7 +230,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             day = activity.date.toordinal()
             # Get totals for each activity
             for total in activity_room.ActivityRoom.objects.filter(
-                    activity=activity).select_related('service').values(
+                    activity=activity).values(
                     'service_id').annotate(
                     count=models.Count('service_id')).order_by('service_id'):
                 results[str(day)][total['service_id']] += total['count']
