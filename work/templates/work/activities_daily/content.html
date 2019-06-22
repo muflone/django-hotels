@@ -1,12 +1,12 @@
 {# Table header for non single mode layout #}
 {% if single_mode != '1' %}
-  {% include 'work/report_activities_daily/table_header.html' %}
+  {% include 'work/activities_daily/table_header.html' %}
 {% endif %}
 
 {% for item in results %}
   {# Table header for non single mode layout #}
   {% if single_mode == '1' %}
-    {% include 'work/report_activities_daily/table_header.html' %}
+    {% include 'work/activities_daily/table_header.html' %}
   {% endif %}
 
   {% for service in item.services %}
@@ -30,14 +30,14 @@
 
   {# Table footer for single mode layout #}
   {% if single_mode == '1' %}
-    {% include 'work/report_activities_daily/table_footer.html' %}
+    {% include 'work/activities_daily/table_footer.html' %}
       <pdf:nextpage />
   {% endif %}
 {% endfor %}
 
 {# Table footer for non single mode layout #}
 {% if single_mode != '1' %}
-  {% include 'work/report_activities_daily/table_footer.html' %}
+  {% include 'work/activities_daily/table_footer.html' %}
 {% endif %}
 
 {# Totals table #}

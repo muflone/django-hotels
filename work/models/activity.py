@@ -188,7 +188,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         context.update(get_admin_sections_options('%s.%s' % (
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = TemplateResponse(request,
-                                    'work/report_activities_daily/admin.html',
+                                    'work/activities_daily/admin.html',
                                     context)
         return response
     action_daily_activities_html.short_description = 'Daily activities (HTML)'
@@ -200,7 +200,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
-                                      'work/report_activities_daily/pdf.html',
+                                      'work/activities_daily/pdf.html',
                                       context),
             filename='')
         return response
