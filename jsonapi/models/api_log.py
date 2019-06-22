@@ -17,14 +17,19 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
+import datetime
+import json
 
 from django.contrib.admin import SimpleListFilter
 from django.db import models
+from django.utils.http import urlunquote
+
+from hotels.models import Room, Service
 
 from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
-from work.models import Tablet
+from work.models import Employee, Tablet, TimestampDirection
 
 
 class ApiLog(BaseModel):
@@ -104,4 +109,66 @@ class TabletIDFilter(SimpleListFilter):
 
 
 class ApiLogAdmin(BaseModelAdmin):
-    pass
+    readonly_fields = ('explanation', )
+
+    def explanation(self, instance):
+        """Explanation text for log"""
+        result = ''
+        if instance.id:
+            details = json.loads(instance.kwargs.replace('\'', '"'))
+            if instance.func_name == 'APIv1PutActivity':
+                employee = Employee.objects.get(
+                    contract=details['contract_id'])
+                contract = employee.contract_set.get()
+                room = Room.objects.get(id=details['room_id'])
+                service = Service.objects.get(id=details['service_id'])
+                date = datetime.datetime.fromtimestamp(
+                    int(details['datetime'])).strftime('%F')
+                description = urlunquote(
+                    details.get('description', '')).replace('+', ' ')
+                result = ('Tablet {TABLET}\n'
+                          'Contract: {CONTRACT}\n'
+                          'Employee: {FIRST_NAME} {LAST_NAME}\n'
+                          'Structure: {STRUCTURE}\n'
+                          'Building: {BUILDING}\n'
+                          'Room: {ROOM}\n'
+                          'Service: {SERVICE}\n'
+                          'Date: {DATE}\n'
+                          'Description: {DESCRIPTION}'
+                          ''.format(TABLET=instance.tablet_id,
+                                    CONTRACT=contract.pk,
+                                    FIRST_NAME=employee.first_name,
+                                    LAST_NAME=employee.last_name,
+                                    STRUCTURE=room.building.structure.name,
+                                    BUILDING=room.building.name,
+                                    ROOM=room.name,
+                                    SERVICE=service.name,
+                                    DATE=date,
+                                    DESCRIPTION=description))
+            elif instance.func_name == 'APIv1PutTimestamp':
+                employee = Employee.objects.get(
+                    contract=details['contract_id'])
+                contract = employee.contract_set.get()
+                direction = TimestampDirection.objects.get(
+                    id=details['direction_id'])
+                date = datetime.datetime.fromtimestamp(
+                    int(details['datetime'])).strftime('%F')
+                description = urlunquote(
+                    details.get('description', '')).replace('+', ' ')
+                result = ('Tablet {TABLET}\n'
+                          'Contract: {CONTRACT}\n'
+                          'Employee: {FIRST_NAME} {LAST_NAME}\n'
+                          'Direction: {DIRECTION}\n'
+                          'Date: {DATE}\n'
+                          'Description: {DESCRIPTION}'
+                          ''.format(TABLET=instance.tablet_id,
+                                    CONTRACT=contract.pk,
+                                    FIRST_NAME=employee.first_name,
+                                    LAST_NAME=employee.last_name,
+                                    DIRECTION=direction.name,
+                                    DATE=date,
+                                    DESCRIPTION=description))
+            elif instance.func_name == 'APIv1GetView':
+                result = ('Tablet {TABLET}'
+                          ''.format(TABLET=instance.tablet_id))
+        return result
