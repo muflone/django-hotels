@@ -266,7 +266,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         context.update(get_admin_sections_options('%s.%s' % (
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = TemplateResponse(request,
-                                    'work/report_activities_monthly/admin.html',
+                                    'work/activities_monthly/admin.html',
                                     context)
         return response
     action_monthly_activities_html.short_description = (
@@ -279,7 +279,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             self.__class__.__name__, sys._getframe().f_code.co_name)))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
-                                      'work/report_activities_monthly/pdf.html',
+                                      'work/activities_monthly/pdf.html',
                                       context),
             filename='')
         return response
