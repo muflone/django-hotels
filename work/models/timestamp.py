@@ -80,7 +80,8 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                'action_timestamps_hours_html',
                'action_timestamps_hours_pdf',
                'action_timestamps_days_csv',
-               'action_timestamps_days_html')
+               'action_timestamps_days_html',
+               'action_timestamps_days_pdf')
     ordering = ('-date', '-time', 'contract')
 
     def first_name(self, instance):
@@ -304,6 +305,30 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                     context)
         return response
     action_timestamps_days_html.short_description = 'Timestamps days (HTML)'
+
+    def action_timestamps_days_pdf(self, request, queryset):
+        context = self.get_timestamps_days(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Save locale and restore it after getting the days names
+        old_locale = locale.getlocale(locale.LC_TIME)
+        if context.get('locale'):
+            # Format days headers
+            locale.setlocale(locale.LC_TIME, context['locale'])
+        context['days'] = [date.strftime('%a') for date in context['dates']]
+        locale.setlocale(locale.LC_TIME, old_locale)
+        if context.get('format_date'):
+            # Format dates headers
+            context['dates'] = [date.strftime(context['format_date'])
+                                for date in context['dates']]
+        response = xhtml2pdf_render_from_template_response(
+            response=TemplateResponse(request,
+                                      'work/report_timestamps_days/pdf.html',
+                                      context),
+            filename='')
+        return response
+    action_timestamps_days_pdf.short_description = 'Timestamps days (PDF)'
 
     def import_csv(self, request):
         def append_error(type_name, item):
