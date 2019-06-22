@@ -29,7 +29,7 @@ from django.urls import path
 from . import activity_room
 from .contract import Contract
 
-from hotels.models import Service, ServiceType
+from hotels.models import Service, ServiceType, Structure
 
 from utility.misc import (get_admin_sections_options,
                           month_start, month_end,
@@ -215,6 +215,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         date_max = range_dates['date__max']
         results = {}
         totals = {}
+        structures = []
         for day in range(date_min.toordinal(), date_max.toordinal() + 1):
             results[str(day)] = defaultdict(int)
             totals[str(day)] = 0
@@ -231,16 +232,23 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             # Get totals for each activity
             for total in activity_room.ActivityRoom.objects.filter(
                     activity=activity).values(
-                    'service_id').annotate(
+                    'service_id', 'room__building__structure_id').annotate(
                     count=models.Count('service_id')).order_by('service_id'):
+                structures.append(total['room__building__structure_id'])
                 results[str(day)][total['service_id']] += total['count']
                 totals[str(day)] += total['count']
+        # Prepare structures
+        StructureNM = collections.namedtuple('Service', 'name company')
+        structures = [StructureNM(structure.name, structure.company.name)
+                      for structure
+                      in Structure.objects.filter(id__in=structures).all()]
         # Export data
         context = dict(
             # Include common variables for rendering the admin template
             self.admin_site.each_context(request),
             results=results,
             totals=totals,
+            structures=structures,
             # Ordinals are the numeric days, used for keys
             ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),
             # Dates are the date objects

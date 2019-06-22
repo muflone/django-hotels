@@ -1,5 +1,12 @@
 {% load get_dict_value %}
 
+{% if structures|length > 1 %}
+  <h1 class="warning">Warning: there is more than a structure selected</h1>
+{% endif %}
+{% for structure in structures %}
+  <h1 class="company">Company: {{ structure.company }} - Structure: {{ structure.name }}</h1>
+{% endfor %}
+
 {% include 'work/report_activities_monthly/table_header.html' %}
 
 {% for key, value in results.items %}
