@@ -15,3 +15,17 @@
 {% endfor %}
 
 {% include 'work/report_timestamps_days/table_footer.html' %}
+
+<hr />
+
+{# Totals table #}
+  <table border="1" width="200px" class="totals">
+    <tbody>
+{% for item in directions %}
+      <tr>
+        <td class="short_code">{{ item.short_code }}</td>
+        <td class="name">{{ item.name }}</td>
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>

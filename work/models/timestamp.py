@@ -18,6 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+import collections
 import csv
 import datetime
 import io
@@ -254,6 +255,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                 date_max=date_max,
                 working_short_code=direction_enter.short_code))
         # Export data
+        Direction = collections.namedtuple('Direction', 'short_code name')
         context = dict(
             # Include common variables for rendering the admin template
             self.admin_site.each_context(request),
@@ -263,7 +265,12 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             # Dates are the date objects
             dates=[datetime.date.fromordinal(day)
                    for day
-                   in range(date_min.toordinal(), date_max.toordinal() + 1)]
+                   in range(date_min.toordinal(), date_max.toordinal() + 1)],
+            # Directions for final report data
+            directions=[Direction(item[0], item[1])
+                        for item in (TimestampDirection.objects.exclude(
+                            id__in=(0, direction_exit.pk)).order_by(
+                            'name').values_list('short_code', 'name'))]
         )
         return context
 
