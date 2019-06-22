@@ -136,7 +136,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
     date_hierarchy = 'date'
     actions = ('action_daily_activities_html',
                'action_daily_activities_pdf',
-               'action_monthly_activities_html')
+               'action_monthly_activities_html',
+               'action_monthly_activities_pdf')
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'contract':
@@ -262,6 +263,20 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         return response
     action_monthly_activities_html.short_description = (
         'Monthly activities (HTML)')
+
+    def action_monthly_activities_pdf(self, request, queryset):
+        context = self.get_monthly_activities(request, queryset)
+        # Add report preferences from AdminSections
+        context.update(get_admin_sections_options('%s.%s' % (
+            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        response = xhtml2pdf_render_from_template_response(
+            response=TemplateResponse(request,
+                                      'work/report_activities_monthly/pdf.html',
+                                      context),
+            filename='')
+        return response
+    action_monthly_activities_pdf.short_description = (
+        'Monthly activities (PDF)')
 
 
 class ActivityDayExport(object):
