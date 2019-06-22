@@ -308,7 +308,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             context['dates'] = [date.strftime(context['format_date'])
                                 for date in context['dates']]
         response = TemplateResponse(request,
-                                    'work/report_timestamps_days/admin.html',
+                                    'work/timestamps_days/admin.html',
                                     context)
         return response
     action_timestamps_days_html.short_description = 'Timestamps days (HTML)'
@@ -331,7 +331,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                 for date in context['dates']]
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
-                                      'work/report_timestamps_days/pdf.html',
+                                      'work/timestamps_days/pdf.html',
                                       context),
             filename='')
         return response
