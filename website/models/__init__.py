@@ -18,6 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+from .admin_option import AdminOption, AdminOptionAdmin           # noqa: F401
 from .admin_section import AdminSection, AdminSectionAdmin        # noqa: F401
 from .home_section import HomeSection, HomeSectionAdmin           # noqa: F401
 

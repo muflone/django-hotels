@@ -28,6 +28,7 @@ from .models import (AdminExportCSVMap, AdminExportCSVMapAdmin,
                      AdminListDisplay, AdminListDisplayAdmin,
                      AdminListDisplayLink, AdminListDisplayLinkAdmin,
                      AdminListFilter, AdminListFilterAdmin,
+                     AdminOption, AdminOptionAdmin,
                      AdminSearchable, AdminSearchableAdmin,
                      AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
@@ -40,6 +41,7 @@ admin.site.register(AdminExportCSVMap, AdminExportCSVMapAdmin)
 admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
 admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
 admin.site.register(AdminListFilter, AdminListFilterAdmin)
+admin.site.register(AdminOption, AdminOptionAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
 admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)
