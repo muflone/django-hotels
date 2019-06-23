@@ -22,7 +22,7 @@ import os.path
 
 from django.conf import settings
 from django.contrib.admin.widgets import AdminFileWidget
-from django.utils.html import mark_safe
+from django.utils.safestring import mark_safe
 
 
 class AdminImageWidget(AdminFileWidget):
