@@ -13,7 +13,13 @@
       <tr>
     {# Set the activity name, once for all services #}
     {% if forloop.first %}
-        <td rowspan="{{ item.services | length }}">{{ item.activity }}</td>
+      {% if show_activities == '1' %}
+        <td class="activity" rowspan="{{ item.services | length }}">{{ item.activity }}</td>
+      {% else %}
+        <td class="company" rowspan="{{ item.services | length }}">{{ item.company }}</td>
+        <td class="employee" rowspan="{{ item.services | length }}">{{ item.employee }}</td>
+        <td class="date" rowspan="{{ item.services | length }}">{{ item.date }}</td>
+      {% endif %}
     {% endif %}
         <td>{{ service.building }}</td>
         <td>{{ service.room }}</td>

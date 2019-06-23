@@ -165,7 +165,10 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                  })
                 totals[activityroom.service.name] += 1
                 grand_totals[activityroom.service.name] += 1
-            results.append({'activity': str(activity),
+            results.append({'company': activity.contract.company,
+                            'employee': activity.contract.employee,
+                            'date': activity.date,
+                            'activity': str(activity),
                             'services': services,
                             'totals': ['%s: %d' % (i[0], i[1])
                                        for i in totals.items()]

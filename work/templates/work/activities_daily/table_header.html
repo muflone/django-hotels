@@ -1,7 +1,13 @@
   <table border="1" repeat="1">
     <thead>
       <tr>
+      {% if show_activities == '1' %}
         <th>Activity</th>
+      {% else %}
+        <th>Company</th>
+        <th>Employee</th>
+        <th>Date</th>
+      {% endif %}
         <th>Building</th>
         <th>Room</th>
         <th>Service</th>
