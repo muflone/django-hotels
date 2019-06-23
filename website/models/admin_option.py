@@ -26,6 +26,7 @@ from utility.models import BaseModel, BaseModelAdmin
 class AdminOption(BaseModel):
 
     section = models.CharField(max_length=255)
+    group = models.CharField(max_length=255, default='main')
     name = models.CharField(max_length=255)
     enabled = models.BooleanField(default=True)
     description = models.TextField(blank=True)
@@ -34,12 +35,13 @@ class AdminOption(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'website_admin_options'
-        ordering = ['section', 'name']
-        unique_together = ('section', 'name')
+        ordering = ['section', 'group', 'name']
+        unique_together = ('section', 'group', 'name')
 
     def __str__(self):
-        return '{SECTION} - {NAME}'.format(SECTION=self.section,
-                                           NAME=self.name)
+        return '{SECTION} - {GROUP} - {NAME}'.format(SECTION=self.section,
+                                                     GROUP=self.group,
+                                                     NAME=self.name)
 
 
 class AdminOptionAdmin(BaseModelAdmin):
