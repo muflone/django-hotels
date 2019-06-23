@@ -50,15 +50,16 @@ admin_models = get_admin_models()
 
 # Customize Administration
 try:
-    for section in AdminSection.objects.all():
-        if section.name == 'site_header':
-            admin.site.site_header = section.description
-        elif section.name == 'site_title':
-            admin.site.site_title = section.description
-        elif section.name == 'index_title':
-            admin.site.index_title = section.description
+    for option in AdminOption.objects.filter(section='Django Admin',
+                                             enabled=True):
+        if option.name == 'site_header':
+            admin.site.site_header = option.value
+        elif option.name == 'site_title':
+            admin.site.site_title = option.value
+        elif option.name == 'index_title':
+            admin.site.index_title = option.value
 except OperationalError:
-    # If the model AdminSection doesn't yet exist skip the customization
+    # If the model AdminOption doesn't yet exist skip the customization
     pass
 
 # Customize searchables
