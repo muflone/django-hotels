@@ -215,10 +215,12 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         date_max = range_dates['date__max']
         results = {}
         totals = {}
+        details = {}
         structures = []
         for day in range(date_min.toordinal(), date_max.toordinal() + 1):
             results[str(day)] = defaultdict(int)
             totals[str(day)] = 0
+            details[str(day)] = []
         # Get every used service
         ServiceNM = collections.namedtuple('Service', 'id name')
         services = [ServiceNM(service[0], service[1])
@@ -232,9 +234,13 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             # Get totals for each activity
             for total in activity_room.ActivityRoom.objects.filter(
                     activity=activity).values(
-                    'service_id', 'room__building__structure_id').annotate(
+                    'service_id', 'room__building__structure_id',
+                    'description').annotate(
                     count=models.Count('service_id')).order_by('service_id'):
                 structures.append(total['room__building__structure_id'])
+                # Add description, if any
+                if total['description']:
+                    details[str(day)].append(total['description'])
                 results[str(day)][total['service_id']] += total['count']
                 totals[str(day)] += total['count']
         # Prepare structures
@@ -248,6 +254,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             self.admin_site.each_context(request),
             results=results,
             totals=totals,
+            details=dict([(item[0], '\n'.join(item[1]))
+                         for item in details.items()]),
             structures=structures,
             # Ordinals are the numeric days, used for keys
             ordinals=range(date_min.toordinal(), date_max.toordinal() + 1),

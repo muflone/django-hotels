@@ -16,6 +16,9 @@
         <td class="service service_{{ service.id }}">{{ value | get_dict_value:service.id | default:'&nbsp;' }}</td>
   {% endfor %}
         <td class="totals">{{ totals | get_dict_value:key }}</td>
+  {% if show_details == '1' %}
+        <td class="details">{{ details | get_dict_value:key | default:'&nbsp;' | linebreaksbr }}</td>
+  {% endif %}
       </tr>
 {% endfor %}
 

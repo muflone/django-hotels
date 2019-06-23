@@ -6,6 +6,9 @@
         <th class="service service_{{ service.id }}">{{ service.name }}</th>
 {% endfor %}
         <th class="totals">Totals</th>
+{% if show_details == '1' %}
+        <th class="details">Details</th>
+{% endif %}
       </tr>
     </thead>
     <tbody>
