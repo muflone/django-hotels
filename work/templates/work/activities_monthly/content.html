@@ -4,7 +4,7 @@
   <h1 class="warning">Warning: there is more than a structure selected</h1>
 {% endif %}
 {% for structure in structures %}
-  <h1 class="company">Company: {{ structure.company }} - Structure: {{ structure.name }}</h1>
+  <h1 class="structure">Company: {{ structure.company }} - Structure: {{ structure.name }}</h1>
 {% endfor %}
 
 {% include 'work/activities_monthly/table_header.html' %}
