@@ -303,8 +303,8 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             locale.setlocale(locale.LC_TIME, context['locale'])
         context['days'] = [date.strftime('%a') for date in context['dates']]
         locale.setlocale(locale.LC_TIME, old_locale)
+        # Format dates
         if context.get('format_date'):
-            # Format dates headers
             context['dates'] = [date.strftime(context['format_date'])
                                 for date in context['dates']]
         response = TemplateResponse(request,
@@ -325,8 +325,8 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             locale.setlocale(locale.LC_TIME, context['locale'])
         context['days'] = [date.strftime('%a') for date in context['dates']]
         locale.setlocale(locale.LC_TIME, old_locale)
+        # Format dates
         if context.get('format_date'):
-            # Format dates headers
             context['dates'] = [date.strftime(context['format_date'])
                                 for date in context['dates']]
         response = xhtml2pdf_render_from_template_response(
