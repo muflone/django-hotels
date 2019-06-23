@@ -19,7 +19,7 @@
 ##
 
 from .admin_models import get_admin_models                        # noqa: F401
-from .admin_sections import get_admin_sections_options            # noqa: F401
+from .admin_options import get_admin_options                      # noqa: F401
 from .dates import month_start, month_end                         # noqa: F401
 from .get_class_from_module import get_class_from_module          # noqa: F401
 from .get_full_host import get_full_host                          # noqa: F401

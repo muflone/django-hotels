@@ -18,12 +18,11 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from website.models import AdminSection
+from website.models import AdminOption
 
 
-def get_admin_sections_options(prefix):
-    """Get all the AdminSection with a prefix"""
-    admin_sections = {}
-    for option in AdminSection.objects.filter(name__startswith='%s.' % prefix):
-        admin_sections[option.name[len(prefix) + 1:]] = option.description
-    return admin_sections
+def get_admin_options(section, group):
+    """Get all the enabled AdminOption with a section and group"""
+    return dict(AdminOption.objects.filter(
+        section=section, group=group, enabled=True).values_list(
+        'name', 'value').all())
