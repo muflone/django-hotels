@@ -19,7 +19,6 @@
 ##
 
 from .admin_option import AdminOption, AdminOptionAdmin           # noqa: F401
-from .admin_section import AdminSection, AdminSectionAdmin        # noqa: F401
 from .home_section import HomeSection, HomeSectionAdmin           # noqa: F401
 
 # Keep all the models with a field model always at the last imports

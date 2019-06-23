@@ -30,7 +30,6 @@ from .models import (AdminExportCSVMap, AdminExportCSVMapAdmin,
                      AdminListFilter, AdminListFilterAdmin,
                      AdminOption, AdminOptionAdmin,
                      AdminSearchable, AdminSearchableAdmin,
-                     AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
 
 from utility.misc import get_admin_models, get_class_from_module
@@ -43,7 +42,6 @@ admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
 admin.site.register(AdminListFilter, AdminListFilterAdmin)
 admin.site.register(AdminOption, AdminOptionAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
-admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)
 
 admin_models = get_admin_models()
