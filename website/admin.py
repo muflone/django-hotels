@@ -79,7 +79,9 @@ try:
     # Add the fields to model list_display
     for item in AdminListDisplay.objects.filter(enabled=True).order_by(
             'model', 'order'):
-        admin_models[item.model].list_display.append(item.field)
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].list_display.append(item.field)
 except OperationalError:
     # If the model AdminListDisplay doesn't yet exist skip the customization
     pass
@@ -121,7 +123,9 @@ try:
         else:
             # The filter is a string filter
             new_fields = item.field
-        admin_models[item.model].list_filter.append(new_fields)
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].list_filter.append(new_fields)
 except OperationalError:
     # If the model AdminListFilter doesn't yet exist skip the customization
     pass
@@ -134,7 +138,10 @@ try:
     # Add the fields to model export_csv_fields_map
     for item in AdminExportCSVMap.objects.filter(enabled=True).order_by(
             'model', 'order', 'title'):
-        admin_models[item.model].export_csv_fields_map[item.title] = item.field
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].export_csv_fields_map[item.title] = (
+                item.field)
 except OperationalError:
     # If the model AdminExportCSVMap doesn't yet exist skip the
     # customization
