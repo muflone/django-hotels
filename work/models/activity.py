@@ -273,6 +273,12 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         # Add report preferences from AdminSections
         context.update(get_admin_sections_options('%s.%s' % (
             self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Format dates
+        if context.get('format_date'):
+            context['dates'] = dict([(key,
+                                      date.strftime(context['format_date']))
+                                     for key, date
+                                     in context['dates'].items()])
         response = TemplateResponse(request,
                                     'work/activities_monthly/admin.html',
                                     context)
@@ -285,6 +291,12 @@ class ActivityInLinesAdmin(BaseModelAdmin):
         # Add report preferences from AdminSections
         context.update(get_admin_sections_options('%s.%s' % (
             self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Format dates
+        if context.get('format_date'):
+            context['dates'] = dict([(key,
+                                      date.strftime(context['format_date']))
+                                     for key, date
+                                     in context['dates'].items()])
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/activities_monthly/pdf.html',
