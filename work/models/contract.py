@@ -38,7 +38,7 @@ from utility.admin import AdminTextInputFilter
 from utility.misc import QRCodeImage, URI, xhtml2pdf_render_from_html
 from utility.models import BaseModel, BaseModelAdmin
 
-from website.models import AdminSection
+from website.models import AdminOption
 
 
 class ContractManager(models.Manager):
@@ -259,8 +259,10 @@ class ContractAdmin(BaseModelAdmin):
         Create an ID card in PDF format
         """
         contract = Contract.objects.get(pk=contract_id)
-        admin_section = AdminSection.objects.get(name='contract_id_card')
-        html = admin_section.description.format(
+        admin_option = AdminOption.objects.get(section=self.__class__.__name__,
+                                               name='contract_id_card',
+                                               enabled=True)
+        html = admin_option.value.format(
             CONTRACT_START_DATE=contract.start_date,
             CONTRACT_GUID=contract.guid,
             EMPLOYEE_FIRST_NAME=contract.employee.first_name,

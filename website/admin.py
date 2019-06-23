@@ -28,8 +28,8 @@ from .models import (AdminExportCSVMap, AdminExportCSVMapAdmin,
                      AdminListDisplay, AdminListDisplayAdmin,
                      AdminListDisplayLink, AdminListDisplayLinkAdmin,
                      AdminListFilter, AdminListFilterAdmin,
+                     AdminOption, AdminOptionAdmin,
                      AdminSearchable, AdminSearchableAdmin,
-                     AdminSection, AdminSectionAdmin,
                      HomeSection, HomeSectionAdmin)
 
 from utility.misc import get_admin_models, get_class_from_module
@@ -40,23 +40,24 @@ admin.site.register(AdminExportCSVMap, AdminExportCSVMapAdmin)
 admin.site.register(AdminListDisplay, AdminListDisplayAdmin)
 admin.site.register(AdminListDisplayLink, AdminListDisplayLinkAdmin)
 admin.site.register(AdminListFilter, AdminListFilterAdmin)
+admin.site.register(AdminOption, AdminOptionAdmin)
 admin.site.register(AdminSearchable, AdminSearchableAdmin)
-admin.site.register(AdminSection, AdminSectionAdmin)
 admin.site.register(HomeSection, HomeSectionAdmin)
 
 admin_models = get_admin_models()
 
 # Customize Administration
 try:
-    for section in AdminSection.objects.all():
-        if section.name == 'site_header':
-            admin.site.site_header = section.description
-        elif section.name == 'site_title':
-            admin.site.site_title = section.description
-        elif section.name == 'index_title':
-            admin.site.index_title = section.description
+    for option in AdminOption.objects.filter(section='Django Admin',
+                                             enabled=True):
+        if option.name == 'site_header':
+            admin.site.site_header = option.value
+        elif option.name == 'site_title':
+            admin.site.site_title = option.value
+        elif option.name == 'index_title':
+            admin.site.index_title = option.value
 except OperationalError:
-    # If the model AdminSection doesn't yet exist skip the customization
+    # If the model AdminOption doesn't yet exist skip the customization
     pass
 
 # Customize searchables
@@ -76,7 +77,9 @@ try:
     # Add the fields to model list_display
     for item in AdminListDisplay.objects.filter(enabled=True).order_by(
             'model', 'order'):
-        admin_models[item.model].list_display.append(item.field)
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].list_display.append(item.field)
 except OperationalError:
     # If the model AdminListDisplay doesn't yet exist skip the customization
     pass
@@ -118,7 +121,9 @@ try:
         else:
             # The filter is a string filter
             new_fields = item.field
-        admin_models[item.model].list_filter.append(new_fields)
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].list_filter.append(new_fields)
 except OperationalError:
     # If the model AdminListFilter doesn't yet exist skip the customization
     pass
@@ -131,7 +136,10 @@ try:
     # Add the fields to model export_csv_fields_map
     for item in AdminExportCSVMap.objects.filter(enabled=True).order_by(
             'model', 'order', 'title'):
-        admin_models[item.model].export_csv_fields_map[item.title] = item.field
+        # Include only existing models
+        if item.model in admin_models:
+            admin_models[item.model].export_csv_fields_map[item.title] = (
+                item.field)
 except OperationalError:
     # If the model AdminExportCSVMap doesn't yet exist skip the
     # customization

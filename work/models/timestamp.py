@@ -36,7 +36,7 @@ from .timestamp_direction import TimestampDirection
 
 from utility.admin_widgets import AdminTimeWidget
 from utility.forms import CSVImportForm
-from utility.misc import (get_admin_sections_options,
+from utility.misc import (get_admin_options,
                           xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
 
@@ -184,9 +184,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     def action_timestamps_hours_csv(self, request, queryset):
         # Export data to CSV format
         context = self.get_timestamps_hours(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         return self.do_export_data_to_csv(
             data=context['results'],
             fields_map=TimestampExport.fields_map,
@@ -195,9 +195,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def action_timestamps_hours_html(self, request, queryset):
         context = self.get_timestamps_hours(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         response = TemplateResponse(request,
                                     'work/timestamps_hours/admin.html',
                                     context)
@@ -206,9 +206,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def action_timestamps_hours_pdf(self, request, queryset):
         context = self.get_timestamps_hours(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/timestamps_hours/pdf.html',
@@ -277,9 +277,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     def action_timestamps_days_csv(self, request, queryset):
         # Export data to CSV format
         context = self.get_timestamps_days(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         return self.do_export_data_to_csv(
             data=context['results'],
             fields_map=dict(
@@ -293,9 +293,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def action_timestamps_days_html(self, request, queryset):
         context = self.get_timestamps_days(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         # Save locale and restore it after getting the days names
         old_locale = locale.getlocale(locale.LC_TIME)
         if context.get('locale'):
@@ -315,9 +315,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def action_timestamps_days_pdf(self, request, queryset):
         context = self.get_timestamps_days(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         # Save locale and restore it after getting the days names
         old_locale = locale.getlocale(locale.LC_TIME)
         if context.get('locale'):

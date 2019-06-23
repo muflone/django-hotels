@@ -31,7 +31,7 @@ from .contract import Contract
 
 from hotels.models import Service, ServiceType, Structure
 
-from utility.misc import (get_admin_sections_options,
+from utility.misc import (get_admin_options,
                           month_start, month_end,
                           xhtml2pdf_render_from_template_response)
 from utility.models import BaseModel, BaseModelAdmin
@@ -187,9 +187,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
 
     def action_daily_activities_html(self, request, queryset):
         context = self.get_daily_activities(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         response = TemplateResponse(request,
                                     'work/activities_daily/admin.html',
                                     context)
@@ -198,9 +198,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
 
     def action_daily_activities_pdf(self, request, queryset):
         context = self.get_daily_activities(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/activities_daily/pdf.html',
@@ -273,9 +273,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
 
     def action_monthly_activities_html(self, request, queryset):
         context = self.get_monthly_activities(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         # Format dates
         if context.get('format_date'):
             context['dates'] = dict([(key,
@@ -291,9 +291,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
 
     def action_monthly_activities_pdf(self, request, queryset):
         context = self.get_monthly_activities(request, queryset)
-        # Add report preferences from AdminSections
-        context.update(get_admin_sections_options('%s.%s' % (
-            self.__class__.__name__, sys._getframe().f_code.co_name)))
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         # Format dates
         if context.get('format_date'):
             context['dates'] = dict([(key,

@@ -23,19 +23,26 @@ from django.db import models
 from utility.models import BaseModel, BaseModelAdmin
 
 
-class AdminSection(BaseModel):
+class AdminOption(BaseModel):
 
-    name = models.CharField(max_length=255, primary_key=True)
+    section = models.CharField(max_length=255)
+    group = models.CharField(max_length=255, default='main')
+    name = models.CharField(max_length=255)
+    enabled = models.BooleanField(default=True)
     description = models.TextField(blank=True)
+    value = models.TextField(blank=True)
 
     class Meta:
         # Define the database table
-        db_table = 'website_admin_sections'
-        ordering = ['name']
+        db_table = 'website_admin_options'
+        ordering = ['section', 'group', 'name']
+        unique_together = ('section', 'group', 'name')
 
     def __str__(self):
-        return self.name
+        return '{SECTION} - {GROUP} - {NAME}'.format(SECTION=self.section,
+                                                     GROUP=self.group,
+                                                     NAME=self.name)
 
 
-class AdminSectionAdmin(BaseModelAdmin):
+class AdminOptionAdmin(BaseModelAdmin):
     pass

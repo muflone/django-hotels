@@ -31,7 +31,6 @@ from hotels.models import ServiceExtra
 from jsonapi.models import ApiCommand
 
 from work.models import Contract
-from work.models import TabletSetting
 from work.models import TimestampDirection
 
 from .api_base import APIv1BaseView
@@ -170,17 +169,6 @@ class APIv1GetView(APIv1BaseView):
         context['timestamp_directions'] = TimestampDirection.objects.exclude(
             id=0).values('id', 'name', 'description', 'short_code',
                          'type_enter', 'type_exit')
-        # Add tablet settings
-        settings = {}
-        for setting in TabletSetting.objects.filter(
-                # Filter for every tablet or only the selected tablet
-                (models.Q(tablets=None) |
-                 models.Q(tablets__in=(self.tablet.pk, )))):
-            settings[setting.configuration.name] = {
-                'name': setting.configuration.name,
-                'data': setting.data
-            }
-        context['settings'] = settings.values()
         # Add commands
         commands = []
         for command in ApiCommand.objects.filter(
