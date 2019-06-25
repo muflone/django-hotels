@@ -19,10 +19,12 @@
 ##
 
 import datetime
+import sys
 
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
 
+from utility.misc import get_admin_options
 from ..forms import TimeStampLoginForm
 from ..models import Login, Timestamp, TimestampDirection
 
@@ -35,13 +37,17 @@ class TimeStampLoginView(LoginView, GenericView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Add report preferences from AdminOptions
+        context.update(get_admin_options(self.__class__.__name__,
+                                         sys._getframe().f_code.co_name))
         if self.request.user.is_authenticated:
             obj_login = Login.objects.get(username=self.request.user)
             active_contract = obj_login.employee.get_active_contract()
             context['page_title'] = ('Welcome {EMPLOYEE}'.format(
                 EMPLOYEE=obj_login.employee), )
             context['last_logins'] = Timestamp.objects.filter(
-                contract=active_contract).order_by('-date', '-time')[:5]
+                contract=active_contract).order_by(
+                '-date', '-time')[:int(context['last_logins_count'])]
         else:
             context['page_title'] = ('Login to register your presence', )
         return context
