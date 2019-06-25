@@ -224,6 +224,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             results[str(day)] = defaultdict(int)
             totals[str(day)] = 0
             details[str(day)] = []
+        # Add grand totals
+        grand_totals = defaultdict(int)
         # Get every used service
         ServiceNM = collections.namedtuple('Service', 'id name')
         services = [ServiceNM(service[0], service[1])
@@ -246,6 +248,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                     details[str(day)].append(total['description'])
                 results[str(day)][total['service_id']] += total['count']
                 totals[str(day)] += total['count']
+                grand_totals[total['service_id']] += total['count']
+                grand_totals['totals'] += total['count']
         # Prepare structures
         StructureNM = collections.namedtuple('Service', 'name company')
         structures = [StructureNM(structure.name, structure.company.name)
@@ -257,6 +261,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             self.admin_site.each_context(request),
             results=results,
             totals=totals,
+            grand_totals=grand_totals,
             details=dict([(item[0], '\n'.join(item[1]))
                          for item in details.items()]),
             structures=structures,

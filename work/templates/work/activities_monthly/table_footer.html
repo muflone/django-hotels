@@ -1,2 +1,13 @@
+{% load get_dict_value %}
+
+{# Add totals #}
+      <tr>
+        <td class="grand_totals date">Grand Totals</td>
+{% for service in services %}
+        <td class="grand_totals service">{{ grand_totals | get_dict_value:service.id | default:'&nbsp;' }}</td>
+{% endfor %}
+        <td class="grand_totals totals">{{ grand_totals | get_dict_value:'totals' }}</td>
+        <td class="grand_totals details">&nbsp;</td>
+      </tr>
     </tbody>
   </table>
