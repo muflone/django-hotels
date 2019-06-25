@@ -180,8 +180,7 @@ class ActivityInLinesAdmin(BaseModelAdmin):
             results=results,
             grand_totals=sorted(['%s: %d' % (i[0], i[1])
                                 for i in grand_totals.items()]),
-            services=Service.objects.values('id', 'name',
-                                            'forecolor', 'backcolor')
+            services=Service.objects.values('id', 'name')
         )
         return context
 

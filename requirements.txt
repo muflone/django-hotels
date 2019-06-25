@@ -11,5 +11,4 @@ django-admin-rangefilter==0.4.0
 pyotp==2.2.7
 codicefiscale==0.9
 xhtml2pdf==0.2.3
-django-colorful==1.3
 XlsxWriter==1.1.8

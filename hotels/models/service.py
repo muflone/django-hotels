@@ -22,9 +22,6 @@ from django.db import models
 
 from utility.models import BaseModel, BaseModelAdmin
 
-# noinspection PyPackageRequirements
-from colorful.fields import RGBColorField
-
 
 class Service(BaseModel):
 
@@ -36,8 +33,6 @@ class Service(BaseModel):
     service_type = models.ForeignKey('ServiceType',
                                      on_delete=models.PROTECT,
                                      default=0)
-    backcolor = RGBColorField(default='#FFFFFF')
-    forecolor = RGBColorField(default='#000000')
 
     class Meta:
         # Define the database table
