@@ -194,7 +194,7 @@ class ContractAdmin(BaseModelAdmin):
 
     def get_urls(self):
         urls = [
-            path('<int:contract_id>/qrcode/<str:format>', self.qrcode),
+            path('<int:contract_id>/qrcode/<str:export_format>', self.qrcode),
             path('<int:contract_id>/idcard/', self.idcard),
         ] + super().get_urls()
         return urls

@@ -96,7 +96,7 @@ class TabletAdmin(BaseModelAdmin):
 
     def get_urls(self):
         urls = [
-            path('<int:tablet_id>/qrcode/<str:format>', self.qrcode),
+            path('<int:tablet_id>/qrcode/<str:export_format>', self.qrcode),
         ] + super().get_urls()
         return urls
 
