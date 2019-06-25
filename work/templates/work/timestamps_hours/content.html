@@ -2,21 +2,35 @@
 
 {% for item in results %}
       <tr>
-        <td class="date">{{ item.date }}</td>
-        <td class="company">{{ item.company }}</td>
-        <td class="employee">{{ item.employee }}</td>
-        <td class="contract">{{ item.contract_id }}</td>
-        <td class="rollnr">{{ item.roll_number }}</td>
-        <td class="enter">{{ item.enter | default:'&nbsp;' }}</td>
-        <td class="enter_description">{{ item.enter_description | default:'&nbsp;' }}</td>
-        <td class="exit">{{ item.exit | default:'&nbsp;' }}</td>
-        <td class="exit_description">{{ item.exit_description | default:'&nbsp;' }}</td>
-        <td class="duration">{{ item.duration | default:'&nbsp;' }}</td>
-  {% if item.notes %}
+  {% for column in visible_columns %}
+    {% if column == 'date' %}
+    <td class="date">{{ item.date }}</td>
+    {% elif column == 'company' %}
+    <td class="company">{{ item.company }}</td>
+    {% elif column == 'employee' %}
+    <td class="employee">{{ item.employee }}</td>
+    {% elif column == 'contract_id' %}
+    <td class="contract">{{ item.contract_id }}</td>
+    {% elif column == 'roll_number' %}
+    <td class="rollnr">{{ item.roll_number }}</td>
+    {% elif column == 'enter' %}
+    <td class="enter">{{ item.enter | default:'&nbsp;' }}</td>
+    {% elif column == 'enter_description' %}
+    <td class="enter_description">{{ item.enter_description | default:'&nbsp;' }}</td>
+    {% elif column == 'exit' %}
+    <td class="exit">{{ item.exit | default:'&nbsp;' }}</td>
+    {% elif column == 'exit_description' %}
+    <td class="exit_description">{{ item.exit_description | default:'&nbsp;' }}</td>
+    {% elif column == 'duration' %}
+    <td class="duration">{{ item.duration | default:'&nbsp;' }}</td>
+    {% elif column == 'notes' %}
+      {% if item.notes %}
         <td class="notes">{{ item.notes }}</td>
-  {% else %}
+      {% else %}
         <td class="notes_empty">&nbsp;</td>
-  {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
       </tr>
 {% endfor %}
 

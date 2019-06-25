@@ -198,6 +198,11 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         # Add report preferences from AdminOptions
         context.update(get_admin_options(self.__class__.__name__,
                                          sys._getframe().f_code.co_name))
+        # Split visible_columns in multiple values
+        visible_columns = context['visible_columns']
+        context['visible_columns'] = (
+            [column.strip() for column in visible_columns.split(',')]
+            if visible_columns else None)
         response = TemplateResponse(request,
                                     'work/timestamps_hours/admin.html',
                                     context)
@@ -209,6 +214,11 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         # Add report preferences from AdminOptions
         context.update(get_admin_options(self.__class__.__name__,
                                          sys._getframe().f_code.co_name))
+        # Split visible_columns in multiple values
+        visible_columns = context['visible_columns']
+        context['visible_columns'] = (
+            [column.strip() for column in visible_columns.split(',')]
+            if visible_columns else None)
         response = xhtml2pdf_render_from_template_response(
             response=TemplateResponse(request,
                                       'work/timestamps_hours/pdf.html',
