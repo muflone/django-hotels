@@ -3,13 +3,22 @@
 
 {% for item in results %}
       <tr>
+  {% for column in visible_columns %}
+    {% if column == 'company' %}
         <td class="company">{{ item.company }}</td>
+    {% elif column == 'employee' %}
         <td class="employee">{{ item.employee }}</td>
+    {% elif column == 'contract_id' %}
         <td class="contract">{{ item.contract_id }}</td>
+    {% elif column == 'roll_number' %}
         <td class="rollnr">{{ item.roll_number }}</td>
+    {% elif column == 'working_days' %}
         <td class="workdays">{{ item.working_days }}</td>
-  {% for day in ordinals %}
+    {% elif column == 'dates' %}
+      {% for day in ordinals %}
         <td class="date date_{{ item|get_dict_value:day | default:'' }}">{{ item|get_dict_value:day | default:'&nbsp;' }}</td>
+      {% endfor %}
+    {% endif %}
   {% endfor %}
       </tr>
 {% endfor %}

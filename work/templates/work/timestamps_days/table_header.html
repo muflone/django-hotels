@@ -1,20 +1,42 @@
   <table border="1" repeat="2">
     <thead>
       <tr>
-        <th colspan="5">&nbsp;</th>
-{% for day in days %}
+{% for column in visible_columns %}
+  {% if column == 'company' %}
+        <th class="company">&nbsp;</th>
+  {% elif column == 'employee' %}
+        <th class="employee">&nbsp;</th>
+  {% elif column == 'contract_id' %}
+        <th class="contract">&nbsp;</th>
+  {% elif column == 'roll_number' %}
+        <th class="rollnr">&nbsp;</th>
+  {% elif column == 'working_days' %}
+        <th class="workdays">&nbsp;</th>
+  {% elif column == 'dates' %}
+    {% for day in days %}
         <th class="day day_{{ day | lower }}">{{ day | upper }}</th>
+    {% endfor %}
+  {% endif %}
 {% endfor %}
       </tr>
       <tr>
+{% for column in visible_columns %}
+  {% if column == 'company' %}
         <th class="company">Company</th>
+  {% elif column == 'employee' %}
         <th class="employee">Employee</th>
+  {% elif column == 'contract_id' %}
         <th class="contract">Contract ID</th>
+  {% elif column == 'roll_number' %}
         <th class="rollnr">Roll NR</th>
+  {% elif column == 'working_days' %}
         <th class="workdays">Working Days</th>
-{% for date in dates %}
+  {% elif column == 'dates' %}
+    {% for date in dates %}
         <th class="date">{{ date }}</th>
-{% endfor %}
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
       </tr>
     </thead>
     <tbody>

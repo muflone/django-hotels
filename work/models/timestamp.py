@@ -313,6 +313,11 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             locale.setlocale(locale.LC_TIME, context['locale'])
         context['days'] = [date.strftime('%a') for date in context['dates']]
         locale.setlocale(locale.LC_TIME, old_locale)
+        # Split visible_columns in multiple values
+        visible_columns = context['visible_columns']
+        context['visible_columns'] = (
+            [column.strip() for column in visible_columns.split(',')]
+            if visible_columns else None)
         # Format dates
         if context.get('format_date'):
             context['dates'] = [date.strftime(context['format_date'])
@@ -335,6 +340,11 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             locale.setlocale(locale.LC_TIME, context['locale'])
         context['days'] = [date.strftime('%a') for date in context['dates']]
         locale.setlocale(locale.LC_TIME, old_locale)
+        # Split visible_columns in multiple values
+        visible_columns = context['visible_columns']
+        context['visible_columns'] = (
+            [column.strip() for column in visible_columns.split(',')]
+            if visible_columns else None)
         # Format dates
         if context.get('format_date'):
             context['dates'] = [date.strftime(context['format_date'])
