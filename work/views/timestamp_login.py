@@ -40,6 +40,13 @@ class TimeStampLoginView(LoginView, GenericView):
         # Add report preferences from AdminOptions
         context.update(get_admin_options(self.__class__.__name__,
                                          sys._getframe().f_code.co_name))
+        # Split last_logins_columns in multiple values
+        last_logins_columns = context['last_logins_columns']
+        context['last_logins_columns'] = ([column.strip()
+                                           for column
+                                           in last_logins_columns.split(',')]
+                                          if last_logins_columns
+                                          else None)
         if self.request.user.is_authenticated:
             obj_login = Login.objects.get(username=self.request.user)
             active_contract = obj_login.employee.get_active_contract()

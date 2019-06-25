@@ -11,32 +11,48 @@
     </div>
   {% endif %}
 
-  {% if last_logins %}
+  {% if last_logins_columns %}
+    {% if last_logins %}
   <div class="panel panel-primary">
     <h1 class="panel-body">Your last {{ last_logins.count }} accesses are:</h1>
 
     <table class="last_logins">
       <thead>
         <tr>
+      {% for column in last_logins_columns %}
+        {% if column == 'day' %}
           <th><span class="glyphicon glyphicon-calendar"></span> DAY</th>
+        {% elif column == 'date' %}
           <th><span class="glyphicon glyphicon-calendar"></span> DATE</th>
+        {% elif column == 'time' %}
           <th><span class="glyphicon glyphicon-time"></span> TIME</th>
+        {% elif column == 'access' %}
           <th colspan="2"><span class="glyphicon glyphicon-retweet"></span> ACCESS</th>
+        {% endif %}
+      {% endfor %}
         </tr>
       <thead>
       <tbody>
-    {% for login in last_logins %}
+      {% for login in last_logins %}
         <tr>
+        {% for column in last_logins_columns %}
+          {% if column == 'day' %}
           <td>{{ login.date|date:'l' }}</td>
+          {% elif column == 'date' %}
           <td>{{ login.date|date:'d F Y' }}</td>
+          {% elif column == 'time' %}
           <td class="border">{{ login.time|date:'H:i' }}</td>
+          {% elif column == 'access' %}
           <td>{{ login.direction.description }}</td>
           <td class="border">{% if login.description %}<span class="glyphicon glyphicon-comment" title="{{ login.description }}"></span>{% endif %}</td>
+          {% endif %}
+        {% endfor %}
         </tr>
-    {% endfor %}
+      {% endfor %}
       </tbody>
     </table>
     </div>
+    {% endif %}
   {% endif %}
 
   <form class="loginform" method="post" action="{% url 'work/page_login' %}">
