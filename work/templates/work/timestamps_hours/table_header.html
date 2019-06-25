@@ -1,31 +1,31 @@
   <table border="1" repeat="1">
     <thead>
       <tr>
-  {% for column in visible_columns %}
-    {% if column == 'date' %}
+{% for column in visible_columns %}
+  {% if column == 'date' %}
         <th>Date</th>
-    {% elif column == 'company' %}
+  {% elif column == 'company' %}
         <th>Company</th>
-    {% elif column == 'employee' %}
+  {% elif column == 'employee' %}
         <th>Employee</th>
-    {% elif column == 'contract_id' %}
+  {% elif column == 'contract_id' %}
         <th>Contract ID</th>
-    {% elif column == 'roll_number' %}
+  {% elif column == 'roll_number' %}
         <th>Roll NR</th>
-    {% elif column == 'enter' %}
+  {% elif column == 'enter' %}
         <th>Enter</th>
-    {% elif column == 'enter_description' %}
+  {% elif column == 'enter_description' %}
         <th>Enter Description</th>
-    {% elif column == 'exit' %}
+  {% elif column == 'exit' %}
         <th>Exit </th>
-    {% elif column == 'exit_description' %}
+  {% elif column == 'exit_description' %}
         <th>Exit Description</th>
-    {% elif column == 'duration' %}
+  {% elif column == 'duration' %}
         <th>Duration</th>
-    {% elif column == 'notes' %}
+  {% elif column == 'notes' %}
         <th>Notes</th>
-    {% endif %}
-  {% endfor %}
+  {% endif %}
+{% endfor %}
       </tr>
     </thead>
     <tbody>
