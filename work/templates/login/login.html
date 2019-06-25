@@ -11,7 +11,7 @@
     </div>
   {% endif %}
 
-  {% if last_logins_columns %}
+  {% if visible_columns %}
     {% if last_logins %}
   <div class="panel panel-primary">
     <h1 class="panel-body">Your last {{ last_logins.count }} accesses are:</h1>
@@ -19,7 +19,7 @@
     <table class="last_logins">
       <thead>
         <tr>
-      {% for column in last_logins_columns %}
+      {% for column in visible_columns %}
         {% if column == 'day' %}
           <th><span class="glyphicon glyphicon-calendar"></span> DAY</th>
         {% elif column == 'date' %}
@@ -35,7 +35,7 @@
       <tbody>
       {% for login in last_logins %}
         <tr>
-        {% for column in last_logins_columns %}
+        {% for column in visible_columns %}
           {% if column == 'day' %}
           <td>{{ login.date|date:'l' }}</td>
           {% elif column == 'date' %}
