@@ -20,6 +20,7 @@
 
 from django.db import models
 
+from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -42,6 +43,15 @@ class AdminOption(BaseModel):
         return '{SECTION} - {GROUP} - {NAME}'.format(SECTION=self.section,
                                                      GROUP=self.group,
                                                      NAME=self.name)
+
+
+class AdminOptionNameFilter(AdminTextInputFilter):
+    parameter_name = 'name'
+    title = 'name'
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(name__icontains=self.value())
 
 
 class AdminOptionAdmin(BaseModelAdmin):
