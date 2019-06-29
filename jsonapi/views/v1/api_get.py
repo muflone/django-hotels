@@ -180,6 +180,10 @@ class APIv1GetView(APIv1BaseView):
                 (models.Q(ending=None) |
                     models.Q(ending__gte=timezone.now())),
                 enabled=True):
+            # Prepare Command arguments
+            command_arguments = json.loads(command.command_type.command)
+            if command.command:
+                command_arguments.update(json.loads(command.command))
             commands.append({
                 'id': command.id,
                 'name': command.command_type.name,
@@ -187,9 +191,7 @@ class APIv1GetView(APIv1BaseView):
                         COMMAND=command.command_type.name).split(' -')[0],
                 'context': command.context_type.name,
                 'uses': command.uses,
-                'command': json.loads(command.command)              # noqa E131
-                           if command.command
-                           else json.loads(command.command_type.command)
+                'command': command_arguments
             })
         context['commands'] = commands
         # Add closing status (to check for transmission errors)
