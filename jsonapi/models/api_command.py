@@ -27,6 +27,7 @@ class ApiCommand(BaseModel):
 
     command_type = models.ForeignKey('ApiCommandType',
                                      on_delete=models.PROTECT)
+    name = models.CharField(max_length=255, default='')
     context_type = models.ForeignKey('ApiContextType',
                                      on_delete=models.PROTECT)
     enabled = models.BooleanField(default=True)
