@@ -29,7 +29,7 @@ from hotels.models import Room, Service
 from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
-from work.models import Employee, Tablet, TimestampDirection
+from work.models import Contract, Tablet, TimestampDirection
 
 
 class ApiLog(BaseModel):
@@ -117,9 +117,9 @@ class ApiLogAdmin(BaseModelAdmin):
         if instance.id:
             details = json.loads(instance.kwargs.replace('\'', '"'))
             if instance.func_name == 'APIv1PutActivity':
-                employee = Employee.objects.get(
-                    contract=details['contract_id'])
-                contract = employee.contract_set.get()
+                contract = Contract.objects.get(
+                    id=details['contract_id'])
+                employee = contract.employee
                 room = Room.objects.get(id=details['room_id'])
                 service = Service.objects.get(id=details['service_id'])
                 date = datetime.datetime.fromtimestamp(
@@ -146,9 +146,9 @@ class ApiLogAdmin(BaseModelAdmin):
                                     DATE=date,
                                     DESCRIPTION=description))
             elif instance.func_name == 'APIv1PutTimestamp':
-                employee = Employee.objects.get(
-                    contract=details['contract_id'])
-                contract = employee.contract_set.get()
+                contract = Contract.objects.get(
+                    id=details['contract_id'])
+                employee = contract.employee
                 direction = TimestampDirection.objects.get(
                     id=details['direction_id'])
                 date = datetime.datetime.fromtimestamp(
