@@ -168,7 +168,7 @@ class ApiLogAdmin(BaseModelAdmin):
                                     DIRECTION=direction.name,
                                     DATE=date,
                                     DESCRIPTION=description))
-            elif instance.func_name == 'APIv1GetView':
+            elif instance.func_name in ('APIv1StatusView', 'APIv1GetView'):
                 result = ('Tablet {TABLET}'
                           ''.format(TABLET=instance.tablet_id))
         return result
