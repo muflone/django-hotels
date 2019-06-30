@@ -33,7 +33,7 @@ class ContractType(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'work_contracttype'
-        ordering = ['name', ]
+        ordering = ['name']
 
     def __str__(self):
         return self.name

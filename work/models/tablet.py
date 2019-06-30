@@ -49,7 +49,7 @@ class Tablet(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'work_tablet'
-        ordering = ['id', ]
+        ordering = ['id']
         unique_together = ('guid',)
 
     def __str__(self):
@@ -71,7 +71,7 @@ class TabletAdmin(BaseModelAdmin):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in 'id']
+        fields = ['id'] + [k for k in fields if k not in 'id']
         # noinspection PyAttributeOutsideInit
         self.full_host = get_full_host(request)
         return fields

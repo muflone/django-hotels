@@ -132,7 +132,7 @@ class ActivityInLinesProxy(Activity):
 
 
 class ActivityInLinesAdmin(BaseModelAdmin):
-    inlines = [activity_room.ActivityRoomInline, ]
+    inlines = [activity_room.ActivityRoomInline]
     date_hierarchy = 'date'
     actions = ('action_daily_activities_html',
                'action_daily_activities_pdf',

@@ -27,7 +27,7 @@ def reverse_with_query(view, args=None, kwargs=None, query=None):
     Custom reverse to add a query string after the url
     Example usage:
     url = reverse_with_query(view='my_test_url',
-                             args=[2, ],
+                             args=[2],
                              kwargs={'pk': object.id},
                              query_kwargs={'next': reverse('home')})
     """

@@ -83,7 +83,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                'action_timestamps_days_csv',
                'action_timestamps_days_html',
                'action_timestamps_days_pdf')
-    ordering = ('-date', '-time', 'contract')
+    ordering = ['-date', '-time', 'contract']
 
     def first_name(self, instance):
         return instance.contract.employee.first_name
@@ -96,7 +96,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
         fields = super().get_fields(request, obj)
-        fields = ['id', ] + [k for k in fields if k not in 'id']
+        fields = ['id'] + [k for k in fields if k not in 'id']
         return fields
 
     def get_queryset(self, request):

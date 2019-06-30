@@ -31,7 +31,7 @@ class EquipmentType(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'hotels_equipments_type'
-        ordering = ['name', ]
+        ordering = ['name']
 
     def __str__(self):
         return self.name

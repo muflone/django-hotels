@@ -34,7 +34,7 @@ class TimestampDirection(BaseModel):
     class Meta:
         # Define the database table
         db_table = 'work_timestamp_directions'
-        ordering = ['name', ]
+        ordering = ['name']
 
     def __str__(self):
         return self.name
