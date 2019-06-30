@@ -115,7 +115,8 @@ class ApiLogAdmin(BaseModelAdmin):
         """Explanation text for log"""
         result = ''
         if instance.id:
-            details = json.loads(instance.kwargs.replace('\'', '"'))
+            details = (json.loads(instance.kwargs.replace('\'', '"'))
+                       if instance.kwargs else {})
             if instance.func_name == 'APIv1PutActivity':
                 contract = Contract.objects.get(
                     id=details['contract_id'])
