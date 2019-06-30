@@ -18,92 +18,99 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from django.conf.urls import url
+import django.urls as urls
 
 from . import views
 
+from utility.converters import IsoDateStrConverter, IsoTimeStrConverter
+
+
+urls.register_converter(IsoDateStrConverter, IsoDateStrConverter.name)
+urls.register_converter(IsoTimeStrConverter, IsoTimeStrConverter.name)
 
 urlpatterns = []
 
 # Version page
-urlpatterns.append(url(r'^v1/versions/$',
-                       views.APIv1VersionsView.as_view(),
-                       name='api/v1/versions'))
-urlpatterns.append(url(r'^v1/versions/'
-                       '(?P<tablet_id>[0-9]+)/$',
-                       views.APIv1VersionsView.as_view(),
-                       name='api/v1/versions'))
+urlpatterns.append(urls.path('v1/versions/',
+                             views.APIv1VersionsView.as_view(),
+                             name='api/v1/versions'))
+urlpatterns.append(urls.path('v1/versions/'
+                             '<int:tablet_id>/',
+                             views.APIv1VersionsView.as_view(),
+                             name='api/v1/versions'))
 # Status page
-urlpatterns.append(url(r'^v1/status/$',
-                       views.APIv1StatusView.as_view(),
-                       name='api/v1/status'))
-urlpatterns.append(url(r'^v1/status/'
-                       '(?P<tablet_id>[0-9]+)/$',
-                       views.APIv1StatusView.as_view(),
-                       name='api/v1/status'))
+urlpatterns.append(urls.path('v1/status/',
+                             views.APIv1StatusView.as_view(),
+                             name='api/v1/status'))
+urlpatterns.append(urls.path('v1/status/'
+                             '<int:tablet_id>/',
+                             views.APIv1StatusView.as_view(),
+                             name='api/v1/status'))
 # Usage page
-urlpatterns.append(url(r'^v1/usage/$',
-                       views.APIv1UsageView.as_view(),
-                       name='api/v1/usage'))
-urlpatterns.append(url(r'^v1/usage/'
-                       '(?P<tablet_id>[0-9]+)/$',
-                       views.APIv1UsageView.as_view(),
-                       name='api/v1/usage'))
+urlpatterns.append(urls.path('v1/usage/',
+                             views.APIv1UsageView.as_view(),
+                             name='api/v1/usage'))
+urlpatterns.append(urls.path('v1/usage/'
+                             '<int:tablet_id>/',
+                             views.APIv1UsageView.as_view(),
+                             name='api/v1/usage'))
 # Dates page
-urlpatterns.append(url(r'^v1/dates/$',
-                       views.APIv1DatesView.as_view(),
-                       name='api/v1/dates'))
-urlpatterns.append(url(r'^v1/dates/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<tablet_date>[0-9]{4}-[0-9]{2}-[0-9]{2})/'
-                       '(?P<tablet_time>[0-9]{2}:[0-9]{2}.[0-9]{2})/'
-                       '(?P<tablet_timezone>[A-Za-z0-9_ :+-]+)/'
-                       '(?P<tablet_timezone_id>[A-Za-z0-9_ :+-]+)/$',
-                       views.APIv1DatesView.as_view(),
-                       name='api/v1/dates'))
+urlpatterns.append(urls.path('v1/dates/',
+                             views.APIv1DatesView.as_view(),
+                             name='api/v1/dates'))
+urlpatterns.append(urls.path('v1/dates/'
+                             '<int:tablet_id>/'
+                             '<isodate_str:tablet_date>/'
+                             '<isotime_str:tablet_time>/'
+                             '<str:tablet_timezone>/'
+                             '<str:tablet_timezone_id>/',
+                             views.APIv1DatesView.as_view(),
+                             name='api/v1/dates'))
 # Get page
-urlpatterns.append(url(r'^v1/get/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/$',
-                       views.APIv1GetView.as_view(),
-                       name='api/v1/get'))
+urlpatterns.append(urls.path('v1/get/'
+                             '<int:tablet_id>/'
+                             '<int:password>/',
+                             views.APIv1GetView.as_view(),
+                             name='api/v1/get'))
 # Put activity page
-urlpatterns.append(url(r'^v1/put/activity/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/'
-                       '(?P<contract_id>[0-9]+)/'
-                       '(?P<room_id>[0-9]+)/'
-                       '(?P<service_id>[0-9]+)/'
-                       '(?P<service_qty>[0-9]+)/'
-                       '(?P<datetime>[0-9]+)/'
-                       '(?P<description>.*)/$',
-                       views.APIv1PutActivity.as_view(),
-                       name='api/v1/put/activity'))
-urlpatterns.append(url(r'^v1/put/activity/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/'
-                       '(?P<contract_id>[0-9]+)/'
-                       '(?P<room_id>[0-9]+)/'
-                       '(?P<service_id>[0-9]+)/'
-                       '(?P<service_qty>[0-9]+)/'
-                       '(?P<datetime>[0-9]+)/$',
-                       views.APIv1PutActivity.as_view(),
-                       name='api/v1/put/activity'))
+urlpatterns.append(urls.path('v1/put/activity/'
+                             '<int:tablet_id>/'
+                             '<int:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/'
+                             '<str:description>/',
+                             views.APIv1PutActivity.as_view(),
+                             name='api/v1/put/activity'))
+urlpatterns.append(urls.path('v1/put/activity/'
+                             '<int:tablet_id>/'
+                             '<int:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/'
+                             '/',
+                             views.APIv1PutActivity.as_view(),
+                             name='api/v1/put/activity'))
 # Put timestamp page
-urlpatterns.append(url(r'^v1/put/timestamp/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/'
-                       '(?P<contract_id>[0-9]+)/'
-                       '(?P<direction_id>[A-Za-z0-9_]+)/'
-                       '(?P<datetime>[0-9]+)/'
-                       '(?P<description>.*)/$',
-                       views.APIv1PutTimestamp.as_view(),
-                       name='api/v1/put/timestamp'))
-urlpatterns.append(url(r'^v1/put/timestamp/'
-                       '(?P<tablet_id>[0-9]+)/'
-                       '(?P<password>[0-9]+)/'
-                       '(?P<contract_id>[0-9]+)/'
-                       '(?P<direction_id>[A-Za-z0-9_]+)/'
-                       '(?P<datetime>[0-9]+)/$',
-                       views.APIv1PutTimestamp.as_view(),
-                       name='api/v1/put/timestamp'))
+urlpatterns.append(urls.path('v1/put/timestamp/'
+                             '<int:tablet_id>/'
+                             '<int:password>/'
+                             '<int:contract_id>/'
+                             '<int:direction_id>/'
+                             '<int:datetime>/'
+                             '<str:description>/',
+                             views.APIv1PutTimestamp.as_view(),
+                             name='api/v1/put/timestamp'))
+urlpatterns.append(urls.path('v1/put/timestamp/'
+                             '<int:tablet_id>/'
+                             '<int:password>/'
+                             '<int:contract_id>/'
+                             '<int:direction_id>/'
+                             '<int:datetime>/'
+                             '/',
+                             views.APIv1PutTimestamp.as_view(),
+                             name='api/v1/put/timestamp'))
