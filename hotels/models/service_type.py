@@ -41,4 +41,4 @@ class ServiceType(BaseModel):
 
 
 class ServiceTypeAdmin(BaseModelAdmin):
-    pass
+    ordering = ['name']
