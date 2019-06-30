@@ -19,6 +19,7 @@
 ##
 
 import datetime
+import json
 
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
@@ -89,9 +90,12 @@ class APIv1BaseView(json_views.views.JSONDataView):
             client_version=self.request.META.get('HTTP_CLIENT_VERSION', ''),
             user=self.request.user,
             tablet_id=tablet_id,
-            kwargs=(str(self.request.resolver_match.kwargs)
-                    if self.request.resolver_match.kwargs else ''),
-            args=(str(self.request.resolver_match.args)
-                  if self.request.resolver_match.args else ''),
+            kwargs=self.json_prettify(self.request.resolver_match.kwargs),
+            args=self.json_prettify(self.request.resolver_match.args),
             extra=extra if extra is not None else '',
             api_version=1)
+
+    def json_prettify(self, arguments):
+        """Format the arguments in JSON formatted style"""
+        return (json.dumps(arguments, sort_keys=False, indent=2)
+                if arguments else '')
