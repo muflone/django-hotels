@@ -169,6 +169,16 @@ class ApiLogAdmin(BaseModelAdmin):
                                     DIRECTION=direction.name,
                                     DATE=date,
                                     DESCRIPTION=description))
+            elif instance.func_name == 'APIv1DatesView' and details:
+                result = ('Tablet {TABLET}\n'
+                          'Tablet Date: {DATE}\n'
+                          'Tablet Time: {TIME}\n'
+                          'Tablet Timezone: {TIMEZONE} ({TZ_ID})'
+                          ''.format(TABLET=instance.tablet_id,
+                                    DATE=details['tablet_date'],
+                                    TIME=details['tablet_time'],
+                                    TIMEZONE=details['tablet_timezone'],
+                                    TZ_ID=details['tablet_timezone_id']))
             elif instance.func_name in ('APIv1StatusView', 'APIv1GetView'):
                 result = ('Tablet {TABLET}'
                           ''.format(TABLET=instance.tablet_id))
