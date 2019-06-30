@@ -153,7 +153,7 @@ class ApiLogAdmin(BaseModelAdmin):
                 direction = TimestampDirection.objects.get(
                     id=details['direction_id'])
                 date = datetime.datetime.fromtimestamp(
-                    int(details['datetime'])).strftime('%F')
+                    int(details['datetime'])).strftime('%F %T')
                 description = urlunquote(
                     details.get('description', '')).replace('+', ' ')
                 result = ('Tablet {TABLET}\n'
