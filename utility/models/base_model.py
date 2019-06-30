@@ -39,5 +39,8 @@ class BaseModelAdmin(admin.ModelAdmin, ExportCSVMixin):
     def __init__(self, model, admin_site):
         """Base Admin model for each other model in the application"""
         super().__init__(model, admin_site)
+        # If ModelAdmin ordering is missing apply the ordering of the model
+        if not self.ordering:
+            self.ordering = model._meta.ordering
         # Add Export rows to CSV action
         ExportCSVMixin.__init__(self)
