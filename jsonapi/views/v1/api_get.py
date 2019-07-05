@@ -186,7 +186,7 @@ class APIv1GetView(APIv1BaseView):
                 command_arguments.update(json.loads(command.command))
             commands.append({
                 'id': command.id,
-                'name': command.command_type.name,
+                'name': command.name,
                 'command_type': '{COMMAND} - '.format(
                         COMMAND=command.command_type.name).split(' -')[0],
                 'context': command.context_type.name,
