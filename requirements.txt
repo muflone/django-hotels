@@ -1,5 +1,5 @@
 Django==2.2.3
-Pillow==6.0.0
+Pillow==6.1.0
 pytz==2019.1
 django-logentry-admin==1.0.4
 sqlparse==0.3.0
@@ -7,7 +7,7 @@ qrcode==6.1
 django-sql-explorer==1.1.2
 django-iprestrict==1.7.0
 django-generic-json-views==0.8
-django-admin-rangefilter==0.4.0
+django-admin-rangefilter==0.5.0
 pyotp==2.2.7
 codicefiscale==0.9
 xhtml2pdf==0.2.3
