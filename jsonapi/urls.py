@@ -98,6 +98,18 @@ urlpatterns.append(urls.path('v1/put/activity/'
                              '/',
                              views.APIv1PutActivity.as_view(),
                              name='api/v1/put/activity'))
+# Some web servers (Python Anywhere) doesn't handle well URLs with two ending
+# slashes: two consecutive slashes are interpreted as a single slash
+urlpatterns.append(urls.path('v1/put/activity/'
+                             '<int:tablet_id>/'
+                             '<otpkey:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/',
+                             views.APIv1PutActivity.as_view(),
+                             name='api/v1/put/activity'))
 # Put timestamp page
 urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
@@ -115,5 +127,15 @@ urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:direction_id>/'
                              '<int:datetime>/'
                              '/',
+                             views.APIv1PutTimestamp.as_view(),
+                             name='api/v1/put/timestamp'))
+# Some web servers (Python Anywhere) doesn't handle well URLs with two ending
+# slashes: two consecutive slashes are interpreted as a single slash
+urlpatterns.append(urls.path('v1/put/timestamp/'
+                             '<int:tablet_id>/'
+                             '<otpkey:password>/'
+                             '<int:contract_id>/'
+                             '<int:direction_id>/'
+                             '<int:datetime>/',
                              views.APIv1PutTimestamp.as_view(),
                              name='api/v1/put/timestamp'))
