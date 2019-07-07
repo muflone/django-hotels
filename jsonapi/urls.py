@@ -22,11 +22,14 @@ import django.urls as urls
 
 from . import views
 
-from utility.converters import IsoDateStrConverter, IsoTimeStrConverter
+from utility.converters import (IsoDateStrConverter,
+                                IsoTimeStrConverter,
+                                OTPKeyConverter)
 
 
 urls.register_converter(IsoDateStrConverter, IsoDateStrConverter.name)
 urls.register_converter(IsoTimeStrConverter, IsoTimeStrConverter.name)
+urls.register_converter(OTPKeyConverter, OTPKeyConverter.name)
 
 urlpatterns = []
 
@@ -69,13 +72,13 @@ urlpatterns.append(urls.path('v1/dates/'
 # Get page
 urlpatterns.append(urls.path('v1/get/'
                              '<int:tablet_id>/'
-                             '<int:password>/',
+                             '<otpkey:password>/',
                              views.APIv1GetView.as_view(),
                              name='api/v1/get'))
 # Put activity page
 urlpatterns.append(urls.path('v1/put/activity/'
                              '<int:tablet_id>/'
-                             '<int:password>/'
+                             '<otpkey:password>/'
                              '<int:contract_id>/'
                              '<int:room_id>/'
                              '<int:service_id>/'
@@ -86,7 +89,7 @@ urlpatterns.append(urls.path('v1/put/activity/'
                              name='api/v1/put/activity'))
 urlpatterns.append(urls.path('v1/put/activity/'
                              '<int:tablet_id>/'
-                             '<int:password>/'
+                             '<otpkey:password>/'
                              '<int:contract_id>/'
                              '<int:room_id>/'
                              '<int:service_id>/'
@@ -98,7 +101,7 @@ urlpatterns.append(urls.path('v1/put/activity/'
 # Put timestamp page
 urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
-                             '<int:password>/'
+                             '<otpkey:password>/'
                              '<int:contract_id>/'
                              '<int:direction_id>/'
                              '<int:datetime>/'
@@ -107,7 +110,7 @@ urlpatterns.append(urls.path('v1/put/timestamp/'
                              name='api/v1/put/timestamp'))
 urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
-                             '<int:password>/'
+                             '<otpkey:password>/'
                              '<int:contract_id>/'
                              '<int:direction_id>/'
                              '<int:datetime>/'

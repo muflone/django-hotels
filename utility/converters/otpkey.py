@@ -18,6 +18,16 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
-from .isodate import IsoDateConverter, IsoDateStrConverter        # noqa: F401
-from .isotime import IsoTimeConverter, IsoTimeStrConverter        # noqa: F401
-from .otpkey import OTPKeyConverter                               # noqa: F401
+
+class OTPKeyConverter:
+    name = 'otpkey'
+    regex = '[0-9]{6}'
+
+    def to_python(self, value):
+        return value
+
+    def to_url(self, value):
+        return str(value)
+
+    def __str__(self):
+        return
