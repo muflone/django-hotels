@@ -36,7 +36,7 @@ class TimeStampLoginForm(AuthenticationForm):
             if not obj_login.contract.active():
                 raise forms.ValidationError(
                     'Missing contract for employee {EMPLOYEE}.'.format(
-                        EMPLOYEE=obj_login.employee),
+                        EMPLOYEE=obj_login.contract.employee),
                     code='missing_contract')
         else:
             raise forms.ValidationError(

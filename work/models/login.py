@@ -27,8 +27,6 @@ from utility.models import BaseModel, BaseModelAdmin
 
 class Login(BaseModel, User):
     """User with app settings"""
-    employee = models.OneToOneField('Employee',
-                                    on_delete=models.PROTECT)
     contract = models.ForeignKey('Contract',
                                  on_delete=models.PROTECT)
 
@@ -49,21 +47,21 @@ class LoginAdmin(BaseModelAdmin, UserAdmin):
     fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('employee', 'contract', 'username'),
+            'fields': ('contract', 'username'),
         }),
     )
     # Fieldset for login add
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('employee', 'contract', 'username', 'password1', 'password2'),
+            'fields': ('contract', 'username', 'password1', 'password2'),
         }),
     )
 
     def get_readonly_fields(self, request, obj=None):
         """Protect fields after creation"""
         if obj:
-            return 'employee', 'contract', 'username'
+            return 'contract', 'username'
         else:
             return ()
 

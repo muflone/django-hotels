@@ -48,7 +48,7 @@ class TimeStampLoginView(LoginView, GenericView):
         if self.request.user.is_authenticated:
             obj_login = Login.objects.get(username=self.request.user)
             context['page_title'] = ('Welcome {EMPLOYEE}'.format(
-                EMPLOYEE=obj_login.employee), )
+                EMPLOYEE=obj_login.contract.employee), )
             context['last_logins'] = Timestamp.objects.filter(
                 contract=obj_login.contract).order_by(
                 '-date', '-time')[:int(context['last_logins_count'])]
