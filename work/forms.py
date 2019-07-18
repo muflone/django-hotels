@@ -33,8 +33,7 @@ class TimeStampLoginForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         if models.Login.objects.filter(username=user):
             obj_login = models.Login.objects.get(username=user)
-            active_contract = obj_login.employee.get_active_contract()
-            if not active_contract:
+            if not obj_login.contract.active():
                 raise forms.ValidationError(
                     'Missing contract for employee {EMPLOYEE}.'.format(
                         EMPLOYEE=obj_login.employee),

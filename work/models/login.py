@@ -29,6 +29,8 @@ class Login(BaseModel, User):
     """User with app settings"""
     employee = models.OneToOneField('Employee',
                                     on_delete=models.PROTECT)
+    contract = models.ForeignKey('Contract',
+                                 on_delete=models.PROTECT)
 
     class Meta:
         # Define the database table
@@ -36,8 +38,8 @@ class Login(BaseModel, User):
 
     def __str__(self):
         return '{FIRST_NAME} {LAST_NAME}'.format(
-            FIRST_NAME=self.employee.first_name,
-            LAST_NAME=self.employee.last_name)
+            FIRST_NAME=self.contract.employee.first_name,
+            LAST_NAME=self.contract.employee.last_name)
 
 
 class LoginAdmin(BaseModelAdmin, UserAdmin):
@@ -47,27 +49,27 @@ class LoginAdmin(BaseModelAdmin, UserAdmin):
     fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('employee', 'username'),
+            'fields': ('employee', 'contract', 'username'),
         }),
     )
     # Fieldset for login add
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('employee', 'username', 'password1', 'password2'),
+            'fields': ('employee', 'contract', 'username', 'password1', 'password2'),
         }),
     )
 
     def get_readonly_fields(self, request, obj=None):
         """Protect fields after creation"""
         if obj:
-            return 'employee', 'username'
+            return 'employee', 'contract', 'username'
         else:
             return ()
 
     def save_model(self, request, obj, form, change):
-        obj.first_name = obj.employee.first_name
-        obj.last_name = obj.employee.last_name
-        obj.email = obj.employee.email
+        obj.first_name = obj.contract.employee.first_name
+        obj.last_name = obj.contract.employee.last_name
+        obj.email = obj.contract.employee.email
         # Save model data
         super().save_model(request, obj, form, change)
