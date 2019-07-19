@@ -18,6 +18,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 ##
 
+
 class DBRouter(object):
     """
     A router to control all database operations on models in the
@@ -45,7 +46,7 @@ class DBRouter(object):
         """
         if (obj1._meta.model_name == 'apilog' or
                 obj2._meta.model_name == 'apilog'):
-           return False
+            return False
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
