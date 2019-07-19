@@ -106,6 +106,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'hotels.sqlite3'),
+    },
+    'api_logs': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'api_logs.sqlite3'),
     }
 }
 
