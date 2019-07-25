@@ -27,6 +27,7 @@ from ..forms import ActivityRoomInlineForm
 
 from hotels.models import Room
 
+from utility.misc import get_admin_options
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -64,12 +65,17 @@ class ActivityRoomAdmin(BaseModelAdmin):
         elif db_field.name == 'room':
             # Optimize value lookup for field room
             if 'object_id' in request.resolver_match.kwargs:
-                # Limit rooms to enabled for contract
                 object_id = request.resolver_match.kwargs['object_id']
-                kwargs['queryset'] = Room.objects.filter(
+                # The building ID used for the extras
+                extra_building_id = int(get_admin_options(
+                    'APIv1PutExtra', 'get_context_data')['extras_building_id'])
+                # Limit rooms to those for extras or to enabled for contract
+                kwargs['queryset'] = (Room.objects.filter(
+                    building=extra_building_id) |
+                    Room.objects.filter(
                     building_id__in=ActivityRoom.objects.get(pk=object_id)
                     .activity.contract.buildings.values('id')
-                    ).select_related('building')
+                    ).select_related('building'))
             else:
                 # During empty adding set no room limit
                 kwargs['queryset'] = Room.objects.all().select_related(
@@ -98,10 +104,16 @@ class ActivityRoomInline(admin.TabularInline):
             # Optimize value lookup for field room
             if 'object_id' in request.resolver_match.kwargs:
                 object_id = request.resolver_match.kwargs['object_id']
-                kwargs['queryset'] = Room.objects.filter(
+                # The building ID used for the extras
+                extra_building_id = int(get_admin_options(
+                    'APIv1PutExtra', 'get_context_data')['extras_building_id'])
+                # Limit rooms to those for extras or to enabled for contract
+                kwargs['queryset'] = (Room.objects.filter(
+                    building=extra_building_id) |
+                    Room.objects.filter(
                     building_id__in=activity.Activity.objects.get(pk=object_id)
                     .contract.buildings.values('id')
-                    ).select_related('building').prefetch_related('room_type')
+                    ).select_related('building').prefetch_related('room_type'))
             else:
                 # During empty adding set no room limit
                 kwargs['queryset'] = Room.objects.all().select_related(

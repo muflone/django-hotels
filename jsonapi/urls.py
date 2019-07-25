@@ -110,6 +110,38 @@ urlpatterns.append(urls.path('v1/put/activity/'
                              '<int:datetime>/',
                              views.APIv1PutActivity.as_view(),
                              name='api/v1/put/activity'))
+# Put extras page
+urlpatterns.append(urls.path('v1/put/extra/'
+                             '<int:tablet_id>/'
+                             '<otpkey:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/'
+                             '<str:description>/',
+                             views.APIv1PutExtra.as_view(),
+                             name='api/v1/put/extra'))
+urlpatterns.append(urls.path('v1/put/extra/'
+                             '<int:tablet_id>/'
+                             '<otpkey:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/'
+                             '/',
+                             views.APIv1PutExtra.as_view(),
+                             name='api/v1/put/extra'))
+# Some web servers (Python Anywhere) don't handle well URLs with two ending
+# slashes: two consecutive slashes are interpreted as a single slash
+urlpatterns.append(urls.path('v1/put/extra/'
+                             '<int:tablet_id>/'
+                             '<otpkey:password>/'
+                             '<int:contract_id>/'
+                             '<int:room_id>/'
+                             '<int:service_qty>/'
+                             '<int:datetime>/',
+                             views.APIv1PutExtra.as_view(),
+                             name='api/v1/put/extra'))
 # Put timestamp page
 urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
