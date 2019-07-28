@@ -66,7 +66,7 @@ class APIv1PutExtra(APIv1BaseView):
             # The Room ID to use is the nth from the building extra_building_id
             # See AdminOption extras_building_id
             room_id=Room.objects.filter(building=extra_building_id)
-                [int(context['room_id']) - 1].pk,
+                [int(context['room_id']) - 1].pk,                  # noqa: E131
             service_id=int(context['extras_service_id']),
             service_qty=int(context['service_qty']),
             description=urllib.parse.unquote_plus(
