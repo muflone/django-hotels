@@ -39,6 +39,7 @@ class Building(BaseModel):
     phone2 = models.CharField(max_length=255, blank=True)
     fax = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
+    extras = models.BooleanField(default=False)
 
     class Meta:
         # Define the database table

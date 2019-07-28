@@ -71,6 +71,7 @@ class APIv1GetView(APIv1BaseView):
                                                       },
                                           },
                              'buildings': [],
+                             'extras': [],
                              'service_extra': [],
                              }
                 # Add service extra to structure
@@ -84,6 +85,7 @@ class APIv1GetView(APIv1BaseView):
             # Add buildings to the structure
             structure = structures[obj_building.structure.name]
             buildings = structure['buildings']
+            extras = structure['extras']
             obj_location = obj_building.location
             obj_region = obj_location.region
             obj_country = obj_region.country
@@ -112,8 +114,11 @@ class APIv1GetView(APIv1BaseView):
                                        }
                                       for room in rooms],
                             }
-                buildings_set.add(obj_building.id)
-                buildings.append(building)
+                if not obj_building.extras:
+                    buildings_set.add(obj_building.id)
+                    buildings.append(building)
+                else:
+                    extras.append(building)
         context['structures'] = structures
         # List all the contracts for the selected tablet
         contracts = []
