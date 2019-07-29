@@ -27,7 +27,6 @@ from ..forms import ActivityRoomInlineForm
 
 from hotels.models import Room
 
-from utility.misc import get_admin_options
 from utility.models import BaseModel, BaseModelAdmin
 
 
