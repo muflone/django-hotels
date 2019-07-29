@@ -39,6 +39,10 @@ case $1 in
     shift
     python manage.py migrate --settings project.settings_development $*
     ;;
+  shell)
+    shift
+    python manage.py shell --settings project.settings_development $*
+    ;;
   *)
     echo "Usage: $0 <run|makemigrations|migrate|migrate>"
     echo "  run             will run the development server using default settings"
