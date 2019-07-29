@@ -66,13 +66,8 @@ class ActivityRoomAdmin(BaseModelAdmin):
             # Optimize value lookup for field room
             if 'object_id' in request.resolver_match.kwargs:
                 object_id = request.resolver_match.kwargs['object_id']
-                # The building ID used for the extras
-                extra_building_id = int(get_admin_options(
-                    'APIv1PutExtra', 'get_context_data')['extras_building_id'])
-                # Limit rooms to those for extras or to enabled for contract
+                # Limit rooms to those enabled for contract
                 kwargs['queryset'] = (Room.objects.filter(
-                    building=extra_building_id) |
-                    Room.objects.filter(
                     building_id__in=ActivityRoom.objects.get(pk=object_id)
                     .activity.contract.buildings.values('id')
                     ).select_related('building'))
@@ -104,13 +99,8 @@ class ActivityRoomInline(admin.TabularInline):
             # Optimize value lookup for field room
             if 'object_id' in request.resolver_match.kwargs:
                 object_id = request.resolver_match.kwargs['object_id']
-                # The building ID used for the extras
-                extra_building_id = int(get_admin_options(
-                    'APIv1PutExtra', 'get_context_data')['extras_building_id'])
-                # Limit rooms to those for extras or to enabled for contract
+                # Limit rooms to those enabled for contract
                 kwargs['queryset'] = (Room.objects.filter(
-                    building=extra_building_id) |
-                    Room.objects.filter(
                     building_id__in=activity.Activity.objects.get(pk=object_id)
                     .contract.buildings.values('id')
                     ).select_related('building').prefetch_related('room_type'))
