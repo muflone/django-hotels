@@ -59,20 +59,38 @@ class APIv1PutExtra(APIv1BaseView):
         # Add Activity extra to activity
         context.update(get_admin_options(self.__class__.__name__,
                                          sys._getframe().f_code.co_name))
-        # The building ID used for the extras
-        extra_building_id = int(context['extras_building_id'])
-        activity = ActivityRoom.objects.create(
-            activity_id=activity.pk,
-            # The Room ID to use is the nth from the building extra_building_id
-            # See AdminOption extras_building_id
-            room_id=Room.objects.filter(building=extra_building_id)
-                [int(context['room_id']) - 1].pk,                  # noqa: E131
-            service_id=int(context['extras_service_id']),
-            service_qty=int(context['service_qty']),
-            description=urllib.parse.unquote_plus(
-                context['description'].replace('\\n', '\n')))
-        # Add closing status (to check for transmission errors)
-        self.add_status(context)
+        # Get the already used rooms for extras
+        extra_used_rooms = [room[0]
+                            for room
+                            in ActivityRoom.objects.filter(
+                                activity_id=activity.pk,
+                                service_id=int(context['extras_service_id']),
+                                room__building__extras=True)
+                            .values_list('room')]
+        # Get the all the existing rooms for extras
+        extra_rooms = [room[0]
+                       for room
+                       in Room.objects.filter(
+                           building__structure_id=context['structure_id'],
+                           building__extras=True)
+                       .order_by('name')
+                       .values_list('id')]
+        # Get the free rooms for extras
+        extra_free_rooms = list(set(extra_rooms) - set(extra_used_rooms))
+        if extra_free_rooms:
+            # Assign the ActivityRoom to the first available extra room
+            activity = ActivityRoom.objects.create(
+                activity_id=activity.pk,
+                room_id=extra_free_rooms[0],
+                service_id=int(context['extras_service_id']),
+                service_qty=int(context['service_qty']),
+                description=urllib.parse.unquote_plus(
+                    context['description'].replace('\\n', '\n')))
+            # Add closing status (to check for transmission errors)
+            self.add_status(context)
+        else:
+            # No available extra rooms to work with
+            context['status'] = 'NO ROOMS'
         # Return timestamp id
         context['activity_id'] = activity.pk
         return context
