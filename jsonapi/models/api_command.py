@@ -20,6 +20,7 @@
 
 from django.db import models
 
+from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
 
@@ -46,6 +47,15 @@ class ApiCommand(BaseModel):
 
     def __str__(self):
         return str(self.id)
+
+
+class ApiCommandNameFilter(AdminTextInputFilter):
+    parameter_name = 'name'
+    title = 'name'
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(name__icontains=self.value())
 
 
 class ApiCommandAdmin(BaseModelAdmin):
