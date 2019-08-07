@@ -1,2 +1,11 @@
+      <tr>
+        <td class="footer right">Totals</td>
+        <td class="footer" colspan="3">
+{% for total in item.totals %}
+          <div>{{ total }}</div>
+{% endfor %}
+        </td>
+      </tr>
     </tbody>
   </table>
+  <hr />

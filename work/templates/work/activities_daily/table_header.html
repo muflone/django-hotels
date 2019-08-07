@@ -1,17 +1,11 @@
-  <table border="1" repeat="1">
-    <thead>
-      <tr>
-      {% if show_activities == '1' %}
-        <th>Activity</th>
-      {% else %}
-        <th>Company</th>
-        <th>Employee</th>
-        <th>Date</th>
-      {% endif %}
-        <th>Building</th>
-        <th>Room</th>
-        <th>Service</th>
-        <th>Totals</th>
-      </tr>
-    </thead>
+  <table border="1" repeat="2">
     <tbody>
+      <tr>
+        <td class="header" colspan="4">{{ item.date }} - {{ item.employee }} ({{ item.company }})</td>
+      </tr>
+      <tr>
+        <td class="header">Building</td>
+        <td class="header">Room</td>
+        <td class="header">Service</td>
+        <td class="header">Description</td>
+      </tr>

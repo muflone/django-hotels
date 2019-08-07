@@ -1,58 +1,28 @@
-{# Table header for non single mode layout #}
-{% if single_mode != '1' %}
-  {% include 'work/activities_daily/table_header.html' %}
-{% endif %}
-
 {% for item in results %}
-  {# Table header for non single mode layout #}
-  {% if single_mode == '1' %}
-    {% include 'work/activities_daily/table_header.html' %}
-  {% endif %}
+  {% include 'work/activities_daily/table_header.html' %}
 
   {% for service in item.services %}
       <tr>
-    {# Set the activity name, once for all services #}
-    {% if forloop.first %}
-      {% if show_activities == '1' %}
-        <td class="activity" rowspan="{{ item.services | length }}">{{ item.activity }}</td>
-      {% else %}
-        <td class="company" rowspan="{{ item.services | length }}">{{ item.company }}</td>
-        <td class="employee" rowspan="{{ item.services | length }}">{{ item.employee }}</td>
-        <td class="date" rowspan="{{ item.services | length }}">{{ item.date }}</td>
-      {% endif %}
-    {% endif %}
         <td>{{ service.building }}</td>
         <td>{{ service.room }}</td>
         <td class="service_{{ service.service_id }}">{{ service.service }}</td>
-    {% if forloop.first %}
-        <td rowspan="{{ item.services | length }}">
-      {% for total in item.totals %}
-            <div>{{ total }}</div>
-      {% endfor %}
-        </td>
-    {% endif %}
+        <td>{{ service.description }}&nbsp;</td>
       </tr>
   {% endfor %}
 
-  {# Table footer for single mode layout #}
-  {% if single_mode == '1' %}
-    {% include 'work/activities_daily/table_footer.html' %}
-      <pdf:nextpage />
-  {% endif %}
-{% endfor %}
-
-{# Table footer for non single mode layout #}
-{% if single_mode != '1' %}
   {% include 'work/activities_daily/table_footer.html' %}
-{% endif %}
+{% endfor %}
 
 {# Totals table #}
   <table border="1">
     <tbody>
-{% for item in grand_totals %}
       <tr>
-        <td>{{ item }}</td>
-      </tr>
+        <td class="footer right">Grand totals</td>
+        <td class="footer">
+{% for item in grand_totals %}
+          <div>{{ item }}</div>
 {% endfor %}
+        </td>
+      </tr>
     </tbody>
   </table>
