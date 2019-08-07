@@ -161,7 +161,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                 services.append({'building': activityroom.room.building.name,
                                  'room': activityroom.room.name,
                                  'service': activityroom.service.name,
-                                 'service_id': activityroom.service_id
+                                 'service_id': activityroom.service_id,
+                                 'description': activityroom.description
                                  })
                 totals[activityroom.service.name] += 1
                 grand_totals[activityroom.service.name] += 1
