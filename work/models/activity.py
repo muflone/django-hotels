@@ -170,8 +170,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                             'date': activity.date,
                             'activity': str(activity),
                             'services': services,
-                            'totals': ['%s: %d' % (i[0], i[1])
-                                       for i in totals.items()]
+                            'totals': sorted(['%s: %d' % (i[0], i[1])
+                                              for i in totals.items()])
                             })
         # Export data
         context = dict(
