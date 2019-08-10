@@ -145,7 +145,7 @@ LANGUAGES = [
     ('en', _('English')),
     ('it', _('Italian')),
 ]
-LANGUAGE_CODE = 'it-IT'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Europe/Rome'
 
