@@ -19,33 +19,52 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.misc import get_admin_models
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class AdminSearchable(BaseModel):
-
     admin_models = get_admin_models()
 
     model = models.CharField(max_length=255,
                              choices=((model_name, model_name)
                                       for model_name
-                                      in sorted(admin_models.keys())))
-    field = models.CharField(max_length=255)
+                                      in sorted(admin_models.keys())),
+                             verbose_name=pgettext_lazy('AdminSearchable',
+                                                        'model'))
+    field = models.CharField(max_length=255,
+                             verbose_name=pgettext_lazy('AdminSearchable',
+                                                        'field'))
     ref_model = models.CharField(max_length=255,
                                  choices=((model_name, model_name)
                                           for model_name
-                                          in sorted(admin_models.keys())))
-    ref_field = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    use_select2 = models.BooleanField()
+                                          in sorted(admin_models.keys())),
+                                 verbose_name=pgettext_lazy(
+                                     'AdminSearchable',
+                                     'referenced model'))
+    ref_field = models.CharField(max_length=255,
+                                 verbose_name=pgettext_lazy(
+                                     'AdminSearchable',
+                                     'referenced field'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy(
+                                       'AdminSearchable',
+                                       'description'))
+    use_select2 = models.BooleanField(verbose_name=pgettext_lazy(
+        'AdminSearchable',
+        'use select 2'))
 
     class Meta:
         # Define the database table
         db_table = 'website_admin_searchable'
         ordering = ['model', 'field']
         unique_together = ('model', 'field')
+        verbose_name = pgettext_lazy('AdminSearchable',
+                                     'Admin Searchable')
+        verbose_name_plural = pgettext_lazy('AdminSearchable',
+                                            'Admin Searchables')
 
     def __str__(self):
         return '{MODEL} - {FIELD}'.format(MODEL=self.model,

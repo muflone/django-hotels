@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -49,7 +50,7 @@
         <div class="navbar-header">
           <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">{% trans 'Toggle navigation' context 'Website' %}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
