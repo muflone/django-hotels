@@ -4,7 +4,7 @@
 
 **Copyright:** 2018-2019 Fabio Castelli (Muflone) <muflone@muflone.com>
 
-**License:** GPL-2+
+**License:** GPL-3+
 
 **Source code:** https://github.com/muflone/django-hotels
 
