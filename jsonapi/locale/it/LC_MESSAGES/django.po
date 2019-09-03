@@ -1,0 +1,234 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-03 03:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: jsonapi/models/api_command.py:33
+msgctxt "ApiCommand"
+msgid "command type"
+msgstr "tipo di comando"
+
+#: jsonapi/models/api_command.py:37 jsonapi/models/api_command.py:83
+msgctxt "ApiCommand"
+msgid "name"
+msgstr "nome"
+
+#: jsonapi/models/api_command.py:42
+msgctxt "ApiCommand"
+msgid "context type"
+msgstr "tipo di contesto"
+
+#: jsonapi/models/api_command.py:45
+msgctxt "ApiCommand"
+msgid "enabled"
+msgstr "abilitato"
+
+#: jsonapi/models/api_command.py:48
+msgctxt "ApiCommand"
+msgid "description"
+msgstr "descrizione"
+
+#: jsonapi/models/api_command.py:51
+msgctxt "ApiCommand"
+msgid "command"
+msgstr "comando"
+
+#: jsonapi/models/api_command.py:55
+msgctxt "ApiCommand"
+msgid "tablets"
+msgstr "tablet"
+
+#: jsonapi/models/api_command.py:60
+msgctxt "ApiCommand"
+msgid "starting"
+msgstr "inizio"
+
+#: jsonapi/models/api_command.py:65
+msgctxt "ApiCommand"
+msgid "ending"
+msgstr "fine"
+
+#: jsonapi/models/api_command.py:68
+msgctxt "ApiCommand"
+msgid "uses"
+msgstr "utilizzi"
+
+#: jsonapi/models/api_command.py:74
+msgctxt "ApiCommand"
+msgid "Api command"
+msgstr "Comando Api"
+
+#: jsonapi/models/api_command.py:75
+msgctxt "ApiCommand"
+msgid "Api commands"
+msgstr "Comandi Api"
+
+#: jsonapi/models/api_command_type.py:31
+msgctxt "ApiCommandType"
+msgid "name"
+msgstr "nome"
+
+#: jsonapi/models/api_command_type.py:34
+msgctxt "ApiCommandType"
+msgid "description"
+msgstr "descrizione"
+
+#: jsonapi/models/api_command_type.py:36
+msgctxt "ApiCommandType"
+msgid "command"
+msgstr "comando"
+
+#: jsonapi/models/api_command_type.py:42
+msgctxt "ApiCommandType"
+msgid "Api command type"
+msgstr "Tipo di comando Api"
+
+#: jsonapi/models/api_command_type.py:44
+msgctxt "ApiCommandType"
+msgid "Api command types"
+msgstr "Tipi di comando Api"
+
+#: jsonapi/models/api_context_type.py:31
+msgctxt "ApiContextType"
+msgid "name"
+msgstr "nome"
+
+#: jsonapi/models/api_context_type.py:34
+msgctxt "ApiContextType"
+msgid "description"
+msgstr "descrizione"
+
+#: jsonapi/models/api_context_type.py:40
+msgctxt "ApiContextType"
+msgid "Api context type"
+msgstr "Tipo di contesto Api"
+
+#: jsonapi/models/api_context_type.py:42
+msgctxt "ApiContextType"
+msgid "Api context types"
+msgstr "Tipi di contesto Api"
+
+#: jsonapi/models/api_log.py:38
+msgctxt "ApiLog"
+msgid "date"
+msgstr "data"
+
+#: jsonapi/models/api_log.py:40
+msgctxt "ApiLog"
+msgid "time"
+msgstr "orario"
+
+#: jsonapi/models/api_log.py:43
+msgctxt "ApiLog"
+msgid "message level"
+msgstr "livello del messaggio"
+
+#: jsonapi/models/api_log.py:46
+msgctxt "ApiLog"
+msgid "metod"
+msgstr "metodo"
+
+#: jsonapi/models/api_log.py:49
+msgctxt "ApiLog"
+msgid "path"
+msgstr "percorso"
+
+#: jsonapi/models/api_log.py:52
+msgctxt "ApiLog"
+msgid "raw uri"
+msgstr "uri grezzo"
+
+#: jsonapi/models/api_log.py:55
+msgctxt "ApiLog"
+msgid "url name"
+msgstr "nome url"
+
+#: jsonapi/models/api_log.py:58
+msgctxt "ApiLog"
+msgid "function name"
+msgstr "nome funzione"
+
+#: jsonapi/models/api_log.py:63 jsonapi/models/api_log.py:116
+msgctxt "ApiLog"
+msgid "remote address"
+msgstr "indirizzo remoto"
+
+#: jsonapi/models/api_log.py:68 jsonapi/models/api_log.py:125
+msgctxt "ApiLog"
+msgid "forwarded for"
+msgstr "inoltrato per"
+
+#: jsonapi/models/api_log.py:72 jsonapi/models/api_log.py:134
+msgctxt "ApiLog"
+msgid "user agent"
+msgstr "agente utente"
+
+#: jsonapi/models/api_log.py:76
+msgctxt "ApiLog"
+msgid "client agent"
+msgstr "agente client"
+
+#: jsonapi/models/api_log.py:81
+msgctxt "ApiLog"
+msgid "client version"
+msgstr "versione client"
+
+#: jsonapi/models/api_log.py:85
+msgctxt "ApiLog"
+msgid "user"
+msgstr "utente"
+
+#: jsonapi/models/api_log.py:88 jsonapi/models/api_log.py:143
+msgctxt "ApiLog"
+msgid "tablet id"
+msgstr "id tablet"
+
+#: jsonapi/models/api_log.py:91
+msgctxt "ApiLog"
+msgid "keyword arguments"
+msgstr "argomenti con parole chiave"
+
+#: jsonapi/models/api_log.py:94
+msgctxt "ApiLog"
+msgid "arguments"
+msgstr "argomenti"
+
+#: jsonapi/models/api_log.py:97
+msgctxt "ApiLog"
+msgid "extra"
+msgstr "extra"
+
+#: jsonapi/models/api_log.py:100
+msgctxt "ApiLog"
+msgid "api version"
+msgstr "versione api"
+
+#: jsonapi/models/api_log.py:106
+msgctxt "ApiLog"
+msgid "Api log"
+msgstr "Log Api"
+
+#: jsonapi/models/api_log.py:108
+msgctxt "ApiLog"
+msgid "Api logs"
+msgstr "Log Api"
+
+#: jsonapi/models/api_log.py:234
+msgctxt "ApiLog"
+msgid "Explanation"
+msgstr "Spiegazione"

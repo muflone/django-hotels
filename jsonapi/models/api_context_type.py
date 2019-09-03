@@ -19,19 +19,27 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class ApiContextType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('ApiContextType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ApiContextType',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'api_context_types'
         ordering = ['name']
+        verbose_name = pgettext_lazy('ApiContextType', 'Api context type')
+        verbose_name_plural = pgettext_lazy('ApiContextType',
+                                            'Api context types')
 
     def __str__(self):
         return self.name
