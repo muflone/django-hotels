@@ -19,19 +19,25 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Position(BaseModel):
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('Position',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Position',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_positions'
         ordering = ['name']
+        verbose_name = pgettext_lazy('Position', 'Position')
+        verbose_name_plural = pgettext_lazy('Position', 'Positions')
 
     def __str__(self):
         return self.name

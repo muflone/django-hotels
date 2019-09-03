@@ -25,6 +25,7 @@ from django.db import models
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import path
+from django.utils.translation import pgettext_lazy
 
 from .continent import Continent
 from .language import Language
@@ -34,19 +35,31 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Country(BaseModel):
-
-    name = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField(blank=True)
-    capital = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255,
+                            primary_key=True,
+                            verbose_name=pgettext_lazy('Country',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Country',
+                                                              'description'))
+    capital = models.CharField(max_length=255,
+                               blank=True,
+                               verbose_name=pgettext_lazy('Country',
+                                                          'capital'))
     continent = models.ForeignKey('Continent',
-                                  on_delete=models.PROTECT)
-    languages = models.ManyToManyField('Language')
+                                  on_delete=models.PROTECT,
+                                  verbose_name=pgettext_lazy('Country',
+                                                             'continent'))
+    languages = models.ManyToManyField('Language',
+                                       verbose_name=pgettext_lazy('Country',
+                                                                  'language'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_countries'
         ordering = ['name']
-        verbose_name_plural = 'Countries'
+        verbose_name = pgettext_lazy('Country', 'Country')
+        verbose_name_plural = pgettext_lazy('Country', 'Countries')
 
     def __str__(self):
         return self.name
@@ -64,8 +77,10 @@ class CountryAdmin(BaseModelAdmin):
     def import_csv(self, request):
         def append_error(type_name, item):
             """Append an error message to the messages list"""
-            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
-                                                                ITEM=item)
+            error_message = pgettext_lazy(
+                'Country',
+                'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
+                                                    ITEM=item))
             if error_message not in error_messages:
                 error_messages.append(error_message)
                 self.message_user(request, error_message, messages.ERROR)
@@ -106,7 +121,9 @@ class CountryAdmin(BaseModelAdmin):
             # Save data only if there were not errors
             if not error_messages:
                 Country.objects.bulk_create(countries)
-                self.message_user(request, 'Your CSV file has been imported')
+                self.message_user(request, pgettext_lazy(
+                    'Country',
+                    'Your CSV file has been imported'))
                 # Add language in each country
                 for country in countries:
                     country.languages.set(
