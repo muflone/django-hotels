@@ -19,25 +19,42 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class AdminOption(BaseModel):
-
-    section = models.CharField(max_length=255)
-    group = models.CharField(max_length=255, default='main')
-    name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
-    description = models.TextField(blank=True)
-    value = models.TextField(blank=True)
+    section = models.CharField(max_length=255,
+                               verbose_name=pgettext_lazy('AdminOption',
+                                                          'section'))
+    group = models.CharField(max_length=255,
+                             default='main',
+                             verbose_name=pgettext_lazy('AdminOption',
+                                                        'group'))
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('AdminOption',
+                                                       'name'))
+    enabled = models.BooleanField(default=True,
+                                  verbose_name=pgettext_lazy('AdminOption',
+                                                             'enabled'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('AdminOption',
+                                                              'description'))
+    value = models.TextField(blank=True,
+                             verbose_name=pgettext_lazy('AdminOption',
+                                                        'value'))
 
     class Meta:
         # Define the database table
         db_table = 'website_admin_options'
         ordering = ['section', 'group', 'name']
         unique_together = ('section', 'group', 'name')
+        verbose_name = pgettext_lazy('AdminOption',
+                                     'Admin Option')
+        verbose_name_plural = pgettext_lazy('AdminOption',
+                                            'Admin Options')
 
     def __str__(self):
         return '{SECTION} - {GROUP} - {NAME}'.format(SECTION=self.section,
@@ -47,7 +64,7 @@ class AdminOption(BaseModel):
 
 class AdminOptionNameFilter(AdminTextInputFilter):
     parameter_name = 'name'
-    title = 'name'
+    title = pgettext_lazy('AdminOption', 'name')
 
     def queryset(self, request, queryset):
         if self.value():

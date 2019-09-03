@@ -19,22 +19,31 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.misc import get_admin_models
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class AdminListDisplayLink(BaseModel):
-
     admin_models = get_admin_models()
 
     model = models.CharField(max_length=255,
                              choices=((model_name, model_name)
                                       for model_name
-                                      in sorted(admin_models.keys())))
-    field = models.CharField(max_length=255)
-    order = models.PositiveIntegerField()
-    enabled = models.BooleanField(default=True)
+                                      in sorted(admin_models.keys())),
+                             verbose_name=pgettext_lazy('AdminListDisplayLink',
+                                                        'model'))
+    field = models.CharField(max_length=255,
+                             verbose_name=pgettext_lazy('AdminListDisplayLink',
+                                                        'field'))
+    order = models.PositiveIntegerField(verbose_name=pgettext_lazy(
+        'AdminListDisplayLink',
+        'order'))
+    enabled = models.BooleanField(default=True,
+                                  verbose_name=pgettext_lazy(
+                                      'AdminListDisplayLink',
+                                      'enabled'))
 
     class Meta:
         # Define the database table
@@ -42,6 +51,10 @@ class AdminListDisplayLink(BaseModel):
         ordering = ['model', 'order', 'field']
         unique_together = (('model', 'field'),
                            ('model', 'order'))
+        verbose_name = pgettext_lazy('AdminListDisplayLink',
+                                     'Admin List Display Link')
+        verbose_name_plural = pgettext_lazy('AdminListDisplayLink',
+                                            'Admin List Display Links')
 
     def __str__(self):
         return '{MODEL} - {FIELD}'.format(MODEL=self.model,

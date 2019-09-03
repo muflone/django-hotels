@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.contrib import admin
+from django.utils.translation import pgettext_lazy
 
 from .region import Region
 
@@ -28,18 +29,29 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Location(BaseModel):
-
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('Location',
+                                                       'name'))
     region = models.ForeignKey('Region',
-                               on_delete=models.PROTECT)
-    description = models.TextField(blank=True)
-    province = models.CharField(max_length=255, blank=True, null=True)
+                               on_delete=models.PROTECT,
+                               verbose_name=pgettext_lazy('Location',
+                                                          'region'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Location',
+                                                              'description'))
+    province = models.CharField(max_length=255,
+                                blank=True,
+                                null=True,
+                                verbose_name=pgettext_lazy('Location',
+                                                           'province'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_locations'
         ordering = ['name']
         unique_together = ('region', 'name')
+        verbose_name = pgettext_lazy('Location', 'Location')
+        verbose_name_plural = pgettext_lazy('Location', 'Locations')
 
     def __str__(self):
         if self.province:
@@ -51,7 +63,7 @@ class Location(BaseModel):
 
 class LocationNameInputFilter(AdminTextInputFilter):
     parameter_name = 'name'
-    title = 'name'
+    title = pgettext_lazy('Location', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -60,7 +72,7 @@ class LocationNameInputFilter(AdminTextInputFilter):
 
 class LocationProvinceInputFilter(AdminTextInputFilter):
     parameter_name = 'province'
-    title = 'province'
+    title = pgettext_lazy('Location', 'province')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -68,8 +80,8 @@ class LocationProvinceInputFilter(AdminTextInputFilter):
 
 
 class LocationAdminCountryRegionFilter(admin.SimpleListFilter):
-    title = 'region'
     parameter_name = 'region'
+    title = pgettext_lazy('Location', 'region')
 
     def lookups(self, request, model_admin):
         return [(region_id, '{COUNTRY} - {REGION}'.format(
@@ -92,4 +104,4 @@ class LocationAdmin(BaseModelAdmin):
 
     def country(self, instance):
         return instance.region.country
-    country.short_description = 'Country'
+    country.short_description = pgettext_lazy('Country', 'Country')

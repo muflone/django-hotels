@@ -19,19 +19,26 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Language(BaseModel):
-
-    name = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            primary_key=True,
+                            verbose_name=pgettext_lazy('Language',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Language',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_languages'
         ordering = ['name']
+        verbose_name = pgettext_lazy('Language', 'Language')
+        verbose_name_plural = pgettext_lazy('Language', 'Languages')
 
     def __str__(self):
         return self.name

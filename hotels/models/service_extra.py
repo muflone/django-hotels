@@ -21,6 +21,7 @@
 from django.db import models
 from django.contrib import admin
 from django.core.validators import MinValueValidator
+from django.utils.translation import pgettext_lazy
 
 from .service import Service
 
@@ -28,24 +29,30 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class ServiceExtra(BaseModel):
-
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
-                                  default=0)
+                                  default=0,
+                                  verbose_name=pgettext_lazy('ServiceExtra',
+                                                             'structure'))
     service = models.ForeignKey('Service',
                                 on_delete=models.PROTECT,
-                                default=0)
+                                default=0,
+                                verbose_name=pgettext_lazy('ServiceExtra',
+                                                           'service'))
     price = models.DecimalField(max_digits=11,
                                 decimal_places=2,
                                 default=0.0,
-                                validators=[MinValueValidator(0.00)])
+                                validators=[MinValueValidator(0.00)],
+                                verbose_name=pgettext_lazy('ServiceExtra',
+                                                           'price'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_services_extra'
         ordering = ['structure', 'service']
         unique_together = ('structure', 'service')
-        verbose_name_plural = 'Services Extras'
+        verbose_name = pgettext_lazy('ServiceExtra', 'Service extra')
+        verbose_name_plural = pgettext_lazy('ServiceExtra', 'Service extras')
 
     def __str__(self):
         return '{STRUCTURE} - {SERVICE}'.format(STRUCTURE=self.structure,
@@ -53,7 +60,7 @@ class ServiceExtra(BaseModel):
 
 
 class ServiceExtraService(admin.SimpleListFilter):
-    title = 'service'
+    title = pgettext_lazy('ServiceExtra', 'service')
     parameter_name = 'service'
 
     def lookups(self, request, model_admin):

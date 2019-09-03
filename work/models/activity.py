@@ -25,6 +25,7 @@ import sys
 from django.db import models
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils.translation import pgettext_lazy
 
 from . import activity_room
 from .contract import Contract
@@ -38,17 +39,22 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Activity(BaseModel):
-
     contract = models.ForeignKey('Contract',
-                                 on_delete=models.PROTECT)
-    date = models.DateField()
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Activity',
+                                                            'contract'))
+    date = models.DateField(verbose_name=pgettext_lazy('Activity',
+                                                       'date'))
 
     class Meta:
         # Define the database table
         db_table = 'work_activities'
         ordering = ['-date', 'contract__employee']
-        verbose_name_plural = 'Activities'
         unique_together = ('contract', 'date')
+        verbose_name = pgettext_lazy('Activity',
+                                     'Activity')
+        verbose_name_plural = pgettext_lazy('Activity',
+                                            'Activities')
 
     def __str__(self):
         return '{CONTRACT} {DATE}'.format(
@@ -127,7 +133,10 @@ class ActivityAdmin(BaseModelAdmin):
 
 class ActivityInLinesProxy(Activity):
     class Meta:
-        verbose_name_plural = 'Activities with Rooms'
+        verbose_name = pgettext_lazy('Activity',
+                                     'Activity with Rooms')
+        verbose_name_plural = pgettext_lazy('Activity',
+                                            'Activities with Rooms')
         proxy = True
 
 
@@ -194,7 +203,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                     'work/activities_daily/admin.html',
                                     context)
         return response
-    action_daily_activities_html.short_description = 'Daily activities (HTML)'
+    action_daily_activities_html.short_description = pgettext_lazy(
+        'Activity',
+        'Daily activities (HTML)')
 
     def action_daily_activities_pdf(self, request, queryset):
         context = self.get_daily_activities(request, queryset)
@@ -207,7 +218,9 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                       context),
             filename='')
         return response
-    action_daily_activities_pdf.short_description = 'Daily activities (PDF)'
+    action_daily_activities_pdf.short_description = pgettext_lazy(
+        'Activity',
+        'Daily activities (PDF)')
 
     def get_monthly_activities(self, request, queryset):
         queryset = queryset.order_by('date')
@@ -311,7 +324,8 @@ class ActivityInLinesAdmin(BaseModelAdmin):
                                       context),
             filename='')
         return response
-    action_monthly_activities_pdf.short_description = (
+    action_monthly_activities_pdf.short_description = pgettext_lazy(
+        'Activity',
         'Monthly activities (PDF)')
 
 

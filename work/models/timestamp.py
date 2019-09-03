@@ -30,6 +30,7 @@ from django.contrib import admin, messages
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils.translation import pgettext_lazy
 
 from .contract import Contract
 from .timestamp_direction import TimestampDirection
@@ -42,20 +43,29 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Timestamp(BaseModel):
-
     contract = models.ForeignKey('Contract',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Timestamp',
+                                                            'contract'))
     direction = models.ForeignKey('TimestampDirection',
-                                  on_delete=models.PROTECT)
-    date = models.DateField()
-    time = models.TimeField()
-    description = models.TextField(blank=True)
+                                  on_delete=models.PROTECT,
+                                  verbose_name=pgettext_lazy('Timestamp',
+                                                             'direction'))
+    date = models.DateField(verbose_name=pgettext_lazy('Timestamp',
+                                                       'date'))
+    time = models.TimeField(verbose_name=pgettext_lazy('Timestamp',
+                                                       'time'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Timestamp',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'work_timestamps'
         ordering = ['contract', 'date', 'time']
         unique_together = ('contract', 'direction', 'date', 'time')
+        verbose_name = pgettext_lazy('Timestamp', 'Timestamp')
+        verbose_name_plural = pgettext_lazy('Timestamp', 'Timestamps')
 
     def __str__(self):
         return '{CONTRACT} {DIRECTION} {DATE} {TIME}'.format(
@@ -87,11 +97,11 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def first_name(self, instance):
         return instance.contract.employee.first_name
-    first_name.short_description = 'First name'
+    first_name.short_description = pgettext_lazy('Employee', 'First name')
 
     def last_name(self, instance):
         return instance.contract.employee.last_name
-    last_name.last_description = 'Last name'
+    last_name.last_description = pgettext_lazy('Employee', 'Last name')
 
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
@@ -191,7 +201,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             data=context['results'],
             fields_map=TimestampExport.fields_map,
             filename='timestamps_hours')
-    action_timestamps_hours_csv.short_description = 'Timestamps hours (CSV)'
+    action_timestamps_hours_csv.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps hours (CSV)')
 
     def action_timestamps_hours_html(self, request, queryset):
         context = self.get_timestamps_hours(request, queryset)
@@ -207,7 +219,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                     'work/timestamps_hours/admin.html',
                                     context)
         return response
-    action_timestamps_hours_html.short_description = 'Timestamps hours (HTML)'
+    action_timestamps_hours_html.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps hours (HTML)')
 
     def action_timestamps_hours_pdf(self, request, queryset):
         context = self.get_timestamps_hours(request, queryset)
@@ -225,7 +239,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                       context),
             filename='')
         return response
-    action_timestamps_hours_pdf.short_description = 'Timestamps hours (PDF)'
+    action_timestamps_hours_pdf.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps hours (PDF)')
 
     def get_timestamps_days(self, request, queryset):
         queryset = queryset.order_by('contract', 'date', 'time')
@@ -299,7 +315,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                         context.get('format_date', '%F')), day)
                         for day in context['ordinals']])),
             filename='timestamps_days')
-    action_timestamps_days_csv.short_description = 'Timestamps days (CSV)'
+    action_timestamps_days_csv.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps days (CSV)')
 
     def action_timestamps_days_html(self, request, queryset):
         context = self.get_timestamps_days(request, queryset)
@@ -326,7 +344,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                     'work/timestamps_days/admin.html',
                                     context)
         return response
-    action_timestamps_days_html.short_description = 'Timestamps days (HTML)'
+    action_timestamps_days_html.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps days (HTML)')
 
     def action_timestamps_days_pdf(self, request, queryset):
         context = self.get_timestamps_days(request, queryset)
@@ -355,13 +375,17 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                       context),
             filename='')
         return response
-    action_timestamps_days_pdf.short_description = 'Timestamps days (PDF)'
+    action_timestamps_days_pdf.short_description = pgettext_lazy(
+        'Timestamp',
+        'Timestamps days (PDF)')
 
     def import_csv(self, request):
         def append_error(type_name, item):
             """Append an error message to the messages list"""
-            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
-                                                                ITEM=item)
+            error_message = pgettext_lazy(
+                'Timestamp',
+                'Unexpected {TYPE} "{ITEM}"').format(TYPE=type_name,
+                                                     ITEM=item)
             if error_message not in error_messages:
                 error_messages.append(error_message)
                 self.message_user(request, error_message, messages.ERROR)
@@ -401,7 +425,9 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             # Save data only if there were not errors
             if not error_messages:
                 Timestamp.objects.bulk_create(timestamps)
-                self.message_user(request, 'Your CSV file has been imported')
+                self.message_user(request, pgettext_lazy(
+                    'Timestamp',
+                    'Your CSV file has been imported'))
             return redirect('..')
         return render(request,
                       'utility/import_csv/form.html',
@@ -444,10 +470,10 @@ class TimestampExport(object):
             # Regular enter/exit timestamp
             if not enter_time:
                 enter_time = exit_time
-                notes = 'Missing enter time'
+                notes = pgettext_lazy('Timestamp', 'Missing enter time')
             if not exit_time:
                 exit_time = enter_time
-                notes = 'Missing exit time'
+                notes = pgettext_lazy('Timestamp', 'Missing exit time')
             difference = (datetime.datetime.combine(today, exit_time) -
                           datetime.datetime.combine(today, enter_time))
         else:

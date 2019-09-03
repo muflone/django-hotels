@@ -1,0 +1,215 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-03 03:28+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: locations/models/continent.py:31
+msgctxt "Continent"
+msgid "name"
+msgstr "name"
+
+#: locations/models/continent.py:34
+msgctxt "Continent"
+msgid "description"
+msgstr "description"
+
+#: locations/models/continent.py:40
+msgctxt "Continent"
+msgid "Continent"
+msgstr "Continent"
+
+#: locations/models/continent.py:41
+msgctxt "Continent"
+msgid "Continents"
+msgstr "Continents"
+
+#: locations/models/country.py:41
+msgctxt "Country"
+msgid "name"
+msgstr "name"
+
+#: locations/models/country.py:44
+msgctxt "Country"
+msgid "description"
+msgstr "description"
+
+#: locations/models/country.py:48
+msgctxt "Country"
+msgid "capital"
+msgstr "capital"
+
+#: locations/models/country.py:52
+msgctxt "Country"
+msgid "continent"
+msgstr "continent"
+
+#: locations/models/country.py:55
+msgctxt "Country"
+msgid "language"
+msgstr "language"
+
+#: locations/models/country.py:61 locations/models/location.py:107
+msgctxt "Country"
+msgid "Country"
+msgstr "Country"
+
+#: locations/models/country.py:62
+msgctxt "Country"
+msgid "Countries"
+msgstr "Countries"
+
+#: locations/models/country.py:82
+#, python-brace-format
+msgctxt "Country"
+msgid "Unexpected {TYPE} \"{ITEM}\""
+msgstr "Unexpected {TYPE} \"{ITEM}\""
+
+#: locations/models/country.py:126
+msgctxt "Country"
+msgid "Your CSV file has been imported"
+msgstr "Your CSV file has been imported"
+
+#: locations/models/language.py:31
+msgctxt "Language"
+msgid "name"
+msgstr "name"
+
+#: locations/models/language.py:34
+msgctxt "Language"
+msgid "description"
+msgstr "description"
+
+#: locations/models/language.py:40
+msgctxt "Language"
+msgid "Language"
+msgstr "Language"
+
+#: locations/models/language.py:41
+msgctxt "Language"
+msgid "Languages"
+msgstr "Languages"
+
+#: locations/models/location.py:34 locations/models/location.py:66
+msgctxt "Location"
+msgid "name"
+msgstr "name"
+
+#: locations/models/location.py:38 locations/models/location.py:84
+msgctxt "Location"
+msgid "region"
+msgstr "region"
+
+#: locations/models/location.py:41
+msgctxt "Location"
+msgid "description"
+msgstr "description"
+
+#: locations/models/location.py:46 locations/models/location.py:75
+msgctxt "Location"
+msgid "province"
+msgstr "province"
+
+#: locations/models/location.py:53
+msgctxt "Location"
+msgid "Location"
+msgstr "Location"
+
+#: locations/models/location.py:54
+msgctxt "Location"
+msgid "Locations"
+msgstr "Locations"
+
+#: locations/models/position.py:30
+msgctxt "Position"
+msgid "name"
+msgstr "name"
+
+#: locations/models/position.py:33
+msgctxt "Position"
+msgid "description"
+msgstr "description"
+
+#: locations/models/position.py:39
+msgctxt "Position"
+msgid "Position"
+msgstr "Position"
+
+#: locations/models/position.py:40
+msgctxt "Position"
+msgid "Positions"
+msgstr "Positions"
+
+#: locations/models/region.py:30
+msgctxt "Region"
+msgid "name"
+msgstr "name"
+
+#: locations/models/region.py:34
+msgctxt "Region"
+msgid "country"
+msgstr "country"
+
+#: locations/models/region.py:37
+msgctxt "Region"
+msgid "description"
+msgstr "description"
+
+#: locations/models/region.py:41
+msgctxt "Region"
+msgid "position"
+msgstr "position"
+
+#: locations/models/region.py:46
+msgctxt "Region"
+msgid "aliases"
+msgstr "aliases"
+
+#: locations/models/region.py:53
+msgctxt "Region"
+msgid "Region"
+msgstr "Region"
+
+#: locations/models/region.py:54
+msgctxt "Region"
+msgid "Regions"
+msgstr "Regions"
+
+#: locations/models/region_alias.py:30
+msgctxt "RegionAlias"
+msgid "name"
+msgstr "name"
+
+#: locations/models/region_alias.py:33
+msgctxt "RegionAlias"
+msgid "description"
+msgstr "description"
+
+#: locations/models/region_alias.py:37
+msgctxt "RegionAlias"
+msgid "country"
+msgstr "country"
+
+#: locations/models/region_alias.py:44
+msgctxt "RegionAlias"
+msgid "Region alias"
+msgstr "Region alias"
+
+#: locations/models/region_alias.py:45
+msgctxt "RegionAlias"
+msgid "Region aliases"
+msgstr "Region aliases"

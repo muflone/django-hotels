@@ -1,8 +1,9 @@
 {% extends "admin/change_form.html" %}
+{% load i18n %}
 
 {% block object-tools-items %}
-  <li><a href="../qrcode/admin">Show QR Code</a></li>
-  <li><a href="../qrcode/png">Show QR Code (PNG)</a></li>
-  <li><a href="../qrcode/raw">Show QR Code (RAW)</a></li>
+  <li><a href="../qrcode/admin">{% trans 'Show QR Code' context 'Work' %}</a></li>
+  <li><a href="../qrcode/png">{% trans 'Show QR Code (PNG)' context 'Work' %}</a></li>
+  <li><a href="../qrcode/raw">{% trans 'Show QR Code (Raw)' context 'Work' %}</a></li>
   {{ block.super }}
 {% endblock %}

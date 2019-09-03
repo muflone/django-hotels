@@ -34,6 +34,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -55,6 +56,14 @@ if settings.DEBUG:
         # Django Debug Toolbar package unavailable
         pass
 
+# Add i18n prefixes for sections
+urlpatterns += i18n_patterns(
+    path(settings.ADMIN_URL, admin.site.urls),
+    path(settings.WORK_URL, include('work.urls')),
+    prefix_default_language=True
+)
+
+# Add standard paths
 urlpatterns.append(path(settings.EXPLORER_URL, include('explorer.urls')))
 urlpatterns.append(path(settings.ADMIN_URL, admin.site.urls))
 urlpatterns.append(path(settings.WORK_URL, include('work.urls')))
@@ -63,4 +72,5 @@ urlpatterns.append(path(settings.API_URL, include('jsonapi.urls')))
 if 'iprestrict' in settings.INSTALLED_APPS:
     urlpatterns.append(path(settings.IPRESTRICT_URL,
                        include('iprestrict.urls', namespace='iprestrict')))
+# Include catch-all page
 urlpatterns.append(path('', include('website.urls')))

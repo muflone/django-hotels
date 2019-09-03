@@ -19,20 +19,29 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class ApiCommandType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    command = models.TextField()
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('ApiCommandType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ApiCommandType',
+                                                              'description'))
+    command = models.TextField(verbose_name=pgettext_lazy('ApiCommandType',
+                                                          'command'))
 
     class Meta:
         # Define the database table
         db_table = 'api_command_types'
         ordering = ['name']
+        verbose_name = pgettext_lazy('ApiCommandType', 'Api command type')
+        verbose_name_plural = pgettext_lazy('ApiCommandType',
+                                            'Api command types')
 
     def __str__(self):
         return self.name

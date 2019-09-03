@@ -1,0 +1,70 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-03 14:15+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: utility/admin_mixins/exportcsv_mixin.py:54
+msgctxt "Utility"
+msgid "Export selected rows to CSV"
+msgstr "Export selected rows to CSV"
+
+#: utility/forms.py:27
+msgctxt "Utility"
+msgid "CSV file to import"
+msgstr "CSV file to import"
+
+#: utility/forms.py:29
+msgctxt "Utility"
+msgid "File encoding"
+msgstr "File encoding"
+
+#: utility/forms.py:33
+msgctxt "Utility"
+msgid "Column separator"
+msgstr "Column separator"
+
+#: utility/misc/xhtml2pdf.py:54
+#, python-brace-format
+msgctxt "Utility"
+msgid "media URI must start with {STATIC_URL} or {MEDIA_URL}"
+msgstr "media URI must start with {STATIC_URL} or {MEDIA_URL}"
+
+#: utility/templates/utility/admin_text_input_filter/form.html:13
+#, python-format
+msgid " By %(filter_title)s "
+msgstr " By %(filter_title)s "
+
+#: utility/templates/utility/admin_text_input_filter/form.html:28
+msgctxt "Utility"
+msgid "Remove"
+msgstr "Remove"
+
+#: utility/templates/utility/import_csv/change_list.html:17
+msgctxt "Utility"
+msgid "Import CSV"
+msgstr "Import CSV"
+
+#: utility/templates/utility/import_csv/change_list.html:18
+msgctxt "Utility"
+msgid "Add item"
+msgstr "Add item"
+
+#: utility/templates/utility/import_csv/form.html:19
+msgctxt "Utility"
+msgid "Upload CSV File"
+msgstr "Upload CSV File"

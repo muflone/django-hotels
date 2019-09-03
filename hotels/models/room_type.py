@@ -19,19 +19,26 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class RoomType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('RoomType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('RoomType',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_roomtypes'
         ordering = ['name']
+        verbose_name = pgettext_lazy('RoomType', 'Room type')
+        verbose_name_plural = pgettext_lazy('RoomType', 'Room types')
 
     def __str__(self):
         return self.name

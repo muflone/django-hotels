@@ -25,7 +25,7 @@
                     name="{{ spec.parameter_name }}"/>
 
             {% if not all_choice.selected %}
-                <strong><a href="{{ all_choice.query_string }}">x {% trans 'Remove' %}</a></strong>
+                <strong><a href="{{ all_choice.query_string }}">x {% trans 'Remove' context 'Utility' %}</a></strong>
             {% endif %}
 
         </form>

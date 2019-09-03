@@ -19,22 +19,40 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class TimestampDirection(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    short_code = models.CharField(max_length=3, blank=True)
-    description = models.TextField(blank=True)
-    type_enter = models.BooleanField()
-    type_exit = models.BooleanField()
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('TimestampDirection',
+                                                       'name'))
+    short_code = models.CharField(max_length=3,
+                                  blank=True,
+                                  verbose_name=pgettext_lazy(
+                                      'TimestampDirection',
+                                      'short code'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy(
+                                       'TimestampDirection',
+                                       'description'))
+    type_enter = models.BooleanField(verbose_name=pgettext_lazy(
+        'TimestampDirection',
+        'type enter'))
+    type_exit = models.BooleanField(verbose_name=pgettext_lazy(
+        'TimestampDirection',
+        'type exit'))
 
     class Meta:
         # Define the database table
         db_table = 'work_timestamp_directions'
         ordering = ['name']
+        verbose_name = pgettext_lazy('TimestampDirection',
+                                     'Timestamp direction')
+        verbose_name_plural = pgettext_lazy('TimestampDirection',
+                                            'Timestamp directions')
 
     def __str__(self):
         return self.name

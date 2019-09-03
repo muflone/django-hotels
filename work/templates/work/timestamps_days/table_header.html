@@ -1,3 +1,5 @@
+{% load i18n %}
+
   <table border="1" repeat="2">
     <thead>
       <tr>
@@ -22,15 +24,15 @@
       <tr>
 {% for column in visible_columns %}
   {% if column == 'company' %}
-        <th class="company">Company</th>
+        <th class="company">{% trans 'Company' context 'Hotels' %}</th>
   {% elif column == 'employee' %}
-        <th class="employee">Employee</th>
+        <th class="employee">{% trans 'Employee' context 'Work' %}</th>
   {% elif column == 'contract_id' %}
-        <th class="contract">Contract ID</th>
+        <th class="contract">{% trans 'Contract ID' context 'Work' %}</th>
   {% elif column == 'roll_number' %}
-        <th class="rollnr">Roll NR</th>
+        <th class="rollnr">{% trans 'Roll NR' context 'Work' %}</th>
   {% elif column == 'working_days' %}
-        <th class="workdays">Working Days</th>
+        <th class="workdays">{% trans 'Working days' context 'Work' %}</th>
   {% elif column == 'dates' %}
     {% for date in dates %}
         <th class="date">{{ date }}</th>

@@ -19,31 +19,60 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.admin import AdminTextInputFilter
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class ApiCommand(BaseModel):
-
     command_type = models.ForeignKey('ApiCommandType',
-                                     on_delete=models.PROTECT)
-    name = models.CharField(max_length=255, default='')
+                                     on_delete=models.PROTECT,
+                                     verbose_name=pgettext_lazy(
+                                         'ApiCommand',
+                                         'command type'))
+    name = models.CharField(max_length=255,
+                            default='',
+                            verbose_name=pgettext_lazy('ApiCommand',
+                                                       'name'))
     context_type = models.ForeignKey('ApiContextType',
-                                     on_delete=models.PROTECT)
-    enabled = models.BooleanField(default=True)
-    description = models.TextField(blank=True)
-    command = models.TextField(blank=True)
+                                     on_delete=models.PROTECT,
+                                     verbose_name=pgettext_lazy(
+                                         'ApiCommand',
+                                         'context type'))
+    enabled = models.BooleanField(default=True,
+                                  verbose_name=pgettext_lazy('ApiCommand',
+                                                             'enabled'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ApiCommand',
+                                                              'description'))
+    command = models.TextField(blank=True,
+                               verbose_name=pgettext_lazy('ApiCommand',
+                                                          'command'))
     tablets = models.ManyToManyField('work.tablet',
-                                     blank=True)
-    starting = models.DateTimeField(blank=True, null=True, default=None)
-    ending = models.DateTimeField(blank=True, null=True, default=None)
-    uses = models.PositiveIntegerField(default=0)
+                                     blank=True,
+                                     verbose_name=pgettext_lazy('ApiCommand',
+                                                                'tablets'))
+    starting = models.DateTimeField(blank=True,
+                                    null=True,
+                                    default=None,
+                                    verbose_name=pgettext_lazy('ApiCommand',
+                                                               'starting'))
+    ending = models.DateTimeField(blank=True,
+                                  null=True,
+                                  default=None,
+                                  verbose_name=pgettext_lazy('ApiCommand',
+                                                             'ending'))
+    uses = models.PositiveIntegerField(default=0,
+                                       verbose_name=pgettext_lazy('ApiCommand',
+                                                                  'uses'))
 
     class Meta:
         # Define the database table
         db_table = 'api_commands'
         ordering = ['id']
+        verbose_name = pgettext_lazy('ApiCommand', 'Api command')
+        verbose_name_plural = pgettext_lazy('ApiCommand', 'Api commands')
 
     def __str__(self):
         return str(self.id)
@@ -51,7 +80,7 @@ class ApiCommand(BaseModel):
 
 class ApiCommandNameFilter(AdminTextInputFilter):
     parameter_name = 'name'
-    title = 'name'
+    title = pgettext_lazy('ApiCommand', 'name')
 
     def queryset(self, request, queryset):
         if self.value():

@@ -19,23 +19,30 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class RegionAlias(BaseModel):
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('RegionAlias',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('RegionAlias',
+                                                              'description'))
     country = models.ForeignKey('Country',
-                                on_delete=models.PROTECT)
+                                on_delete=models.PROTECT,
+                                verbose_name=pgettext_lazy('RegionAlias',
+                                                           'country'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_regions_aliases'
         ordering = ['name']
-        verbose_name_plural = 'Region Aliases'
         unique_together = ('name', 'country')
+        verbose_name = pgettext_lazy('RegionAlias', 'Region alias')
+        verbose_name_plural = pgettext_lazy('RegionAlias', 'Region aliases')
 
     def __str__(self):
         return '{COUNTRY} - {NAME}'.format(COUNTRY=self.country.name,

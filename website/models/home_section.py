@@ -19,27 +19,57 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class HomeSection(BaseModel):
-
-    name = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField(blank=True)
-    link = models.CharField(max_length=255, blank=True)
-    header_title = models.CharField(max_length=255, blank=True)
-    header_order = models.IntegerField()
-    home_title = models.CharField(max_length=255, blank=True)
-    home_order = models.IntegerField()
-    home_image = models.CharField(max_length=255, blank=True)
-    login_required = models.BooleanField(default=False)
-    admin_login_required = models.BooleanField(default=False)
+    name = models.CharField(max_length=255,
+                            primary_key=True,
+                            verbose_name=pgettext_lazy('HomeSection',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('HomeSection',
+                                                              'description'))
+    link = models.CharField(max_length=255,
+                            blank=True,
+                            verbose_name=pgettext_lazy('HomeSection',
+                                                       'link'))
+    header_title = models.CharField(max_length=255,
+                                    blank=True,
+                                    verbose_name=pgettext_lazy('HomeSection',
+                                                               'header title'))
+    header_order = models.IntegerField(verbose_name=pgettext_lazy(
+        'HomeSection',
+        'header order'))
+    home_title = models.CharField(max_length=255,
+                                  blank=True,
+                                  verbose_name=pgettext_lazy('HomeSection',
+                                                             'home title'))
+    home_order = models.IntegerField(verbose_name=pgettext_lazy('HomeSection',
+                                                                'home order'))
+    home_image = models.CharField(max_length=255,
+                                  blank=True,
+                                  verbose_name=pgettext_lazy('HomeSection',
+                                                             'home image'))
+    login_required = models.BooleanField(default=False,
+                                         verbose_name=pgettext_lazy(
+                                             'HomeSection',
+                                             'login required'))
+    admin_login_required = models.BooleanField(default=False,
+                                               verbose_name=pgettext_lazy(
+                                                   'HomeSection',
+                                                   'admin login required'))
 
     class Meta:
         # Define the database table
         db_table = 'website_home_sections'
         ordering = ['header_order']
+        verbose_name = pgettext_lazy('HomeSection',
+                                     'Home Section')
+        verbose_name_plural = pgettext_lazy('HomeSection',
+                                            'Home Sections')
 
     def __str__(self):
         return self.name

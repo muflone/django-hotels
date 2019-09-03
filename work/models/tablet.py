@@ -32,25 +32,36 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils.translation import pgettext_lazy
 
 from utility.misc import QRCodeImage, URI, get_full_host
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Tablet(BaseModel):
-
-    description = models.TextField(blank=True)
-    status = models.BooleanField(default=True)
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Tablet',
+                                                              'description'))
+    status = models.BooleanField(default=True,
+                                 verbose_name=pgettext_lazy('Tablet',
+                                                            'status'))
     buildings = models.ManyToManyField('hotels.Building',
                                        db_table='work_tablet_buildings',
-                                       blank=True)
-    guid = models.UUIDField(default=uuid.uuid4, blank=True)
+                                       blank=True,
+                                       verbose_name=pgettext_lazy('Tablet',
+                                                                  'buildings'))
+    guid = models.UUIDField(default=uuid.uuid4,
+                            blank=True,
+                            verbose_name=pgettext_lazy('Tablet',
+                                                       'guid'))
 
     class Meta:
         # Define the database table
         db_table = 'work_tablet'
         ordering = ['id']
         unique_together = ('guid',)
+        verbose_name = pgettext_lazy('Tablet', 'Tablet')
+        verbose_name_plural = pgettext_lazy('Tablet', 'Tablets')
 
     def __str__(self):
         return 'Tablet {ID}'.format(ID=self.id)
@@ -64,9 +75,6 @@ class TabletAdmin(BaseModelAdmin):
     readonly_fields = ('id', 'guid', 'qrcode_field', 'autoconfiguration_link')
     change_form_template = 'work/admin_tablet_change.html'
     QRCODE_SIZE = 256
-
-    def photo_thumbnail(self, instance):
-        return self.detail_photo_image(instance, 48, 48)
 
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
@@ -151,6 +159,7 @@ class TabletAdmin(BaseModelAdmin):
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
+    qrcode_field.short_description = pgettext_lazy('Tablet', 'QR Code')
 
     def autoconfiguration_link(self, instance):
         """Autoconfiguration link for Hotels app"""
@@ -167,3 +176,6 @@ class TabletAdmin(BaseModelAdmin):
         else:
             # Invalid tablet ID
             return ''
+    autoconfiguration_link.short_description = pgettext_lazy(
+        'Tablet',
+        'Autoconfiguration link')

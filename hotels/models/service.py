@@ -19,25 +19,44 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Service(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    room_service = models.BooleanField(default=False)
-    extra_service = models.BooleanField(default=False)
-    show_in_app = models.BooleanField(default=False)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('Service',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Service',
+                                                              'description'))
+    room_service = models.BooleanField(default=False,
+                                       verbose_name=pgettext_lazy(
+                                           'Service',
+                                           'room service'))
+    extra_service = models.BooleanField(default=False,
+                                        verbose_name=pgettext_lazy(
+                                            'Service',
+                                            'extra service'))
+    show_in_app = models.BooleanField(default=False,
+                                      verbose_name=pgettext_lazy(
+                                          'Service',
+                                          'show in app'))
     service_type = models.ForeignKey('ServiceType',
                                      on_delete=models.PROTECT,
-                                     default=0)
+                                     default=0,
+                                     verbose_name=pgettext_lazy(
+                                         'Service',
+                                         'service type'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_services'
         ordering = ['name']
+        verbose_name = pgettext_lazy('Service', 'Service')
+        verbose_name_plural = pgettext_lazy('Service', 'Services')
 
     def __str__(self):
         return self.name

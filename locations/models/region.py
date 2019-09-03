@@ -19,27 +19,39 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Region(BaseModel):
-
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('Region',
+                                                       'name'))
     country = models.ForeignKey('Country',
-                                on_delete=models.PROTECT)
-    description = models.TextField(blank=True)
+                                on_delete=models.PROTECT,
+                                verbose_name=pgettext_lazy('Region',
+                                                           'country'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Region',
+                                                              'description'))
     position = models.ForeignKey('Position',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Region',
+                                                            'position'))
     aliases = models.ManyToManyField('RegionAlias',
                                      db_table='locations_region_aliases',
-                                     blank=True)
+                                     blank=True,
+                                     verbose_name=pgettext_lazy('Region',
+                                                                'aliases'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_regions'
         ordering = ['name']
         unique_together = ('name', 'country')
+        verbose_name = pgettext_lazy('Region', 'Region')
+        verbose_name_plural = pgettext_lazy('Region', 'Regions')
 
     def __str__(self):
         return '{COUNTRY} - {NAME}'.format(COUNTRY=self.country.name,

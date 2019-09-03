@@ -21,6 +21,7 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
@@ -28,11 +29,15 @@ from utility.models import BaseModel, BaseModelAdmin
 class Login(BaseModel, User):
     """User with app settings"""
     contract = models.ForeignKey('Contract',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Login',
+                                                            'contract'))
 
     class Meta:
         # Define the database table
         db_table = 'work_logins'
+        verbose_name = pgettext_lazy('Login', 'Login')
+        verbose_name_plural = pgettext_lazy('Login', 'Logins')
 
     def __str__(self):
         return '{FIRST_NAME} {LAST_NAME}'.format(

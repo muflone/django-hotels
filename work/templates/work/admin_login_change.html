@@ -1,8 +1,7 @@
 {% extends "admin/change_form.html" %}
-
 {% load i18n %}
 
 {% block object-tools-items %}
-  <li><a href="../password/">{% trans "Change password" %}</a></li>
+  <li><a href="../password/">{% trans 'Change password' context 'Work' %}</a></li>
   {{ block.super }}
 {% endblock %}

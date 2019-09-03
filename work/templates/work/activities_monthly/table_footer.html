@@ -1,8 +1,9 @@
 {% load get_dict_value %}
+{% load i18n %}
 
 {# Add totals #}
       <tr>
-        <td class="grand_totals date">Grand Totals</td>
+        <td class="grand_totals date">{% trans 'Grand totals' context 'Work' %}</td>
 {% for service in services %}
         <td class="grand_totals service">{{ grand_totals | get_dict_value:service.id | default:'&nbsp;' }}</td>
 {% endfor %}

@@ -19,19 +19,26 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class JobType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('JobType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('JobType',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'work_jobtype'
         ordering = ['name']
+        verbose_name = pgettext_lazy('JobType', 'Job type')
+        verbose_name_plural = pgettext_lazy('JobType', 'Job types')
 
     def __str__(self):
         return self.name

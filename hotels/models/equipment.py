@@ -19,27 +19,40 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Equipment(BaseModel):
-
     structure = models.ForeignKey('Structure',
                                   on_delete=models.PROTECT,
-                                  default=0)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+                                  default=0,
+                                  verbose_name=pgettext_lazy('Equipment',
+                                                             'structure'))
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('Equipment',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Equipment',
+                                                              'description'))
     equipment_type = models.ForeignKey('EquipmentType',
                                        on_delete=models.PROTECT,
-                                       default=0)
-    quantity = models.PositiveIntegerField(default=1)
+                                       default=0,
+                                       verbose_name=pgettext_lazy(
+                                           'Equipment', 'equipment type'))
+    quantity = models.PositiveIntegerField(default=1,
+                                           verbose_name=pgettext_lazy(
+                                               'Equipment',
+                                               'quantity'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_equipments'
         ordering = ['structure', 'name']
         unique_together = ('structure', 'name')
+        verbose_name = pgettext_lazy('Equipment', 'Equipment')
+        verbose_name_plural = pgettext_lazy('Equipment', 'Equipments')
 
     def __str__(self):
         return self.name

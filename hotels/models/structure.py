@@ -19,33 +19,60 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Structure(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    address = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('Structure',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Structure',
+                                                              'description'))
+    address = models.TextField(blank=True,
+                               verbose_name=pgettext_lazy('Structure',
+                                                          'address'))
     location = models.ForeignKey('locations.Location',
                                  on_delete=models.PROTECT,
-                                 default=0)
-    phone1 = models.CharField(max_length=255, blank=True)
-    phone2 = models.CharField(max_length=255, blank=True)
-    fax = models.CharField(max_length=255, blank=True)
-    email = models.CharField(max_length=255, blank=True)
+                                 default=0,
+                                 verbose_name=pgettext_lazy('Structure',
+                                                            'location'))
+    phone1 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Structure',
+                                                         'phone 1'))
+    phone2 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Structure',
+                                                         'phone 2'))
+    fax = models.CharField(max_length=255,
+                           blank=True,
+                           verbose_name=pgettext_lazy('Structure',
+                                                      'fax'))
+    email = models.CharField(max_length=255,
+                             blank=True,
+                             verbose_name=pgettext_lazy('Structure',
+                                                        'email'))
     brand = models.ForeignKey('Brand',
                               on_delete=models.PROTECT,
-                              default=0)
+                              default=0,
+                              verbose_name=pgettext_lazy('Structure',
+                                                         'brand'))
     company = models.ForeignKey('Company',
                                 on_delete=models.PROTECT,
-                                default=0)
+                                default=0,
+                                verbose_name=pgettext_lazy('Structure',
+                                                           'company'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_structures'
         ordering = ['name']
+        verbose_name = pgettext_lazy('Structure', 'Structure')
+        verbose_name_plural = pgettext_lazy('Structure', 'Structures')
 
     def __str__(self):
         return self.name

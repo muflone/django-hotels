@@ -19,23 +19,34 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.misc import get_admin_models
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class AdminExportCSVMap(BaseModel):
-
     admin_models = get_admin_models()
 
     model = models.CharField(max_length=255,
                              choices=((model_name, model_name)
                                       for model_name
-                                      in sorted(admin_models.keys())))
-    title = models.CharField(max_length=255)
-    field = models.CharField(max_length=255)
-    order = models.PositiveIntegerField()
-    enabled = models.BooleanField(default=True)
+                                      in sorted(admin_models.keys())),
+                             verbose_name=pgettext_lazy('AdminExportCSVMap',
+                                                        'model'))
+    title = models.CharField(max_length=255,
+                             verbose_name=pgettext_lazy('AdminExportCSVMap',
+                                                        'title'))
+    field = models.CharField(max_length=255,
+                             verbose_name=pgettext_lazy('AdminExportCSVMap',
+                                                        'field'))
+    order = models.PositiveIntegerField(verbose_name=pgettext_lazy(
+        'AdminExportCSVMap',
+        'order'))
+    enabled = models.BooleanField(default=True,
+                                  verbose_name=pgettext_lazy(
+                                      'AdminExportCSVMap',
+                                      'enabled'))
 
     class Meta:
         # Define the database table
@@ -43,6 +54,10 @@ class AdminExportCSVMap(BaseModel):
         ordering = ['model', 'order', 'title', 'field']
         unique_together = (('model', 'title'),
                            ('model', 'order'))
+        verbose_name = pgettext_lazy('AdminExportCSVMap',
+                                     'Admin Export CSV Map')
+        verbose_name_plural = pgettext_lazy('AdminExportCSVMap',
+                                            'Admin Export CSV Maps')
 
     def __str__(self):
         return '{MODEL} - {FIELD}'.format(MODEL=self.model,

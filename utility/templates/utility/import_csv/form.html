@@ -1,4 +1,5 @@
 {% extends 'admin/base.html' %}
+{% load i18n %}
 
 {% block copyright-notices %}
     <!--
@@ -15,7 +16,7 @@
         <form action="." method="POST" enctype="multipart/form-data">
             {{ form.as_p }}
             {% csrf_token %}
-            <button type="submit">Upload CSV File</button>
+            <button type="submit">{% trans 'Upload CSV File' context 'Utility' %}</button>
         </form>
     </div>
     <br />

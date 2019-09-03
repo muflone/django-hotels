@@ -19,19 +19,26 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Continent(BaseModel):
-
-    name = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255,
+                            primary_key=True,
+                            verbose_name=pgettext_lazy('Continent',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Continent',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'locations_continents'
         ordering = ['name']
+        verbose_name = pgettext_lazy('Continent', 'Continent')
+        verbose_name_plural = pgettext_lazy('Continent', 'Continents')
 
     def __str__(self):
         return self.name
