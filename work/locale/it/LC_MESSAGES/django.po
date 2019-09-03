@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-03 14:05+0200\n"
+"POT-Creation-Date: 2019-09-03 16:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: work/forms.py:41
+#: work/forms.py:30
+msgctxt "TimeStampLoginForm"
+msgid "Login type"
+msgstr "Tipo di accesso"
+
+#: work/forms.py:34
+msgctxt "TimeStampLoginForm"
+msgid "Description or annotations"
+msgstr "Descrizione o annotazioni"
+
+#: work/forms.py:45
 #, python-brace-format
 msgctxt "TimeStampLoginForm"
 msgid "Missing contract for employee {EMPLOYEE}."
 msgstr "Contratto mancante per impiegato {EMPLOYEE}."
 
-#: work/forms.py:48
+#: work/forms.py:52
 #, python-brace-format
 msgctxt "TimeStampLoginForm"
 msgid "Username {USERNAME} invalid."

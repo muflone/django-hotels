@@ -26,10 +26,14 @@ from . import models
 
 
 class TimeStampLoginForm(AuthenticationForm):
-    access_type = forms.CharField(label='Login type', max_length=10)
-    description = forms.CharField(label='Description or annotations',
-                                  widget=forms.Textarea,
-                                  required=False)
+    access_type = forms.CharField(label=pgettext_lazy('TimeStampLoginForm',
+                                                      'Login type'),
+                                  max_length=10)
+    description = forms.CharField(
+        label=pgettext_lazy('TimeStampLoginForm',
+                            'Description or annotations'),
+        widget=forms.Textarea,
+        required=False)
 
     def confirm_login_allowed(self, user):
         if models.Login.objects.filter(username=user):
