@@ -32,7 +32,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -142,8 +142,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGES = [
-    ('en', _('English')),
-    ('it', _('Italian')),
+    ('en', pgettext_lazy('Project', 'English')),
+    ('it', pgettext_lazy('Project', 'Italian')),
 ]
 LANGUAGE_CODE = 'en'
 
