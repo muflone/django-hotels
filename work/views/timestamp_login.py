@@ -23,6 +23,7 @@ import sys
 
 from django.contrib import auth
 from django.contrib.auth.views import LoginView
+from django.utils.translation import pgettext_lazy
 
 from utility.misc import get_admin_options
 from ..forms import TimeStampLoginForm
@@ -32,7 +33,6 @@ from website.views import GenericView
 
 
 class TimeStampLoginView(LoginView, GenericView):
-
     form_class = TimeStampLoginForm
 
     def get_context_data(self, **kwargs):
@@ -47,13 +47,17 @@ class TimeStampLoginView(LoginView, GenericView):
             if visible_columns else None)
         if self.request.user.is_authenticated:
             obj_login = Login.objects.get(username=self.request.user)
-            context['page_title'] = ('Welcome {EMPLOYEE}'.format(
+            context['page_title'] = (pgettext_lazy(
+                'TimeStampLoginView',
+                'Welcome {EMPLOYEE}').format(
                 EMPLOYEE=obj_login.contract.employee), )
             context['last_logins'] = Timestamp.objects.filter(
                 contract=obj_login.contract).order_by(
                 '-date', '-time')[:int(context['last_logins_count'])]
         else:
-            context['page_title'] = ('Login to register your presence', )
+            context['page_title'] = (pgettext_lazy(
+                'TimeStampLoginView',
+                'Login to register your presence'), )
         return context
 
     def form_valid(self, form):

@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% for item in results %}
   {% include 'work/activities_daily/table_header.html' %}
 
@@ -17,7 +19,7 @@
   <table border="1">
     <tbody>
       <tr>
-        <td class="footer right">Grand totals</td>
+        <td class="footer right">{% trans 'Grand totals' context 'Work' %}</td>
         <td class="footer">
 {% for item in grand_totals %}
           <div>{{ item }}</div>

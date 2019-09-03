@@ -32,7 +32,7 @@ from django.template import loader
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from utility.admin import AdminTextInputFilter
 from utility.misc import QRCodeImage, URI, xhtml2pdf_render_from_html
@@ -53,31 +53,56 @@ class ContractManager(models.Manager):
 
 
 class Contract(BaseModel):
-
     # Define custom manager
     objects = ContractManager()
 
     employee = models.ForeignKey('Employee',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Contract',
+                                                            'employee'))
     company = models.ForeignKey('hotels.Company',
-                                on_delete=models.PROTECT)
-    description = models.TextField(blank=True)
+                                on_delete=models.PROTECT,
+                                verbose_name=pgettext_lazy('Contract',
+                                                           'company'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Contract',
+                                                              'description'))
     contract_type = models.ForeignKey('ContractType',
                                       on_delete=models.PROTECT,
-                                      default=0)
+                                      default=0,
+                                      verbose_name=pgettext_lazy(
+                                          'Contract',
+                                          'contract type'))
     job_type = models.ForeignKey('JobType',
                                  on_delete=models.PROTECT,
-                                 default=0)
-    roll_number = models.CharField(max_length=255)
-    start_date = models.DateField()
-    end_date = models.DateField(null=True, blank=True)
-    level = models.PositiveIntegerField()
-    enabled = models.BooleanField(default=True)
-    associated = models.BooleanField()
-    guid = models.UUIDField(default=uuid.uuid4, blank=True)
+                                 default=0,
+                                 verbose_name=pgettext_lazy('Contract',
+                                                            'job type'))
+    roll_number = models.CharField(max_length=255,
+                                   verbose_name=pgettext_lazy('Contract',
+                                                              'roll number'))
+    start_date = models.DateField(verbose_name=pgettext_lazy('Contract',
+                                                             'start date'))
+    end_date = models.DateField(null=True,
+                                blank=True,
+                                verbose_name=pgettext_lazy('Contract',
+                                                           'end date'))
+    level = models.PositiveIntegerField(verbose_name=pgettext_lazy('Contract',
+                                                                   'level'))
+    enabled = models.BooleanField(default=True,
+                                  verbose_name=pgettext_lazy('Contract',
+                                                             'enabled'))
+    associated = models.BooleanField(verbose_name=pgettext_lazy('Contract',
+                                                                'associated'))
+    guid = models.UUIDField(default=uuid.uuid4,
+                            blank=True,
+                            verbose_name=pgettext_lazy('Contract',
+                                                       'guid'))
     buildings = models.ManyToManyField('hotels.Building',
                                        db_table='work_contract_buildings',
-                                       blank=True)
+                                       blank=True,
+                                       verbose_name=pgettext_lazy('Contract',
+                                                                  'buildings'))
 
     class Meta:
         # Define the database table
@@ -86,6 +111,8 @@ class Contract(BaseModel):
         unique_together = (('company', 'employee', 'roll_number'),
                            ('company', 'employee', 'start_date', 'end_date'),
                            ('guid', ))
+        verbose_name = pgettext_lazy('Contract', 'Contract')
+        verbose_name_plural = pgettext_lazy('Contract', 'Contracts')
 
     def __str__(self):
         return '{COMPANY} - {EMPLOYEE} ({ROLL_NUMBER})'.format(
@@ -102,11 +129,12 @@ class Contract(BaseModel):
                 self.start_date <= today and
                 (self.end_date is None or self.end_date >= today))
     active.boolean = True
+    active.short_description = pgettext_lazy('Contract', 'Active')
 
 
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
     parameter_name = 'roll_number'
-    title = 'roll number'
+    title = pgettext_lazy('Contract', 'roll number')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -114,11 +142,12 @@ class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
 
 
 class ContractAdminActiveFilter(admin.SimpleListFilter):
-    title = 'active'
     parameter_name = 'active'
+    title = pgettext_lazy('Contract', 'active')
 
     def lookups(self, request, model_admin):
-        return (1, _('Yes')), (0, _('No'))
+        return (1, pgettext_lazy('Contract', 'Yes')),\
+               (0, pgettext_lazy('Contract', 'No'))
 
     def queryset(self, request, queryset):
         if self.value() is not None:
@@ -139,11 +168,11 @@ class ContractAdmin(BaseModelAdmin):
 
     def first_name(self, instance):
         return instance.employee.first_name
-    first_name.short_description = 'First name'
+    first_name.short_description = pgettext_lazy('Employee', 'First name')
 
     def last_name(self, instance):
         return instance.employee.last_name
-    last_name.last_description = 'Last name'
+    last_name.short_description = pgettext_lazy('Employee', 'Last name')
 
     def detail_photo_image(self, instance, width, height):
         if instance.employee.photo.url.startswith(
@@ -169,6 +198,8 @@ class ContractAdmin(BaseModelAdmin):
 
     def photo_thumbnail(self, instance):
         return self.detail_photo_image(instance, 48, 48)
+    photo_thumbnail.short_description = pgettext_lazy('Employee',
+                                                      'Photo thumbnail')
 
     def get_fields(self, request, obj=None):
         """Reorder the fields list"""
@@ -248,11 +279,12 @@ class ContractAdmin(BaseModelAdmin):
             }
             response = template.render(context)
         else:
-            raise Http404('Unexpected format')
+            raise Http404(pgettext_lazy('Contract', 'Unexpected format'))
         return response
 
     def qrcode_field(self, instance):
         return self.qrcode(None, instance.id, 'template')
+    qrcode_field.short_description = pgettext_lazy('Contract', 'QR Code')
 
     def idcard(self, request, contract_id):
         """

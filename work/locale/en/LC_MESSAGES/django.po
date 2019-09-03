@@ -1,0 +1,840 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-03 14:05+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: work/forms.py:41
+#, python-brace-format
+msgctxt "TimeStampLoginForm"
+msgid "Missing contract for employee {EMPLOYEE}."
+msgstr "Missing contract for employee {EMPLOYEE}."
+
+#: work/forms.py:48
+#, python-brace-format
+msgctxt "TimeStampLoginForm"
+msgid "Username {USERNAME} invalid."
+msgstr "Username {USERNAME} invalid."
+
+#: work/models/activity.py:45
+msgctxt "Activity"
+msgid "contract"
+msgstr "contract"
+
+#: work/models/activity.py:47
+msgctxt "Activity"
+msgid "date"
+msgstr "date"
+
+#: work/models/activity.py:55
+msgctxt "Activity"
+msgid "Activity"
+msgstr "Activity"
+
+#: work/models/activity.py:57
+msgctxt "Activity"
+msgid "Activities"
+msgstr "Activities"
+
+#: work/models/activity.py:137
+msgctxt "Activity"
+msgid "Activity with Rooms"
+msgstr "Activities with Rooms"
+
+#: work/models/activity.py:139
+msgctxt "Activity"
+msgid "Activities with Rooms"
+msgstr "Activities with Rooms"
+
+#: work/models/activity.py:208
+msgctxt "Activity"
+msgid "Daily activities (HTML)"
+msgstr "Daily activities (HTML)"
+
+#: work/models/activity.py:223
+msgctxt "Activity"
+msgid "Daily activities (PDF)"
+msgstr "Daily activities (PDF)"
+
+#: work/models/activity.py:329
+msgctxt "Activity"
+msgid "Monthly activities (PDF)"
+msgstr "Monthly activities (PDF)"
+
+#: work/models/activity_room.py:39
+msgctxt "ActivityRoom"
+msgid "activity"
+msgstr "activity"
+
+#: work/models/activity_room.py:43
+msgctxt "ActivityRoom"
+msgid "room"
+msgstr "room"
+
+#: work/models/activity_room.py:47
+msgctxt "ActivityRoom"
+msgid "service"
+msgstr "service"
+
+#: work/models/activity_room.py:51
+msgctxt "ActivityRoom"
+msgid "quantity"
+msgstr "quantity"
+
+#: work/models/activity_room.py:54
+msgctxt "ActivityRoom"
+msgid "description"
+msgstr "description"
+
+#: work/models/activity_room.py:61
+msgctxt "ActivityRoom"
+msgid "Activity Room"
+msgstr "Activity Room"
+
+#: work/models/activity_room.py:62
+msgctxt "ActivityRoom"
+msgid "Activity Rooms"
+msgstr "Activity Rooms"
+
+#: work/models/contract.py:62
+msgctxt "Contract"
+msgid "employee"
+msgstr "employee"
+
+#: work/models/contract.py:66
+msgctxt "Contract"
+msgid "company"
+msgstr "company"
+
+#: work/models/contract.py:69
+msgctxt "Contract"
+msgid "description"
+msgstr "description"
+
+#: work/models/contract.py:75
+msgctxt "Contract"
+msgid "contract type"
+msgstr "contract type"
+
+#: work/models/contract.py:80
+msgctxt "Contract"
+msgid "job type"
+msgstr "job type"
+
+#: work/models/contract.py:83 work/models/contract.py:137
+msgctxt "Contract"
+msgid "roll number"
+msgstr "roll number"
+
+#: work/models/contract.py:85
+msgctxt "Contract"
+msgid "start date"
+msgstr "start date"
+
+#: work/models/contract.py:89
+msgctxt "Contract"
+msgid "end date"
+msgstr "end date"
+
+#: work/models/contract.py:91
+msgctxt "Contract"
+msgid "level"
+msgstr "level"
+
+#: work/models/contract.py:94
+msgctxt "Contract"
+msgid "enabled"
+msgstr "enabled"
+
+#: work/models/contract.py:96
+msgctxt "Contract"
+msgid "associated"
+msgstr "associated"
+
+#: work/models/contract.py:100
+msgctxt "Contract"
+msgid "guid"
+msgstr "guid"
+
+#: work/models/contract.py:105
+msgctxt "Contract"
+msgid "buildings"
+msgstr "buildings"
+
+#: work/models/contract.py:114
+msgctxt "Contract"
+msgid "Contract"
+msgstr "Contract"
+
+#: work/models/contract.py:115
+msgctxt "Contract"
+msgid "Contracts"
+msgstr "Contracts"
+
+#: work/models/contract.py:132
+msgctxt "Contract"
+msgid "Active"
+msgstr "active"
+
+#: work/models/contract.py:146
+msgctxt "Contract"
+msgid "active"
+msgstr "active"
+
+#: work/models/contract.py:149
+msgctxt "Contract"
+msgid "Yes"
+msgstr "Yes"
+
+#: work/models/contract.py:150
+msgctxt "Contract"
+msgid "No"
+msgstr "No"
+
+#: work/models/contract.py:171 work/models/timestamp.py:100
+msgctxt "Employee"
+msgid "First name"
+msgstr "First name"
+
+#: work/models/contract.py:175 work/models/timestamp.py:104
+msgctxt "Employee"
+msgid "Last name"
+msgstr "Last name"
+
+#: work/models/contract.py:202 work/models/employee.py:368
+msgctxt "Employee"
+msgid "Photo thumbnail"
+msgstr "Photo thumbnail"
+
+#: work/models/contract.py:282
+msgctxt "Contract"
+msgid "Unexpected format"
+msgstr "Unexpected format"
+
+#: work/models/contract.py:287
+msgctxt "Contract"
+msgid "QR Code"
+msgstr "QR Code"
+
+#: work/models/contract_type.py:31
+msgctxt "ContractType"
+msgid "name"
+msgstr "name"
+
+#: work/models/contract_type.py:34
+msgctxt "ContractType"
+msgid "description"
+msgstr "description"
+
+#: work/models/contract_type.py:37
+msgctxt "ContractType"
+msgid "daily hours"
+msgstr "daily hours"
+
+#: work/models/contract_type.py:40
+msgctxt "ContractType"
+msgid "weekly hours"
+msgstr "weekly hours"
+
+#: work/models/contract_type.py:46
+msgctxt "ContractType"
+msgid "Contract type"
+msgstr "Contract type"
+
+#: work/models/contract_type.py:47
+msgctxt "ContractType"
+msgid "Contract types"
+msgstr "Contract types"
+
+#: work/models/employee.py:51 work/models/employee.py:195
+msgctxt "Employee"
+msgid "first name"
+msgstr "first name"
+
+#: work/models/employee.py:54 work/models/employee.py:204
+msgctxt "Employee"
+msgid "last name"
+msgstr "last name"
+
+#: work/models/employee.py:57
+msgctxt "Employee"
+msgid "description"
+msgstr "description"
+
+#: work/models/employee.py:61
+msgctxt "Employee"
+msgid "Male"
+msgstr "Male"
+
+#: work/models/employee.py:63
+msgctxt "Employee"
+msgid "Female"
+msgstr "Female"
+
+#: work/models/employee.py:65
+msgctxt "Employee"
+msgid "Unknown"
+msgstr "Unknown"
+
+#: work/models/employee.py:67
+msgctxt "Employee"
+msgid "gender"
+msgstr "gender"
+
+#: work/models/employee.py:69
+msgctxt "Employee"
+msgid "birth date"
+msgstr "birth date"
+
+#: work/models/employee.py:76
+msgctxt "Employee"
+msgid "birth location"
+msgstr "birth location"
+
+#: work/models/employee.py:79
+msgctxt "Employee"
+msgid "address"
+msgstr "address"
+
+#: work/models/employee.py:85
+msgctxt "Employee"
+msgid "location"
+msgstr "location"
+
+#: work/models/employee.py:89
+msgctxt "Employee"
+msgid "postal code"
+msgstr "postal code"
+
+#: work/models/employee.py:93
+msgctxt "Employee"
+msgid "phone 1"
+msgstr "phone 1"
+
+#: work/models/employee.py:97
+msgctxt "Employee"
+msgid "phone 2"
+msgstr "phone 2"
+
+#: work/models/employee.py:101
+msgctxt "Employee"
+msgid "email"
+msgstr "email"
+
+#: work/models/employee.py:105
+msgctxt "Employee"
+msgid "VAT number"
+msgstr "VAT number"
+
+#: work/models/employee.py:108 work/models/employee.py:213
+msgctxt "Employee"
+msgid "tax code"
+msgstr "tax code"
+
+#: work/models/employee.py:112
+msgctxt "Employee"
+msgid "bank account"
+msgstr "bank account"
+
+#: work/models/employee.py:116
+msgctxt "Employee"
+msgid "permit"
+msgstr "permit"
+
+#: work/models/employee.py:124
+msgctxt "Employee"
+msgid "permit location"
+msgstr "permit location"
+
+#: work/models/employee.py:129
+msgctxt "Employee"
+msgid "permit date"
+msgstr "permit date"
+
+#: work/models/employee.py:135
+msgctxt "Employee"
+msgid "permit expiration"
+msgstr "permit expiration"
+
+#: work/models/employee.py:141
+msgctxt "Employee"
+msgid "photo"
+msgstr "photo"
+
+#: work/models/employee.py:148
+msgctxt "Employee"
+msgid "Employee"
+msgstr "Employee"
+
+#: work/models/employee.py:149
+msgctxt "Employee"
+msgid "Employees"
+msgstr "Employees"
+
+#: work/models/employee.py:164
+msgctxt "Employee"
+msgid "Invalid Tax Code"
+msgstr "Invalid Tax Code"
+
+#: work/models/employee.py:169
+msgctxt "Employee"
+msgid "Incorrect Tax Code"
+msgstr "Incorrect Tax Code"
+
+#: work/models/employee.py:175
+msgctxt "Employee"
+msgid "Existing Tax Code"
+msgstr "Existing Tax Code"
+
+#: work/models/employee.py:222
+msgctxt "Employee"
+msgid "Birth Location"
+msgstr "Birth Location"
+
+#: work/models/employee.py:268
+#, python-brace-format
+msgctxt "Employee"
+msgid "Unexpected {TYPE} \"{ITEM}\""
+msgstr "Unexpected {TYPE} \"{ITEM}\""
+
+#: work/models/employee.py:333
+msgctxt "Employee"
+msgid "Your CSV file has been imported"
+msgstr "Your CSV file has been imported"
+
+#: work/models/employee.py:363
+msgctxt "Employee"
+msgid "Photo image"
+msgstr "Photo image"
+
+#: work/models/employee.py:405
+msgctxt "Employee"
+msgid "Standard photos"
+msgstr "Standard photos"
+
+#: work/models/employee.py:418
+msgctxt "Employee"
+msgid "Add"
+msgstr "Add"
+
+#: work/models/employee.py:425
+msgctxt "Employee"
+msgid "Active contract"
+msgstr "Active contract"
+
+#: work/models/employee.py:430
+msgctxt "Employee"
+msgid "Country"
+msgstr "Country"
+
+#: work/models/job_type.py:31
+msgctxt "JobType"
+msgid "name"
+msgstr "name"
+
+#: work/models/job_type.py:34
+msgctxt "JobType"
+msgid "description"
+msgstr "description"
+
+#: work/models/job_type.py:40
+msgctxt "JobType"
+msgid "Job type"
+msgstr "Job type"
+
+#: work/models/job_type.py:41
+msgctxt "JobType"
+msgid "Job types"
+msgstr "Job types"
+
+#: work/models/login.py:34
+msgctxt "Login"
+msgid "contract"
+msgstr "contract"
+
+#: work/models/login.py:39
+msgctxt "Login"
+msgid "Login"
+msgstr "Login"
+
+#: work/models/login.py:40
+msgctxt "Login"
+msgid "Logins"
+msgstr "Logins"
+
+#: work/models/tablet.py:44
+msgctxt "Tablet"
+msgid "description"
+msgstr "description"
+
+#: work/models/tablet.py:47
+msgctxt "Tablet"
+msgid "status"
+msgstr "status"
+
+#: work/models/tablet.py:52
+msgctxt "Tablet"
+msgid "buildings"
+msgstr "buildings"
+
+#: work/models/tablet.py:56
+msgctxt "Tablet"
+msgid "guid"
+msgstr "guid"
+
+#: work/models/tablet.py:63
+msgctxt "Tablet"
+msgid "Tablet"
+msgstr "Tablet"
+
+#: work/models/tablet.py:64
+msgctxt "Tablet"
+msgid "Tablets"
+msgstr "Tablets"
+
+#: work/models/tablet.py:162
+msgctxt "Tablet"
+msgid "QR Code"
+msgstr "QR Code"
+
+#: work/models/tablet.py:181
+msgctxt "Tablet"
+msgid "Autoconfiguration link"
+msgstr "Autoconfiguration link"
+
+#: work/models/timestamp.py:49
+msgctxt "Timestamp"
+msgid "contract"
+msgstr "contract"
+
+#: work/models/timestamp.py:53
+msgctxt "Timestamp"
+msgid "direction"
+msgstr "direction"
+
+#: work/models/timestamp.py:55
+msgctxt "Timestamp"
+msgid "date"
+msgstr "date"
+
+#: work/models/timestamp.py:57
+msgctxt "Timestamp"
+msgid "time"
+msgstr "time"
+
+#: work/models/timestamp.py:60
+msgctxt "Timestamp"
+msgid "description"
+msgstr "description"
+
+#: work/models/timestamp.py:67
+msgctxt "Timestamp"
+msgid "Timestamp"
+msgstr "Timestamp"
+
+#: work/models/timestamp.py:68
+msgctxt "Timestamp"
+msgid "Timestamps"
+msgstr "Timestamps"
+
+#: work/models/timestamp.py:206
+msgctxt "Timestamp"
+msgid "Timestamps hours (CSV)"
+msgstr "Timestamps hours (CSV)"
+
+#: work/models/timestamp.py:224
+msgctxt "Timestamp"
+msgid "Timestamps hours (HTML)"
+msgstr "Timestamps hours (HTML)"
+
+#: work/models/timestamp.py:244
+msgctxt "Timestamp"
+msgid "Timestamps hours (PDF)"
+msgstr "Timestamps hours (PDF)"
+
+#: work/models/timestamp.py:320
+msgctxt "Timestamp"
+msgid "Timestamps days (CSV)"
+msgstr "Timestamps days (CSV)"
+
+#: work/models/timestamp.py:349
+msgctxt "Timestamp"
+msgid "Timestamps days (HTML)"
+msgstr "Timestamps days (HTML)"
+
+#: work/models/timestamp.py:380
+msgctxt "Timestamp"
+msgid "Timestamps days (PDF)"
+msgstr "Timestamps days (PDF)"
+
+#: work/models/timestamp.py:387
+#, python-brace-format
+msgctxt "Timestamp"
+msgid "Unexpected {TYPE} \"{ITEM}\""
+msgstr "Unexpected {TYPE} \"{ITEM}\""
+
+#: work/models/timestamp.py:430
+msgctxt "Timestamp"
+msgid "Your CSV file has been imported"
+msgstr "Your CSV file has been imported"
+
+#: work/models/timestamp.py:473
+msgctxt "Timestamp"
+msgid "Missing enter time"
+msgstr "Missing enter time"
+
+#: work/models/timestamp.py:476
+msgctxt "Timestamp"
+msgid "Missing exit time"
+msgstr "Missing exit time"
+
+#: work/models/timestamp_direction.py:31
+msgctxt "TimestampDirection"
+msgid "name"
+msgstr "name"
+
+#: work/models/timestamp_direction.py:36
+msgctxt "TimestampDirection"
+msgid "short code"
+msgstr "short code"
+
+#: work/models/timestamp_direction.py:40
+msgctxt "TimestampDirection"
+msgid "description"
+msgstr "description"
+
+#: work/models/timestamp_direction.py:43
+msgctxt "TimestampDirection"
+msgid "type enter"
+msgstr "type enter"
+
+#: work/models/timestamp_direction.py:46
+msgctxt "TimestampDirection"
+msgid "type exit"
+msgstr "type exit"
+
+#: work/models/timestamp_direction.py:53
+msgctxt "TimestampDirection"
+msgid "Timestamp direction"
+msgstr "Timestamp direction"
+
+#: work/models/timestamp_direction.py:55
+msgctxt "TimestampDirection"
+msgid "Timestamp directions"
+msgstr "Timestamp directions"
+
+#: work/templates/login/login.html:9
+msgctxt "Work"
+msgid "Errors processing your request"
+msgstr "Errors processing your request"
+
+#: work/templates/login/login.html:18
+msgctxt "Work"
+msgid "Your last"
+msgstr "Your last"
+
+#: work/templates/login/login.html:18
+msgctxt "Work"
+msgid "accesses are:"
+msgstr "accesses are:"
+
+#: work/templates/login/login.html:25
+msgctxt "Work"
+msgid "DAY"
+msgstr "DAY"
+
+#: work/templates/login/login.html:27
+msgctxt "Work"
+msgid "DATE"
+msgstr "DATE"
+
+#: work/templates/login/login.html:29
+msgctxt "Work"
+msgid "TIME"
+msgstr "TIME"
+
+#: work/templates/login/login.html:31
+msgctxt "Work"
+msgid "ACCESS"
+msgstr "ACCESS"
+
+#: work/templates/login/login.html:85
+#: work/templates/work/timestamps_hours/table_header.html:18
+msgctxt "Work"
+msgid "Enter"
+msgstr "Enter"
+
+#: work/templates/login/login.html:88
+#: work/templates/work/timestamps_hours/table_header.html:22
+msgctxt "Work"
+msgid "Exit"
+msgstr "Exit"
+
+#: work/templates/work/activities_daily/content.html:22
+#: work/templates/work/activities_monthly/table_footer.html:6
+msgctxt "Work"
+msgid "Grand totals"
+msgstr "Grand totals"
+
+#: work/templates/work/activities_daily/table_header.html:9
+msgctxt "Hotels"
+msgid "Building"
+msgstr "Building"
+
+#: work/templates/work/activities_daily/table_header.html:10
+msgctxt "Hotels"
+msgid "Room"
+msgstr "Room"
+
+#: work/templates/work/activities_daily/table_header.html:11
+msgctxt "Hotels"
+msgid "Service"
+msgstr "Service"
+
+#: work/templates/work/activities_daily/table_header.html:12
+msgctxt "Work"
+msgid "Description"
+msgstr "Description"
+
+#: work/templates/work/activities_monthly/content.html:5
+msgctxt "Work"
+msgid "Warning: there is more than a structure selected"
+msgstr "Warning: there is more than a structure selected"
+
+#: work/templates/work/activities_monthly/content.html:8
+#: work/templates/work/timestamps_days/table_header.html:27
+#: work/templates/work/timestamps_hours/table_header.html:10
+msgctxt "Hotels"
+msgid "Company"
+msgstr "Company"
+
+#: work/templates/work/activities_monthly/content.html:8
+msgctxt "Hotels"
+msgid "Structure"
+msgstr "Structure"
+
+#: work/templates/work/activities_monthly/table_header.html:10
+msgctxt "Work"
+msgid "Totals"
+msgstr "Totals"
+
+#: work/templates/work/activities_monthly/table_header.html:12
+msgctxt "Work"
+msgid "Details"
+msgstr "Details"
+
+#: work/templates/work/admin_activity_change.html:5
+msgctxt "Work"
+msgid "Export monthly"
+msgstr "Export monthly"
+
+#: work/templates/work/admin_contract_change.html:5
+msgctxt "Work"
+msgid "ID Card"
+msgstr "ID Card"
+
+#: work/templates/work/admin_contract_change.html:6
+#: work/templates/work/admin_tablet_change.html:5
+msgctxt "Work"
+msgid "Show QR Code"
+msgstr "Show QR Code"
+
+#: work/templates/work/admin_contract_change.html:7
+#: work/templates/work/admin_tablet_change.html:6
+msgctxt "Work"
+msgid "Show QR Code (PNG)"
+msgstr "Show QR Code (PNG)"
+
+#: work/templates/work/admin_contract_change.html:8
+#: work/templates/work/admin_tablet_change.html:7
+msgctxt "Work"
+msgid "Show QR Code (Raw)"
+msgstr "Show QR Code (Raw)"
+
+#: work/templates/work/admin_login_change.html:5
+msgctxt "Work"
+msgid "Change password"
+msgstr "Change password"
+
+#: work/templates/work/admin_qrcode.html:8
+msgctxt "Utility"
+msgid "Home"
+msgstr "Home"
+
+#: work/templates/work/admin_qrcode.html:12
+msgctxt "Work"
+msgid "QR Code"
+msgstr "QR Code"
+
+#: work/templates/work/timestamps_days/table_header.html:29
+#: work/templates/work/timestamps_hours/table_header.html:12
+msgctxt "Work"
+msgid "Employee"
+msgstr "Employee"
+
+#: work/templates/work/timestamps_days/table_header.html:31
+#: work/templates/work/timestamps_hours/table_header.html:14
+msgctxt "Work"
+msgid "Contract ID"
+msgstr "Contract ID"
+
+#: work/templates/work/timestamps_days/table_header.html:33
+#: work/templates/work/timestamps_hours/table_header.html:16
+msgctxt "Work"
+msgid "Roll NR"
+msgstr "Roll NR"
+
+#: work/templates/work/timestamps_days/table_header.html:35
+msgctxt "Work"
+msgid "Working days"
+msgstr "Working days"
+
+#: work/templates/work/timestamps_hours/table_header.html:8
+msgctxt "Work"
+msgid "Date"
+msgstr "Date"
+
+#: work/templates/work/timestamps_hours/table_header.html:20
+msgctxt "Work"
+msgid "Enter description"
+msgstr "Enter description"
+
+#: work/templates/work/timestamps_hours/table_header.html:24
+msgctxt "Work"
+msgid "Exit description"
+msgstr "Exit description"
+
+#: work/templates/work/timestamps_hours/table_header.html:26
+msgctxt "Work"
+msgid "Duration"
+msgstr "Duration"
+
+#: work/templates/work/timestamps_hours/table_header.html:28
+msgctxt "Work"
+msgid "Notes"
+msgstr "Notes"
+
+#: work/views/timestamp_login.py:52
+#, python-brace-format
+msgctxt "TimeStampLoginView"
+msgid "Welcome {EMPLOYEE}"
+msgstr "Welcome {EMPLOYEE}"
+
+#: work/views/timestamp_login.py:60
+msgctxt "TimeStampLoginView"
+msgid "Login to register your presence"
+msgstr "Login to register your presence"

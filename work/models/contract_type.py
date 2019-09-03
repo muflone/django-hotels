@@ -19,21 +19,32 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class ContractType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    daily_hours = models.PositiveIntegerField()
-    weekly_hours = models.PositiveIntegerField()
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('ContractType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ContractType',
+                                                              'description'))
+    daily_hours = models.PositiveIntegerField(verbose_name=pgettext_lazy(
+        'ContractType',
+        'daily hours'))
+    weekly_hours = models.PositiveIntegerField(verbose_name=pgettext_lazy(
+        'ContractType',
+        'weekly hours'))
 
     class Meta:
         # Define the database table
         db_table = 'work_contracttype'
         ordering = ['name']
+        verbose_name = pgettext_lazy('ContractType', 'Contract type')
+        verbose_name_plural = pgettext_lazy('ContractType', 'Contract types')
 
     def __str__(self):
         return self.name

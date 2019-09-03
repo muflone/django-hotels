@@ -1,29 +1,31 @@
+{% load i18n %}
+
   <table border="1" repeat="1">
     <thead>
       <tr>
 {% for column in visible_columns %}
   {% if column == 'date' %}
-        <th>Date</th>
+        <th>{% trans 'Date' context 'Work' %}</th>
   {% elif column == 'company' %}
-        <th>Company</th>
+        <th>{% trans 'Company' context 'Hotels' %}</th>
   {% elif column == 'employee' %}
-        <th>Employee</th>
+        <th>{% trans 'Employee' context 'Work' %}</th>
   {% elif column == 'contract_id' %}
-        <th>Contract ID</th>
+        <th>{% trans 'Contract ID' context 'Work' %}</th>
   {% elif column == 'roll_number' %}
-        <th>Roll NR</th>
+        <th>{% trans 'Roll NR' context 'Work' %}</th>
   {% elif column == 'enter' %}
-        <th>Enter</th>
+        <th>{% trans 'Enter' context 'Work' %}</th>
   {% elif column == 'enter_description' %}
-        <th>Enter Description</th>
+        <th>{% trans 'Enter description' context 'Work' %}</th>
   {% elif column == 'exit' %}
-        <th>Exit </th>
+        <th>{% trans 'Exit' context 'Work' %}</th>
   {% elif column == 'exit_description' %}
-        <th>Exit Description</th>
+        <th>{% trans 'Exit description' context 'Work' %}</th>
   {% elif column == 'duration' %}
-        <th>Duration</th>
+        <th>{% trans 'Duration' context 'Work' %}</th>
   {% elif column == 'notes' %}
-        <th>Notes</th>
+        <th>{% trans 'Notes' context 'Work' %}</th>
   {% endif %}
 {% endfor %}
       </tr>

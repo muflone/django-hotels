@@ -1,10 +1,11 @@
 {% load get_dict_value %}
+{% load i18n %}
 
 {% if structures|length > 1 %}
-  <h1 class="warning">Warning: there is more than a structure selected</h1>
+  <h1 class="warning">{% trans 'Warning: there is more than a structure selected' context 'Work' %}</h1>
 {% endif %}
 {% for structure in structures %}
-  <h1 class="structure">Company: {{ structure.company }} - Structure: {{ structure.name }}</h1>
+  <h1 class="structure">{% trans 'Company' context 'Hotels' %}: {{ structure.company }} - {% trans 'Structure' context 'Hotels' %}: {{ structure.name }}</h1>
 {% endfor %}
 
 {% include 'work/activities_monthly/table_header.html' %}

@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.contrib import admin
+from django.utils.translation import pgettext_lazy
 
 from . import activity
 
@@ -33,20 +34,32 @@ from utility.models import BaseModel, BaseModelAdmin
 class ActivityRoom(BaseModel):
 
     activity = models.ForeignKey('Activity',
-                                 on_delete=models.PROTECT)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('ActivityRoom',
+                                                            'activity'))
     room = models.ForeignKey('hotels.Room',
-                             on_delete=models.PROTECT)
+                             on_delete=models.PROTECT,
+                             verbose_name=pgettext_lazy('ActivityRoom',
+                                                        'room'))
     service = models.ForeignKey('hotels.Service',
-                                on_delete=models.PROTECT)
-    service_qty = models.PositiveIntegerField(default=1)
-    description = models.TextField(blank=True)
+                                on_delete=models.PROTECT,
+                                verbose_name=pgettext_lazy('ActivityRoom',
+                                                           'service'))
+    service_qty = models.PositiveIntegerField(default=1,
+                                              verbose_name=pgettext_lazy(
+                                                  'ActivityRoom',
+                                                  'quantity'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ActivityRoom',
+                                                              'description'))
 
     class Meta:
         # Define the database table
         db_table = 'work_activities_rooms'
         ordering = ['activity', 'room', 'service']
-        verbose_name_plural = 'Activity Rooms'
         unique_together = ('activity', 'room', 'service')
+        verbose_name = pgettext_lazy('ActivityRoom', 'Activity Room')
+        verbose_name_plural = pgettext_lazy('ActivityRoom', 'Activity Rooms')
 
     def __str__(self):
         return str(self.pk)

@@ -30,7 +30,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import path
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 import codicefiscale
 
@@ -46,49 +46,107 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Employee(BaseModel):
-
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    first_name = models.CharField(max_length=255,
+                                  verbose_name=pgettext_lazy('Employee',
+                                                             'first name'))
+    last_name = models.CharField(max_length=255,
+                                 verbose_name=pgettext_lazy('Employee',
+                                                            'last name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Employee',
+                                                              'description'))
     gender = models.CharField(max_length=10,
                               default='unknown',
-                              choices=(('male', 'Male'),
-                                       ('female', 'Female'),
-                                       ('unknown', 'Unknown')))
-    birth_date = models.DateField()
+                              choices=(('male', pgettext_lazy('Employee',
+                                                              'Male')),
+                                       ('female', pgettext_lazy('Employee',
+                                                                'Female')),
+                                       ('unknown', pgettext_lazy('Employee',
+                                                                 'Unknown'))),
+                              verbose_name=pgettext_lazy('Employee',
+                                                         'gender'))
+    birth_date = models.DateField(verbose_name=pgettext_lazy('Employee',
+                                                             'birth date'))
     birth_location = models.ForeignKey('locations.Location',
                                        on_delete=models.PROTECT,
                                        default=0,
-                                       related_name='employee_birth_location')
-    address = models.TextField(blank=True)
+                                       related_name='employee_birth_location',
+                                       verbose_name=pgettext_lazy(
+                                           'Employee',
+                                           'birth location'))
+    address = models.TextField(blank=True,
+                               verbose_name=pgettext_lazy('Employee',
+                                                          'address'))
     location = models.ForeignKey('locations.Location',
                                  on_delete=models.PROTECT,
                                  default=0,
-                                 related_name='employee_location')
-    postal_code = models.CharField(max_length=15, blank=True)
-    phone1 = models.CharField(max_length=255, blank=True)
-    phone2 = models.CharField(max_length=255, blank=True)
-    email = models.CharField(max_length=255, blank=True)
-    vat_number = models.CharField(max_length=255, blank=True)
-    tax_code = models.CharField(max_length=255)
-    bank_account = models.CharField(max_length=255, blank=True)
-    permit = models.CharField(max_length=255, blank=True)
+                                 related_name='employee_location',
+                                 verbose_name=pgettext_lazy('Employee',
+                                                            'location'))
+    postal_code = models.CharField(max_length=15,
+                                   blank=True,
+                                   verbose_name=pgettext_lazy('Employee',
+                                                              'postal code'))
+    phone1 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Employee',
+                                                         'phone 1'))
+    phone2 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Employee',
+                                                         'phone 2'))
+    email = models.CharField(max_length=255,
+                             blank=True,
+                             verbose_name=pgettext_lazy('Employee',
+                                                        'email'))
+    vat_number = models.CharField(max_length=255,
+                                  blank=True,
+                                  verbose_name=pgettext_lazy('Employee',
+                                                             'VAT number'))
+    tax_code = models.CharField(max_length=255,
+                                verbose_name=pgettext_lazy('Employee',
+                                                           'tax code'))
+    bank_account = models.CharField(max_length=255,
+                                    blank=True,
+                                    verbose_name=pgettext_lazy('Employee',
+                                                               'bank account'))
+    permit = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Employee',
+                                                         'permit'))
     permit_location = models.ForeignKey('locations.Location',
                                         on_delete=models.PROTECT,
                                         default=0,
                                         blank=True,
-                                        null=True)
-    permit_date = models.DateField(blank=True, null=True, default=None)
-    permit_expiration = models.DateField(blank=True, null=True, default=None)
-    photo = models.ImageField(null=True, blank=True,
+                                        null=True,
+                                        verbose_name=pgettext_lazy(
+                                            'Employee',
+                                            'permit location'))
+    permit_date = models.DateField(blank=True,
+                                   null=True,
+                                   default=None,
+                                   verbose_name=pgettext_lazy('Employee',
+                                                              'permit date'))
+    permit_expiration = models.DateField(blank=True,
+                                         null=True,
+                                         default=None,
+                                         verbose_name=pgettext_lazy(
+                                             'Employee',
+                                             'permit expiration'))
+    photo = models.ImageField(null=True,
+                              blank=True,
                               upload_to='hotels/images/employees/',
-                              default='standard:gender_unknown_1')
+                              default='standard:gender_unknown_1',
+                              verbose_name=pgettext_lazy('Employee',
+                                                         'photo'))
 
     class Meta:
         # Define the database table
         db_table = 'work_employees'
         ordering = ['first_name', 'last_name']
         unique_together = ('first_name', 'last_name', 'tax_code')
+        verbose_name = pgettext_lazy('Employee', 'Employee')
+        verbose_name_plural = pgettext_lazy('Employee', 'Employees')
 
     def __str__(self):
         return '{FIRST_NAME} {LAST_NAME}'.format(
@@ -101,14 +159,20 @@ class Employee(BaseModel):
         tax_code = self.tax_code.upper().strip().ljust(16)
         if not codicefiscale.isvalid(tax_code):
             # Invalid tax code
-            raise ValidationError({'tax_code': _('Invalid Tax Code')})
+            raise ValidationError({'tax_code': pgettext_lazy(
+                'Employee',
+                'Invalid Tax Code')})
         elif codicefiscale.control_code(tax_code[:15]) != tax_code[15]:
             # Unmatching check digit
-            raise ValidationError({'tax_code': _('Incorrect Tax Code')})
+            raise ValidationError({'tax_code': pgettext_lazy(
+                'Employee',
+                'Incorrect Tax Code')})
         elif Employee.objects.filter(tax_code=tax_code).exclude(
                 pk=self.id):
             # Existing tax code
-            raise ValidationError({'tax_code': _('Existing Tax Code')})
+            raise ValidationError({'tax_code': pgettext_lazy(
+                'Employee',
+                'Existing Tax Code')})
         else:
             # No errors
             self.tax_code = tax_code
@@ -128,7 +192,7 @@ class Employee(BaseModel):
 
 class EmployeeFirstNameInputFilter(AdminTextInputFilter):
     parameter_name = 'first_name'
-    title = 'first name'
+    title = pgettext_lazy('Employee', 'first name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -137,7 +201,7 @@ class EmployeeFirstNameInputFilter(AdminTextInputFilter):
 
 class EmployeeLastNameInputFilter(AdminTextInputFilter):
     parameter_name = 'last_name'
-    title = 'last name'
+    title = pgettext_lazy('Employee', 'last name')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -146,7 +210,7 @@ class EmployeeLastNameInputFilter(AdminTextInputFilter):
 
 class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
     parameter_name = 'tax_code'
-    title = 'tax code'
+    title = pgettext_lazy('Employee', 'tax code')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -155,7 +219,7 @@ class EmployeeTaxCodeInputFilter(AdminTextInputFilter):
 
 class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
     parameter_name = 'birth_location'
-    title = 'Birth Location'
+    title = pgettext_lazy('Employee', 'Birth Location')
 
     def lookups(self, request, model_admin):
         return Country.objects.all().values_list('name', 'name')
@@ -200,8 +264,10 @@ class EmployeeAdmin(BaseModelAdmin):
     def import_csv(self, request):
         def append_error(type_name, item):
             """Append an error message to the messages list"""
-            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
-                                                                ITEM=item)
+            error_message = pgettext_lazy('Employee',
+                                          'Unexpected {TYPE} "{ITEM}"').format(
+                                              TYPE=type_name,
+                                              ITEM=item)
             if error_message not in error_messages:
                 error_messages.append(error_message)
                 self.message_user(request, error_message, messages.ERROR)
@@ -262,7 +328,9 @@ class EmployeeAdmin(BaseModelAdmin):
             # Save data only if there were not errors
             if not error_messages:
                 Employee.objects.bulk_create(employees)
-                self.message_user(request, 'Your CSV file has been imported')
+                self.message_user(request, pgettext_lazy(
+                    'Employee',
+                    'Your CSV file has been imported'))
             return redirect('..')
         return render(request,
                       'utility/import_csv/form.html',
@@ -292,9 +360,12 @@ class EmployeeAdmin(BaseModelAdmin):
 
     def photo_image(self, instance):
         return self.detail_photo_image(instance, 128, 128)
+    photo_image.short_description = pgettext_lazy('Employee', 'Photo image')
 
     def photo_thumbnail(self, instance):
         return self.detail_photo_image(instance, 48, 48)
+    photo_thumbnail.short_description = pgettext_lazy('Employee',
+                                                      'Photo thumbnail')
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         # For ImageField fields replace the rendering widget
@@ -330,6 +401,8 @@ class EmployeeAdmin(BaseModelAdmin):
                          'gender_male_7')
         }
         return template.render(context)
+    standard_photos.short_description = pgettext_lazy('Employee',
+                                                      'Standard photos')
 
     # noinspection PyProtectedMember
     def active_contract(self, instance):
@@ -342,13 +415,16 @@ class EmployeeAdmin(BaseModelAdmin):
             link = reverse_with_query(view='admin:work_contract_add',
                                       query={'employee': instance.pk})
             link_classes = 'addlink'
-            link_text = _('Add')
+            link_text = pgettext_lazy('Employee', 'Add')
         return mark_safe('<a href="{LINK}" {CLASSES}>{TEXT}</a>'.format(
             LINK=link,
             CLASSES='class="{CLASSES}"'.format(CLASSES=link_classes)
                     if link_classes else '',
             TEXT=link_text))
+    active_contract.short_description = pgettext_lazy('Employee',
+                                                      'Active contract')
 
     def country(self, instance):
         # noinspection PyProtectedMember
         return instance._country
+    country.short_description = pgettext_lazy('Employee', 'Country')

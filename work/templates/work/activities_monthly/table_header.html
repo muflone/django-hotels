@@ -1,3 +1,5 @@
+{% load i18n %}
+
   <table border="1" repeat="1">
     <thead>
       <tr>
@@ -5,9 +7,9 @@
 {% for service in services %}
         <th class="service service_{{ service.id }}">{{ service.name }}</th>
 {% endfor %}
-        <th class="totals">Totals</th>
+        <th class="totals">{% trans 'Totals' context 'Work' %}</th>
 {% if show_details == '1' %}
-        <th class="details">Details</th>
+        <th class="details">{% trans 'Details' context 'Work' %}</th>
 {% endif %}
       </tr>
     </thead>

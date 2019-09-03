@@ -1,11 +1,12 @@
 {% extends "website/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
   {% if form.errors %}
     <div class="panel panel-danger">
       <div class="panel-heading">
-        <h1 class="panel-title">Errors processing your request</h1>
+        <h1 class="panel-title">{% trans 'Errors processing your request' context 'Work' %}</h1>
       </div>
       <div class="panel-body">{{ form.non_field_errors }}</div>
     </div>
@@ -14,20 +15,20 @@
   {% if visible_columns %}
     {% if last_logins %}
   <div class="panel panel-primary">
-    <h1 class="panel-body">Your last {{ last_logins.count }} accesses are:</h1>
+    <h1 class="panel-body">{% trans 'Your last' context 'Work' %} {{ last_logins.count }} {% trans 'accesses are:' context 'Work' %}</h1>
 
     <table class="last_logins">
       <thead>
         <tr>
       {% for column in visible_columns %}
         {% if column == 'day' %}
-          <th><span class="glyphicon glyphicon-calendar"></span> DAY</th>
+          <th><span class="glyphicon glyphicon-calendar"></span> {% trans 'DAY' context 'Work' %}</th>
         {% elif column == 'date' %}
-          <th><span class="glyphicon glyphicon-calendar"></span> DATE</th>
+          <th><span class="glyphicon glyphicon-calendar"></span> {% trans 'DATE' context 'Work' %}</th>
         {% elif column == 'time' %}
-          <th><span class="glyphicon glyphicon-time"></span> TIME</th>
+          <th><span class="glyphicon glyphicon-time"></span> {% trans 'TIME' context 'Work' %}</th>
         {% elif column == 'access' %}
-          <th colspan="2"><span class="glyphicon glyphicon-retweet"></span> ACCESS</th>
+          <th colspan="2"><span class="glyphicon glyphicon-retweet"></span> {% trans 'ACCESS' context 'Work' %}</th>
         {% endif %}
       {% endfor %}
         </tr>
@@ -81,10 +82,10 @@
       <button type="submit" disabled style="display: none" aria-hidden="true"></button>
 
       <button class="btn signin-btn btn-lg" type="submit" name="access_type" value="enter">
-        <span class="glyphicon glyphicon-log-in"></span><br />Enter</button>
+        <span class="glyphicon glyphicon-log-in"></span><br />{% trans 'Enter' context 'Work' %}</button>
 
       <button class="btn signin-btn btn-lg" type="submit" name="access_type" value="exit">
-        <span class="glyphicon glyphicon-log-out"></span><br />Exit</button>
+        <span class="glyphicon glyphicon-log-out"></span><br />{% trans 'Exit' context 'Work' %}</button>
     </div>
   </form>
 

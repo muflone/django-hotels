@@ -20,6 +20,7 @@
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import pgettext_lazy
 
 from . import models
 
@@ -35,12 +36,16 @@ class TimeStampLoginForm(AuthenticationForm):
             obj_login = models.Login.objects.get(username=user)
             if not obj_login.contract.active():
                 raise forms.ValidationError(
-                    'Missing contract for employee {EMPLOYEE}.'.format(
-                        EMPLOYEE=obj_login.contract.employee),
+                    pgettext_lazy(
+                        'TimeStampLoginForm',
+                        'Missing contract for employee {EMPLOYEE}.').format(
+                            EMPLOYEE=obj_login.contract.employee),
                     code='missing_contract')
         else:
             raise forms.ValidationError(
-                'Username {USERNAME} invalid.'.format(USERNAME=user),
+                pgettext_lazy(
+                        'TimeStampLoginForm',
+                        'Username {USERNAME} invalid.').format(USERNAME=user),
                 code='invalid_login')
 
 

@@ -1,11 +1,13 @@
+{% load i18n %}
+
   <table border="1" repeat="2">
     <tbody>
       <tr>
         <td class="header" colspan="4">{{ item.date }} - {{ item.employee }} ({{ item.company }})</td>
       </tr>
       <tr>
-        <td class="header">Building</td>
-        <td class="header">Room</td>
-        <td class="header">Service</td>
-        <td class="header">Description</td>
+        <td class="header">{% trans 'Building' context 'Hotels' %}</td>
+        <td class="header">{% trans 'Room' context 'Hotels' %}</td>
+        <td class="header">{% trans 'Service' context 'Hotels' %}</td>
+        <td class="header">{% trans 'Description' context 'Work' %}</td>
       </tr>
