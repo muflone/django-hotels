@@ -32,3 +32,18 @@ Inns.
 * Django SQL Explorer (https://pypi.org/project/django-sql-explorer/)
 * XlsxWriter (https://pypi.org/project/XlsxWriter/)
 * Django IPRestrict (https://pypi.org/project/django-iprestrict/)
+
+# Companion app
+
+An open source companion app for Android is also available
+(<https://github.com/muflone/django-hotels-android>)
+ 
+The app can be also downloaded from the Google Play Store
+(<https://play.google.com/store/apps/details?id=com.muflone.android.django_hotels>)
+
+You can register your timestamps, set employee's conditions (like holidays,
+illness, rest days), configure the room activities, add extra activities and
+much more.
+
+The app is highly integrated with the _AdminCommands_ and can receive commands
+and configuration values from the Django Hotels web application.
