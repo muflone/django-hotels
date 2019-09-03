@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-03 03:58+0200\n"
+"POT-Creation-Date: 2019-09-03 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,13 +68,13 @@ msgctxt "AdminListDisplay"
 msgid "order"
 msgstr "order"
 
-#: website/models/admin_list_display.py:45
+#: website/models/admin_list_display.py:46
 msgctxt "AdminListDisplay"
 msgid "enabled"
 msgstr "enabled"
 
-#: website/models/admin_list_display.py:54
-#: website/models/admin_list_display.py:56
+#: website/models/admin_list_display.py:55
+#: website/models/admin_list_display.py:57
 msgctxt "AdminListDisplay"
 msgid "Admin List Display"
 msgstr "Admin List Display"
@@ -199,12 +199,12 @@ msgctxt "AdminSearchable"
 msgid "referenced field"
 msgstr "referenced field"
 
-#: website/models/admin_searchable.py:53
+#: website/models/admin_searchable.py:54
 msgctxt "AdminSearchable"
 msgid "description"
 msgstr "description"
 
-#: website/models/admin_searchable.py:56
+#: website/models/admin_searchable.py:57
 msgctxt "AdminSearchable"
 msgid "use select 2"
 msgstr "use select 2"

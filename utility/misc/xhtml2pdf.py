@@ -49,9 +49,11 @@ def xhtml2pdf_link_callback(uri, rel):
 
     # make sure that file exists
     if not os.path.isfile(path):
-        raise Exception(pgettext_lazy('Utility',
-                                      'media URI must start with %s or %s' % (
-                                          static_url, media_url)))
+        raise Exception(pgettext_lazy(
+            'Utility',
+            'media URI must start with {STATIC_URL} or {MEDIA_URL}').format(
+                STATIC_URL=static_url,
+                MEDIA_URL=media_url))
     return path
 
 

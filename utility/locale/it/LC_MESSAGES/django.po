@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-03 03:36+0200\n"
+"POT-Creation-Date: 2019-09-03 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,11 +38,11 @@ msgctxt "Utility"
 msgid "Column separator"
 msgstr "Separatore di colonna"
 
-#: utility/misc/xhtml2pdf.py:53
-#, python-format
+#: utility/misc/xhtml2pdf.py:54
+#, python-brace-format
 msgctxt "Utility"
-msgid "media URI must start with %s or %s"
-msgstr "URI media deve iniziare con %s o %s"
+msgid "media URI must start with {STATIC_URL} or {MEDIA_URL}"
+msgstr "URI media deve iniziare con {STATIC_URL} o {MEDIA_URL}"
 
 #: utility/templates/utility/admin_text_input_filter/form.html:13
 #, python-format
