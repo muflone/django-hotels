@@ -1,4 +1,4 @@
-Django==2.2.4
+Django==2.2.5
 Pillow==6.1.0
 pytz==2019.2
 django-logentry-admin==1.0.5
@@ -11,4 +11,4 @@ django-admin-rangefilter==0.5.0
 pyotp==2.3.0
 codicefiscale==0.9
 xhtml2pdf==0.2.3
-XlsxWriter==1.1.8
+XlsxWriter==1.2.0
