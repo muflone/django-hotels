@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-03 14:15+0200\n"
+"POT-Creation-Date: 2019-09-03 19:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,11 @@ msgstr ""
 msgctxt "Utility"
 msgid "Export selected rows to CSV"
 msgstr "Esporta le righe selezionate in CSV"
+
+#: utility/apps.py:27
+msgctxt "UtilityConfig"
+msgid "Utility"
+msgstr "Utilità"
 
 #: utility/forms.py:27
 msgctxt "Utility"

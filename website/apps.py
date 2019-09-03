@@ -19,7 +19,9 @@
 ##
 
 from django.apps import AppConfig
+from django.utils.translation import pgettext_lazy
 
 
 class WebsiteConfig(AppConfig):
     name = 'website'
+    verbose_name = pgettext_lazy('WebsiteConfig', 'Website')

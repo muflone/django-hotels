@@ -19,7 +19,9 @@
 ##
 
 from django.apps import AppConfig
+from django.utils.translation import pgettext_lazy
 
 
 class WorkConfig(AppConfig):
     name = 'work'
+    verbose_name = pgettext_lazy('WorkConfig', 'Work')

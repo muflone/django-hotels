@@ -19,7 +19,9 @@
 ##
 
 from django.apps import AppConfig
+from django.utils.translation import pgettext_lazy
 
 
 class JsonapiConfig(AppConfig):
     name = 'jsonapi'
+    verbose_name = pgettext_lazy('JsonapiConfig', 'JSON API')

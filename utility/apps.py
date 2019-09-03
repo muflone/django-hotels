@@ -19,7 +19,9 @@
 ##
 
 from django.apps import AppConfig
+from django.utils.translation import pgettext_lazy
 
 
 class UtilityConfig(AppConfig):
     name = 'utility'
+    verbose_name = pgettext_lazy('UtilityConfig', 'Utility')
