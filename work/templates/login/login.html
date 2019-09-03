@@ -56,7 +56,7 @@
     {% endif %}
   {% endif %}
 
-  <form class="loginform" method="post" action="{% url 'work/page_login' %}">
+  <form class="loginform" method="post" action="{{ request.path }}">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />
 
