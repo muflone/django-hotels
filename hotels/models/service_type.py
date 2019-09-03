@@ -19,22 +19,33 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class ServiceType(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    order = models.PositiveIntegerField()
-    show_in_reports = models.BooleanField(default=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('ServiceType',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('ServiceType',
+                                                              'description'))
+    order = models.PositiveIntegerField(verbose_name=pgettext_lazy(
+        'ServiceType',
+        'order'))
+    show_in_reports = models.BooleanField(default=True,
+                                          verbose_name=pgettext_lazy(
+                                              'ServiceType',
+                                              'show in report'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_services_types'
         ordering = ['order', 'name']
-        verbose_name_plural = 'Services Types'
+        verbose_name = pgettext_lazy('ServiceType', 'Service type')
+        verbose_name_plural = pgettext_lazy('ServiceType', 'Service types')
 
     def __str__(self):
         return self.name

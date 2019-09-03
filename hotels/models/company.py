@@ -19,28 +19,57 @@
 ##
 
 from django.db import models
+from django.utils.translation import pgettext_lazy
 
 from utility.models import BaseModel, BaseModelAdmin
 
 
 class Company(BaseModel):
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    address = models.TextField(blank=True)
-    phone1 = models.CharField(max_length=255, blank=True)
-    phone2 = models.CharField(max_length=255, blank=True)
-    fax = models.CharField(max_length=255, blank=True)
-    email = models.CharField(max_length=255, blank=True)
-    vat_number = models.CharField(max_length=255, blank=True)
-    tax_code = models.CharField(max_length=255, blank=True)
-    owner = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            verbose_name=pgettext_lazy('Company',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Company',
+                                                              'description'))
+    address = models.TextField(blank=True,
+                               verbose_name=pgettext_lazy('Company',
+                                                          'address'))
+    phone1 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Company',
+                                                         'phone 1'))
+    phone2 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Company',
+                                                         'phone 2'))
+    fax = models.CharField(max_length=255,
+                           blank=True,
+                           verbose_name=pgettext_lazy('Company',
+                                                      'fax'))
+    email = models.CharField(max_length=255,
+                             blank=True,
+                             verbose_name=pgettext_lazy('Company',
+                                                        'email'))
+    vat_number = models.CharField(max_length=255,
+                                  blank=True,
+                                  verbose_name=pgettext_lazy('Company',
+                                                             'VAT number'))
+    tax_code = models.CharField(max_length=255,
+                                blank=True,
+                                verbose_name=pgettext_lazy('Company',
+                                                           'tax code'))
+    owner = models.CharField(max_length=255,
+                             blank=True,
+                             verbose_name=pgettext_lazy('Company',
+                                                        'owner'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_companies'
         ordering = ['name']
-        verbose_name_plural = 'Companies'
+        verbose_name = pgettext_lazy('Company', 'Company')
+        verbose_name_plural = pgettext_lazy('Company', 'Companies')
 
     def __str__(self):
         return self.name

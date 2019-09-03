@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import path
+from django.utils.translation import pgettext_lazy
 
 from .bed_type import BedType
 from .building import Building
@@ -38,25 +39,45 @@ from utility.models import BaseModel, BaseModelAdmin
 
 
 class Room(BaseModel):
-
     building = models.ForeignKey('Building',
-                                 on_delete=models.PROTECT)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+                                 on_delete=models.PROTECT,
+                                 verbose_name=pgettext_lazy('Room',
+                                                            'building'))
+    name = models.CharField(max_length=255,
+                            verbose_name=pgettext_lazy('Room',
+                                                       'name'))
+    description = models.TextField(blank=True,
+                                   verbose_name=pgettext_lazy('Room',
+                                                              'description'))
     room_type = models.ForeignKey('RoomType',
-                                  on_delete=models.PROTECT)
+                                  on_delete=models.PROTECT,
+                                  verbose_name=pgettext_lazy('Room',
+                                                             'room type'))
     bed_type = models.ForeignKey('BedType',
                                  on_delete=models.PROTECT,
-                                 default=0)
-    phone1 = models.CharField(max_length=255, blank=True)
-    seats_base = models.PositiveIntegerField(default=1)
-    seats_additional = models.PositiveIntegerField(default=0)
+                                 default=0,
+                                 verbose_name=pgettext_lazy('Room',
+                                                            'bed type'))
+    phone1 = models.CharField(max_length=255,
+                              blank=True,
+                              verbose_name=pgettext_lazy('Room',
+                                                         'phone 1'))
+    seats_base = models.PositiveIntegerField(default=1,
+                                             verbose_name=pgettext_lazy(
+                                                 'Room',
+                                                 'seats base'))
+    seats_additional = models.PositiveIntegerField(default=0,
+                                                   verbose_name=pgettext_lazy(
+                                                       'Room',
+                                                       'seats additional'))
 
     class Meta:
         # Define the database table
         db_table = 'hotels_rooms'
         ordering = ['building', 'name']
         unique_together = ('building', 'name')
+        verbose_name = pgettext_lazy('Room', 'Room')
+        verbose_name_plural = pgettext_lazy('Room', 'Rooms')
 
     def __str__(self):
         return '{BUILDING} - {NAME}'.format(BUILDING=self.building.name,
@@ -81,8 +102,10 @@ class RoomAdmin(BaseModelAdmin):
     def import_csv(self, request):
         def append_error(type_name, item):
             """Append an error message to the messages list"""
-            error_message = 'Unexpected {TYPE} "{ITEM}"'.format(TYPE=type_name,
-                                                                ITEM=item)
+            error_message = pgettext_lazy('Room',
+                                          'Unexpected {TYPE} "{ITEM}"'.format(
+                                              TYPE=type_name,
+                                              ITEM=item))
             if error_message not in error_messages:
                 error_messages.append(error_message)
                 self.message_user(request, error_message, messages.ERROR)
@@ -131,7 +154,10 @@ class RoomAdmin(BaseModelAdmin):
             # Save data only if there were not errors
             if not error_messages:
                 Room.objects.bulk_create(rooms)
-                self.message_user(request, 'Your CSV file has been imported')
+                self.message_user(
+                    request,
+                    pgettext_lazy('Room',
+                                  'Your CSV file has been imported'))
             return redirect('..')
         return render(request,
                       'utility/import_csv/form.html',
@@ -145,9 +171,11 @@ class RoomAdmin(BaseModelAdmin):
                 building = form.cleaned_data['building']
                 queryset.update(building=building)
 
-                self.message_user(request,
+                self.message_user(
+                    request,
+                    pgettext_lazy('Room',
                                   'Changed building for {COUNT} rooms'.format(
-                                      COUNT=queryset.count()))
+                                      COUNT=queryset.count())))
                 return HttpResponseRedirect(request.get_full_path())
 
         return render(request,
@@ -155,15 +183,22 @@ class RoomAdmin(BaseModelAdmin):
                       context={'queryset': queryset,
                                'buildings': Building.objects.all(),
                                'form': form,
-                               'title': 'Assign the selected rooms to a new '
-                                        'building',
-                               'question': 'Confirm you want to change the '
-                                           'building for the selected rooms?',
+                               'title': pgettext_lazy(
+                                   'Room',
+                                   'Assign the selected rooms to a new '
+                                   'building'),
+                               'question': pgettext_lazy(
+                                   'Room',
+                                   'Confirm you want to change the building '
+                                   'for the selected rooms?'),
                                'items_name': 'Rooms',
                                'action': 'action_change_building',
-                               'action_description': 'Change building',
+                               'action_description': pgettext_lazy(
+                                   'Room',
+                                   'Change building'),
                                })
-    action_change_building.short_description = 'Change building'
+    action_change_building.short_description = pgettext_lazy('Room',
+                                                             'Change building')
 
     def action_change_bedtype(self, request, queryset):
         form = RoomChangeBedTypeForm(request.POST)
@@ -172,9 +207,11 @@ class RoomAdmin(BaseModelAdmin):
                 bed_type = form.cleaned_data['bed_type']
                 queryset.update(bed_type=bed_type)
 
-                self.message_user(request,
-                                  'Changed bedtype for {COUNT} rooms'.format(
-                                      COUNT=queryset.count()))
+                self.message_user(
+                    request,
+                    pgettext_lazy('Room',
+                                  'Changed bed type for {COUNT} rooms'.format(
+                                      COUNT=queryset.count())))
                 return HttpResponseRedirect(request.get_full_path())
 
         return render(request,
@@ -182,12 +219,19 @@ class RoomAdmin(BaseModelAdmin):
                       context={'queryset': queryset,
                                'bed_types': BedType.objects.all(),
                                'form': form,
-                               'title': 'Assign the bed type to the selected '
-                                        'rooms',
-                               'question': 'Confirm you want to change the '
-                                           'bed type for the selected rooms?',
+                               'title': pgettext_lazy(
+                                   'Room',
+                                   'Assign the bed type to the selected '
+                                   'rooms'),
+                               'question': pgettext_lazy(
+                                   'Room',
+                                   'Confirm you want to change the bed type '
+                                   'for the selected rooms?'),
                                'items_name': 'Rooms',
                                'action': 'action_change_bedtype',
-                               'action_description': 'Change bed type',
+                               'action_description': pgettext_lazy(
+                                   'Room',
+                                   'Change bed type'),
                                })
-    action_change_bedtype.short_description = 'Change bed type'
+    action_change_bedtype.short_description = pgettext_lazy('Room',
+                                                            'Change bed type')

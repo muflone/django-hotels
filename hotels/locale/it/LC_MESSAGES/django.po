@@ -1,0 +1,517 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-03 02:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: hotels/models/bed_type.py:31
+msgctxt "BedType"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/bed_type.py:34
+msgctxt "BedType"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/bed_type.py:40
+msgctxt "BedType"
+msgid "Bed type"
+msgstr "Tipo di letto"
+
+#: hotels/models/bed_type.py:41
+msgctxt "BedType"
+msgid "Bed types"
+msgstr "Tipi di letto"
+
+#: hotels/models/brand.py:31
+msgctxt "Brand"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/brand.py:34
+msgctxt "Brand"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/brand.py:40 hotels/models/building.py:86
+msgctxt "Brand"
+msgid "Brand"
+msgstr "Marchio"
+
+#: hotels/models/brand.py:41
+msgctxt "Brand"
+msgid "Brands"
+msgstr "Marchi"
+
+#: hotels/models/building.py:32
+msgctxt "Building"
+msgid "structure"
+msgstr "struttura"
+
+#: hotels/models/building.py:35
+msgctxt "Building"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/building.py:38
+msgctxt "Building"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/building.py:41
+msgctxt "Building"
+msgid "address"
+msgstr "indirizzo"
+
+#: hotels/models/building.py:46
+msgctxt "Building"
+msgid "location"
+msgstr "località"
+
+#: hotels/models/building.py:50
+msgctxt "Building"
+msgid "postal code"
+msgstr "codice postale"
+
+#: hotels/models/building.py:54
+msgctxt "Building"
+msgid "phone 1"
+msgstr "telefono 1"
+
+#: hotels/models/building.py:58
+msgctxt "Building"
+msgid "phone 2"
+msgstr "telefono 2"
+
+#: hotels/models/building.py:62
+msgctxt "Building"
+msgid "fax"
+msgstr "fax"
+
+#: hotels/models/building.py:66
+msgctxt "Building"
+msgid "email"
+msgstr "email"
+
+#: hotels/models/building.py:69
+msgctxt "Building"
+msgid "extras"
+msgstr "extra"
+
+#: hotels/models/building.py:76
+msgctxt "Building"
+msgid "Building"
+msgstr "Edificio"
+
+#: hotels/models/building.py:77
+msgctxt "Building"
+msgid "Buildings"
+msgstr "Edifici"
+
+#: hotels/models/building.py:90 hotels/models/company.py:71
+msgctxt "Company"
+msgid "Company"
+msgstr "Azienda"
+
+#: hotels/models/company.py:31
+msgctxt "Company"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/company.py:34
+msgctxt "Company"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/company.py:37
+msgctxt "Company"
+msgid "address"
+msgstr "indirizzo"
+
+#: hotels/models/company.py:41
+msgctxt "Company"
+msgid "phone 1"
+msgstr "telefono 1"
+
+#: hotels/models/company.py:45
+msgctxt "Company"
+msgid "phone 2"
+msgstr "telefono 2"
+
+#: hotels/models/company.py:49
+msgctxt "Company"
+msgid "fax"
+msgstr "fax"
+
+#: hotels/models/company.py:53
+msgctxt "Company"
+msgid "email"
+msgstr "email"
+
+#: hotels/models/company.py:57
+msgctxt "Company"
+msgid "VAT number"
+msgstr "partita IVA"
+
+#: hotels/models/company.py:61
+msgctxt "Company"
+msgid "tax code"
+msgstr "codice fiscale"
+
+#: hotels/models/company.py:65
+msgctxt "Company"
+msgid "owner"
+msgstr "proprietario"
+
+#: hotels/models/company.py:72
+msgctxt "Company"
+msgid "Companies"
+msgstr "Aziende"
+
+#: hotels/models/equipment.py:32
+msgctxt "Equipment"
+msgid "structure"
+msgstr "struttura"
+
+#: hotels/models/equipment.py:35
+msgctxt "Equipment"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/equipment.py:38
+msgctxt "Equipment"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/equipment.py:43
+msgctxt "Equipment"
+msgid "equipment type"
+msgstr "tipo di attrezzatura"
+
+#: hotels/models/equipment.py:47
+msgctxt "Equipment"
+msgid "quantity"
+msgstr "quantità"
+
+#: hotels/models/equipment.py:54
+msgctxt "Equipment"
+msgid "Equipment"
+msgstr "Attrezzatura"
+
+#: hotels/models/equipment.py:55
+msgctxt "Equipment"
+msgid "Equipments"
+msgstr "Attrezzature"
+
+#: hotels/models/equipment_type.py:31
+msgctxt "EquipmentType"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/equipment_type.py:34
+msgctxt "EquipmentType"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/equipment_type.py:40
+msgctxt "EquipmentType"
+msgid "Equipment type"
+msgstr "Tipo di attrezzatura"
+
+#: hotels/models/equipment_type.py:41
+msgctxt "EquipmentType"
+msgid "Equipment types"
+msgstr "Tipi di attrezzatura"
+
+#: hotels/models/room.py:45
+msgctxt "Room"
+msgid "building"
+msgstr "edificio"
+
+#: hotels/models/room.py:48
+msgctxt "Room"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/room.py:51
+msgctxt "Room"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/room.py:55
+msgctxt "Room"
+msgid "room type"
+msgstr "tipo di stanza"
+
+#: hotels/models/room.py:60
+msgctxt "Room"
+msgid "bed type"
+msgstr "tipo di letto"
+
+#: hotels/models/room.py:64
+msgctxt "Room"
+msgid "phone 1"
+msgstr "telefono 1"
+
+#: hotels/models/room.py:68
+msgctxt "Room"
+msgid "seats base"
+msgstr "posti base"
+
+#: hotels/models/room.py:72
+msgctxt "Room"
+msgid "seats additional"
+msgstr "posti aggiuntivi"
+
+#: hotels/models/room.py:79
+msgctxt "Room"
+msgid "Room"
+msgstr "Stanza"
+
+#: hotels/models/room.py:80
+msgctxt "Room"
+msgid "Rooms"
+msgstr "Stanze"
+
+#: hotels/models/room.py:106
+#, python-brace-format
+msgctxt "Room"
+msgid "Unexpected {TYPE} \"{ITEM}\""
+msgstr "{TYPE} non atteso \"{ITEM}\""
+
+#: hotels/models/room.py:160
+msgctxt "Room"
+msgid "Your CSV file has been imported"
+msgstr "Il tuo file CSV è stato importato"
+
+#: hotels/models/room.py:177
+#, python-brace-format
+msgctxt "Room"
+msgid "Changed building for {COUNT} rooms"
+msgstr "Cambiato l'edificio per {COUNT} stanze"
+
+#: hotels/models/room.py:188
+msgctxt "Room"
+msgid "Assign the selected rooms to a new building"
+msgstr "Assegna le stanze selezionate a un nuovo edificio"
+
+#: hotels/models/room.py:192
+msgctxt "Room"
+msgid "Confirm you want to change the building for the selected rooms?"
+msgstr "Confermi di voler cambiare l'edificio per le stanze selezionate?"
+
+#: hotels/models/room.py:198 hotels/models/room.py:201
+msgctxt "Room"
+msgid "Change building"
+msgstr "Cambia edificio"
+
+#: hotels/models/room.py:213
+#, python-brace-format
+msgctxt "Room"
+msgid "Changed bed type for {COUNT} rooms"
+msgstr "Cambiato il tipo di letto per {COUNT} stanze"
+
+#: hotels/models/room.py:224
+msgctxt "Room"
+msgid "Assign the bed type to the selected rooms"
+msgstr "Assegna il tipo di letto alle stanze selezionate"
+
+#: hotels/models/room.py:228
+msgctxt "Room"
+msgid "Confirm you want to change the bed type for the selected rooms?"
+msgstr "Confermi di voler cambiare il tipo di letto per le stanze selezionate?"
+
+#: hotels/models/room.py:234 hotels/models/room.py:237
+msgctxt "Room"
+msgid "Change bed type"
+msgstr "Cambia il tipo di letto"
+
+#: hotels/models/room_type.py:31
+msgctxt "RoomType"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/room_type.py:34
+msgctxt "RoomType"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/room_type.py:40
+msgctxt "RoomType"
+msgid "Room type"
+msgstr "Tipo di stanza"
+
+#: hotels/models/room_type.py:41
+msgctxt "RoomType"
+msgid "Room types"
+msgstr "Tipi di stanza"
+
+#: hotels/models/service.py:31
+msgctxt "Service"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/service.py:34
+msgctxt "Service"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/service.py:38
+msgctxt "Service"
+msgid "room service"
+msgstr "servizi di stanza"
+
+#: hotels/models/service.py:42
+msgctxt "Service"
+msgid "extra service"
+msgstr "servizio extra"
+
+#: hotels/models/service.py:46
+msgctxt "Service"
+msgid "show in app"
+msgstr "mostra nell'app"
+
+#: hotels/models/service.py:52
+msgctxt "Service"
+msgid "service type"
+msgstr "tipo di servizio"
+
+#: hotels/models/service.py:58
+msgctxt "Service"
+msgid "Service"
+msgstr "Servizio"
+
+#: hotels/models/service.py:59
+msgctxt "Service"
+msgid "Services"
+msgstr "Servizi"
+
+#: hotels/models/service_extra.py:36
+msgctxt "ServiceExtra"
+msgid "structure"
+msgstr "struttura"
+
+#: hotels/models/service_extra.py:41 hotels/models/service_extra.py:63
+msgctxt "ServiceExtra"
+msgid "service"
+msgstr "servizio"
+
+#: hotels/models/service_extra.py:47
+msgctxt "ServiceExtra"
+msgid "price"
+msgstr "prezzo"
+
+#: hotels/models/service_extra.py:54
+msgctxt "ServiceExtra"
+msgid "Service extra"
+msgstr "Servizio extra"
+
+#: hotels/models/service_extra.py:55
+msgctxt "ServiceExtra"
+msgid "Service extras"
+msgstr "Servizi extra"
+
+#: hotels/models/service_type.py:31
+msgctxt "ServiceType"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/service_type.py:34
+msgctxt "ServiceType"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/service_type.py:37
+msgctxt "ServiceType"
+msgid "order"
+msgstr "ordine"
+
+#: hotels/models/service_type.py:41
+msgctxt "ServiceType"
+msgid "show in report"
+msgstr "mostra nel report"
+
+#: hotels/models/service_type.py:47
+msgctxt "ServiceType"
+msgid "Service type"
+msgstr "Tipo di servizio"
+
+#: hotels/models/service_type.py:48
+msgctxt "ServiceType"
+msgid "Service types"
+msgstr "Tipi di servizio"
+
+#: hotels/models/structure.py:31
+msgctxt "Structure"
+msgid "name"
+msgstr "nome"
+
+#: hotels/models/structure.py:34
+msgctxt "Structure"
+msgid "description"
+msgstr "descrizione"
+
+#: hotels/models/structure.py:37
+msgctxt "Structure"
+msgid "address"
+msgstr "indirizzo"
+
+#: hotels/models/structure.py:42
+msgctxt "Structure"
+msgid "location"
+msgstr "località"
+
+#: hotels/models/structure.py:46
+msgctxt "Structure"
+msgid "phone 1"
+msgstr "telefono 1"
+
+#: hotels/models/structure.py:50
+msgctxt "Structure"
+msgid "phone 2"
+msgstr "telefono 2"
+
+#: hotels/models/structure.py:54
+msgctxt "Structure"
+msgid "fax"
+msgstr "fax"
+
+#: hotels/models/structure.py:58
+msgctxt "Structure"
+msgid "email"
+msgstr "email"
+
+#: hotels/models/structure.py:63
+msgctxt "Structure"
+msgid "brand"
+msgstr "marchio"
+
+#: hotels/models/structure.py:68
+msgctxt "Structure"
+msgid "company"
+msgstr "azienda"
+
+#: hotels/models/structure.py:74
+msgctxt "Structure"
+msgid "Structure"
+msgstr "Struttura"
+
+#: hotels/models/structure.py:75
+msgctxt "Structure"
+msgid "Structures"
+msgstr "Strutture"
