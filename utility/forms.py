@@ -19,13 +19,17 @@
 ##
 
 from django import forms
+from django.utils.translation import pgettext_lazy
 
 
 class CSVImportForm(forms.Form):
-    csv_file = forms.FileField(label='CSV file to import')
-    encoding = forms.ChoiceField(label='File encoding',
+    csv_file = forms.FileField(label=pgettext_lazy('Utility',
+                                                   'CSV file to import'))
+    encoding = forms.ChoiceField(label=pgettext_lazy('Utility',
+                                                     'File encoding'),
                                  choices=([(k, k) for k in ('utf-8',
                                                             'iso-8859-15')]))
-    delimiter = forms.ChoiceField(label='Column separator',
+    delimiter = forms.ChoiceField(label=pgettext_lazy('Utility',
+                                                      'Column separator'),
                                   choices=([(k, k) for k in (';',
                                                              ',')]))

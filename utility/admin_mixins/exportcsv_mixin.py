@@ -22,6 +22,7 @@ import csv
 import operator
 
 from django.http import HttpResponse
+from django.utils.translation import pgettext_lazy
 
 
 class ExportCSVMixin(object):
@@ -48,7 +49,9 @@ class ExportCSVMixin(object):
             data=data,
             fields_map=self.export_csv_fields_map,
             filename=self.model._meta)
-    action_export_csv.short_description = 'Export selected rows to CSV'
+    action_export_csv.short_description = pgettext_lazy(
+        'Utility',
+        'Export selected rows to CSV')
 
     def do_export_data_to_csv(self, data, fields_map, filename):
         """Export a list of dict items in CSV format"""
