@@ -13,4 +13,4 @@ pyotp==2.3.0
 codicefiscale==0.9
 reportlab==3.5.20
 xhtml2pdf==0.2.3
-XlsxWriter==1.2.0
+XlsxWriter==1.2.7
