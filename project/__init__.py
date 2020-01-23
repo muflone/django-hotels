@@ -18,5 +18,5 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-VERSION = '1.4.1'
+VERSION = '2.0.0'
 PRODUCT_NAME = 'Django Hotels'
