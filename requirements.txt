@@ -12,5 +12,5 @@ django-admin-rangefilter==0.5.3
 pyotp==2.3.0
 codicefiscale==0.9
 reportlab==3.5.34
-xhtml2pdf==0.2.3
+xhtml2pdf==0.2.4
 XlsxWriter==1.2.7
