@@ -18,7 +18,7 @@ Inns.
 # System Requirements
 
 * Python 3.x
-* Django 2.2.5
+* Django 2.2.9
 * Python QRCode (https://pypi.org/project/qrcode/)
 * Python OTP (https://pypi.python.org/project/pyotp/)
 * Django Generic JSON Views (https://pypi.org/project/django-generic-json-views/)
