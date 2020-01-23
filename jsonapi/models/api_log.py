@@ -19,10 +19,10 @@
 ##
 import datetime
 import json
+from urllib.parse import unquote
 
 from django.contrib.admin import SimpleListFilter
 from django.db import models
-from django.utils.http import urlunquote
 from django.utils.translation import pgettext_lazy
 
 from hotels.models import Room, Service
@@ -173,7 +173,7 @@ class ApiLogAdmin(BaseModelAdmin):
                 service = Service.objects.get(id=details['service_id'])
                 date = datetime.datetime.fromtimestamp(
                     int(details['datetime'])).strftime('%F')
-                description = urlunquote(
+                description = unquote(
                     details.get('description', '')).replace('+', ' ')
                 result = ('Tablet {TABLET}\n'
                           'Contract: {CONTRACT}\n'
@@ -202,7 +202,7 @@ class ApiLogAdmin(BaseModelAdmin):
                     id=details['direction_id'])
                 date = datetime.datetime.fromtimestamp(
                     int(details['datetime'])).strftime('%F %T')
-                description = urlunquote(
+                description = unquote(
                     details.get('description', '')).replace('+', ' ')
                 result = ('Tablet {TABLET}\n'
                           'Contract: {CONTRACT}\n'
