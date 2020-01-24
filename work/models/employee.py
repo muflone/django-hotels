@@ -139,6 +139,9 @@ class Employee(BaseModel):
                               default='standard:gender_unknown_1',
                               verbose_name=pgettext_lazy('Employee',
                                                          'photo'))
+    locked = models.BooleanField(default=False,
+                                 verbose_name=pgettext_lazy('Employee',
+                                                            'locked'))
 
     class Meta:
         # Define the database table
