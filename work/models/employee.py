@@ -431,3 +431,8 @@ class EmployeeAdmin(BaseModelAdmin):
         # noinspection PyProtectedMember
         return instance._country
     country.short_description = pgettext_lazy('Employee', 'Country')
+
+    def status(self, instance):
+        """Invert the locked status for display purposes"""
+        return not instance.locked
+    status.boolean = True
