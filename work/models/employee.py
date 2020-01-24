@@ -139,6 +139,9 @@ class Employee(BaseModel):
                               default='standard:gender_unknown_1',
                               verbose_name=pgettext_lazy('Employee',
                                                          'photo'))
+    locked = models.BooleanField(default=False,
+                                 verbose_name=pgettext_lazy('Employee',
+                                                            'locked'))
 
     class Meta:
         # Define the database table
@@ -428,3 +431,8 @@ class EmployeeAdmin(BaseModelAdmin):
         # noinspection PyProtectedMember
         return instance._country
     country.short_description = pgettext_lazy('Employee', 'Country')
+
+    def status(self, instance):
+        """Invert the locked status for display purposes"""
+        return not instance.locked
+    status.boolean = True
