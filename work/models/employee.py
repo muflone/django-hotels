@@ -233,6 +233,20 @@ class EmployeeBirthLocationCountryFilter(admin.SimpleListFilter):
                 birth_location__region__country=self.value())
 
 
+class EmployeeStatusFilter(admin.SimpleListFilter):
+    parameter_name = 'status'
+    title = pgettext_lazy('Employee', 'status')
+
+    def lookups(self, request, model_admin):
+        return (0, pgettext_lazy('Employee', 'Unlocked')),\
+               (1, pgettext_lazy('Employee', 'Locked'))
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(
+                locked=self.value())
+
+
 class EmployeeAdmin(BaseModelAdmin):
     change_list_template = 'utility/import_csv/change_list.html'
     readonly_fields = ('id', 'standard_photos')
