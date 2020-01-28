@@ -24,6 +24,7 @@ import os.path
 import uuid
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib import admin
 from django.http import HttpResponse, Http404
@@ -130,6 +131,14 @@ class Contract(BaseModel):
                 (self.end_date is None or self.end_date >= today))
     active.boolean = True
     active.short_description = pgettext_lazy('Contract', 'Active')
+
+    def clean(self):
+        """Validate model fields"""
+        if self.employee.locked and not self.id:
+            # Block contract creation on locked employee
+            raise ValidationError({'employee': pgettext_lazy(
+                'Contract',
+                'Unable to create new contracts on a locked employee')})
 
 
 class ContractAdminEmployeeRollNumberInputFilter(AdminTextInputFilter):
