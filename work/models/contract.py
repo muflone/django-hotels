@@ -161,6 +161,20 @@ class ContractAdminActiveFilter(admin.SimpleListFilter):
                     Contract.objects.get_active_contracts_query())
 
 
+class ContractEmployeeStatusFilter(admin.SimpleListFilter):
+    parameter_name = 'status'
+    title = pgettext_lazy('Contract', 'status')
+
+    def lookups(self, request, model_admin):
+        return (0, pgettext_lazy('Contract', 'Unlocked')),\
+               (1, pgettext_lazy('Contract', 'Locked'))
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(
+                employee__locked=self.value())
+
+
 class ContractAdmin(BaseModelAdmin):
     readonly_fields = ('id', 'guid', 'qrcode_field', 'active')
     change_form_template = 'work/admin_contract_change.html'
@@ -308,3 +322,8 @@ class ContractAdmin(BaseModelAdmin):
         response = xhtml2pdf_render_from_html(
             html=html, filename='id_card {ID}.pdf'.format(ID=contract_id))
         return response
+
+    def status(self, instance):
+        """Invert the locked status for display purposes"""
+        return not instance.employee.locked
+    status.boolean = True
