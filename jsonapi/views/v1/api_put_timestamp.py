@@ -36,6 +36,7 @@ class APIv1PutTimestamp(APIv1BaseView):
 
         timestamp_query = Timestamp.objects.filter(
             contract_id=int(context['contract_id']),
+            structure_id=int(context['structure_id']),
             direction_id=int(context['direction_id']),
             date=datetime.datetime.fromtimestamp(int(context['datetime'])),
             time=datetime.datetime.fromtimestamp(int(context['datetime'])))
@@ -47,6 +48,7 @@ class APIv1PutTimestamp(APIv1BaseView):
             # No existing timestamp
             timestamp = Timestamp.objects.create(
                 contract_id=int(context['contract_id']),
+                structure_id=int(context['structure_id']),
                 direction_id=int(context['direction_id']),
                 date=datetime.datetime.fromtimestamp(int(context['datetime'])),
                 time=datetime.datetime.fromtimestamp(int(context['datetime'])),

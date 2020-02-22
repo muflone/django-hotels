@@ -147,6 +147,7 @@ urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
                              '<otpkey:password>/'
                              '<int:contract_id>/'
+                             '<int:structure_id>/'
                              '<int:direction_id>/'
                              '<int:datetime>/'
                              '<str:description>/',
@@ -156,6 +157,7 @@ urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
                              '<otpkey:password>/'
                              '<int:contract_id>/'
+                             '<int:structure_id>/'
                              '<int:direction_id>/'
                              '<int:datetime>/'
                              '/',
@@ -167,6 +169,7 @@ urlpatterns.append(urls.path('v1/put/timestamp/'
                              '<int:tablet_id>/'
                              '<otpkey:password>/'
                              '<int:contract_id>/'
+                             '<int:structure_id>/'
                              '<int:direction_id>/'
                              '<int:datetime>/',
                              views.APIv1PutTimestamp.as_view(),

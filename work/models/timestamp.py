@@ -47,6 +47,11 @@ class Timestamp(BaseModel):
                                  on_delete=models.PROTECT,
                                  verbose_name=pgettext_lazy('Timestamp',
                                                             'contract'))
+    structure = models.ForeignKey('hotels.Structure',
+                                  default=0,
+                                  on_delete=models.PROTECT,
+                                  verbose_name=pgettext_lazy('Timestamp',
+                                                             'structure'))
     direction = models.ForeignKey('TimestampDirection',
                                   on_delete=models.PROTECT,
                                   verbose_name=pgettext_lazy('Timestamp',
@@ -63,13 +68,15 @@ class Timestamp(BaseModel):
         # Define the database table
         db_table = 'work_timestamps'
         ordering = ['contract', 'date', 'time']
-        unique_together = ('contract', 'direction', 'date', 'time')
+        unique_together = ('contract', 'structure', 'direction',
+                           'date', 'time')
         verbose_name = pgettext_lazy('Timestamp', 'Timestamp')
         verbose_name_plural = pgettext_lazy('Timestamp', 'Timestamps')
 
     def __str__(self):
-        return '{CONTRACT} {DIRECTION} {DATE} {TIME}'.format(
+        return '{CONTRACT} {STRUCTURE} {DIRECTION} {DATE} {TIME}'.format(
             CONTRACT=self.contract,
+            STRUCTURE=self.structure,
             DIRECTION=self.direction,
             DATE=self.date,
             TIME=self.time)

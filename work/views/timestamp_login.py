@@ -68,6 +68,7 @@ class TimeStampLoginView(LoginView, GenericView):
                 access_type = form.cleaned_data['access_type']
                 Timestamp.objects.create(
                     contract=obj_login.contract,
+                    structure=obj_login.default_structure,
                     direction=(TimestampDirection.get_exit_direction()
                                if access_type == 'exit'
                                else TimestampDirection.get_enter_direction()),

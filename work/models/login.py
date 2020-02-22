@@ -32,6 +32,12 @@ class Login(BaseModel, User):
                                  on_delete=models.PROTECT,
                                  verbose_name=pgettext_lazy('Login',
                                                             'contract'))
+    default_structure = models.ForeignKey('hotels.Structure',
+                                          default=0,
+                                          on_delete=models.PROTECT,
+                                          verbose_name=pgettext_lazy(
+                                              'Login',
+                                              'default structure'))
 
     class Meta:
         # Define the database table
@@ -52,14 +58,15 @@ class LoginAdmin(BaseModelAdmin, UserAdmin):
     fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('contract', 'username'),
+            'fields': ('contract', 'username', 'default_structure'),
         }),
     )
     # Fieldset for login add
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('contract', 'username', 'password1', 'password2'),
+            'fields': ('contract', 'username', 'password1', 'password2',
+                       'default_structure'),
         }),
     )
 
