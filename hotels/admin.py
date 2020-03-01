@@ -25,6 +25,7 @@ from .models import (BedType, BedTypeAdmin,
                      Building, BuildingAdmin,
                      Company, CompanyAdmin,
                      Equipment, EquipmentAdmin,
+                     EquipmentItem, EquipmentItemAdmin,
                      EquipmentType, EquipmentTypeAdmin,
                      Room, RoomAdmin,
                      RoomType, RoomTypeAdmin,
@@ -40,6 +41,7 @@ admin.site.register(Brand, BrandAdmin)
 admin.site.register(Building, BuildingAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
+admin.site.register(EquipmentItem, EquipmentItemAdmin)
 admin.site.register(EquipmentType, EquipmentTypeAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
