@@ -118,7 +118,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(
-          'contract__employee', 'contract__company', 'direction')
+          'contract__employee', 'structure', 'structure__company', 'direction')
 
     def get_urls(self):
         urls = [
@@ -251,7 +251,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
         'Timestamps hours (PDF)')
 
     def get_timestamps_days(self, request, queryset):
-        queryset = queryset.order_by('contract', 'date', 'time')
+        queryset = queryset.order_by('structure', 'contract', 'date', 'time')
         # Get minimum and maximum dates
         range_dates = queryset.aggregate(models.Min('date'),
                                          models.Max('date'))
@@ -444,6 +444,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
 class TimestampExport(object):
     fields_map = {'DATE': 'date',
                   'COMPANY': 'company',
+                  'STRUCTURE': 'structure',
                   'EMPLOYEE': 'employee',
                   'CONTRACT_ID': 'contract_id',
                   'ROLL_NUMBER': 'roll_number',
@@ -458,6 +459,7 @@ class TimestampExport(object):
     def __init__(self, timestamp):
         self.date = timestamp.date
         self.contract = timestamp.contract
+        self.structure = timestamp.structure
         self.enter_time = None
         self.enter_description = None
         self.exit_time = None
@@ -488,7 +490,8 @@ class TimestampExport(object):
             notes = self.other_description
             difference = None
         return({'date': self.date,
-                'company': self.contract.company,
+                'company': self.structure.company,
+                'structure': self.structure,
                 'contract_id': self.contract.pk,
                 'employee': self.contract.employee,
                 'roll_number': self.contract.roll_number,
@@ -504,6 +507,7 @@ class TimestampExport(object):
 
 class TimestampDaysExport(object):
     fields_map = {'COMPANY': 'company',
+                  'STRUCTURE': 'structure',
                   'EMPLOYEE': 'employee',
                   'CONTRACT_ID': 'contract_id',
                   'ROLL_NUMBER': 'roll_number',
@@ -512,6 +516,7 @@ class TimestampDaysExport(object):
 
     def __init__(self, timestamp):
         self.contract = timestamp.contract
+        self.structure = timestamp.structure
         self.dates = {}
 
     def is_valid(self):
@@ -521,7 +526,8 @@ class TimestampDaysExport(object):
         results = dict([(day, self.dates.get(day))
                         for day in range(date_min.toordinal(),
                                          date_max.toordinal() + 1)])
-        results['company'] = self.contract.company
+        results['company'] = self.structure.company
+        results['structure'] = self.structure
         results['contract_id'] = self.contract.pk
         results['employee'] = self.contract.employee
         results['roll_number'] = self.contract.roll_number

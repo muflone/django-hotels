@@ -6,6 +6,8 @@
   {% for column in visible_columns %}
     {% if column == 'company' %}
         <td class="company">{{ item.company }}</td>
+    {% elif column == 'structure' %}
+        <td class="structure">{{ item.structure }}</td>
     {% elif column == 'employee' %}
         <td class="employee">{{ item.employee }}</td>
     {% elif column == 'contract_id' %}
