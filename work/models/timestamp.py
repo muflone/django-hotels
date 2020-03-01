@@ -150,7 +150,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
             # Save unique date/contract_id
             last_date = timestamp.date
             last_contract_id = timestamp.contract_id
-            timestamp_export = TimestampExport(timestamp)
+            timestamp_export = TimestampHoursExport(timestamp)
             # Process only Enter/Exit timestamps
             for item in queryset.filter(date=last_date,
                                         contract_id=last_contract_id,
@@ -161,12 +161,12 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                         # Timestamp with a previous exit
                         results.append(timestamp_export.extract())
                         # Create new timestamp
-                        timestamp_export = TimestampExport(timestamp)
+                        timestamp_export = TimestampHoursExport(timestamp)
                     elif timestamp_export.enter_time:
                         # Timestamp with multiple enter
                         results.append(timestamp_export.extract())
                         # Create new timestamp
-                        timestamp_export = TimestampExport(timestamp)
+                        timestamp_export = TimestampHoursExport(timestamp)
                     timestamp_export.enter_time = item.time
                     timestamp_export.enter_description = item.description
                 else:
@@ -174,7 +174,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                         # Timestamp with multiple exit
                         results.append(timestamp_export.extract())
                         # Create new timestamp
-                        timestamp_export = TimestampExport(timestamp)
+                        timestamp_export = TimestampHoursExport(timestamp)
                     timestamp_export.exit_time = item.time
                     timestamp_export.exit_description = item.description
             # Export timestamp only if valid
@@ -185,7 +185,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                         contract_id=last_contract_id).exclude(
                                             direction__in=(direction_enter,
                                                            direction_exit)):
-                timestamp_export = TimestampExport(timestamp)
+                timestamp_export = TimestampHoursExport(timestamp)
                 timestamp_export.other_time = item.time
                 timestamp_export.other_description = item.direction.description
 
@@ -206,7 +206,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                                          sys._getframe().f_code.co_name))
         return self.do_export_data_to_csv(
             data=context['results'],
-            fields_map=TimestampExport.fields_map,
+            fields_map=TimestampHoursExport.fields_map,
             filename='timestamps_hours')
     action_timestamps_hours_csv.short_description = pgettext_lazy(
         'Timestamp',
@@ -441,7 +441,7 @@ class TimestampAdmin(BaseModelAdmin, AdminTimeWidget):
                       {'form': CSVImportForm()})
 
 
-class TimestampExport(object):
+class TimestampHoursExport(object):
     fields_map = {'DATE': 'date',
                   'COMPANY': 'company',
                   'STRUCTURE': 'structure',
