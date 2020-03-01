@@ -90,6 +90,11 @@ class Contract(BaseModel):
                                                            'end date'))
     level = models.PositiveIntegerField(verbose_name=pgettext_lazy('Contract',
                                                                    'level'))
+    salary = models.DecimalField(max_digits=7,
+                                 decimal_places=2,
+                                 default=0.00,
+                                 verbose_name=pgettext_lazy('Contract',
+                                                            'montly salary'))
     enabled = models.BooleanField(default=True,
                                   verbose_name=pgettext_lazy('Contract',
                                                              'enabled'))
