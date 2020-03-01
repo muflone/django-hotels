@@ -2,7 +2,7 @@
 
 **Description:** A Django application to organize Hotels and Inns
 
-**Copyright:** 2018-2019 Fabio Castelli (Muflone) <muflone@muflone.com>
+**Copyright:** 2018-2020 Fabio Castelli (Muflone) <muflone@muflone.com>
 
 **License:** GPL-3+
 
