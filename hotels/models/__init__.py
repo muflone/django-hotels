@@ -23,6 +23,8 @@ from .brand import Brand, BrandAdmin                              # noqa: F401
 from .building import Building, BuildingAdmin                     # noqa: F401
 from .company import Company, CompanyAdmin                        # noqa: F401
 from .equipment import Equipment, EquipmentAdmin                  # noqa: F401
+from .equipment_direction import (EquipmentDirection,             # noqa: F401
+                                  EquipmentDirectionAdmin)        # noqa: F401
 from .equipment_item import EquipmentItem, EquipmentItemAdmin     # noqa: F401
 from .equipment_type import EquipmentType, EquipmentTypeAdmin     # noqa: F401
 from .room import Room, RoomAdmin                                 # noqa: F401
