@@ -63,6 +63,10 @@ class Company(BaseModel):
                                 blank=True,
                                 verbose_name=pgettext_lazy('Company',
                                                            'tax code'))
+    sdi_code = models.CharField(max_length=7,
+                                blank=True,
+                                verbose_name=pgettext_lazy('Company',
+                                                           'SDI code'))
     owner = models.CharField(max_length=255,
                              blank=True,
                              verbose_name=pgettext_lazy('Company',
