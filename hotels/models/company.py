@@ -51,6 +51,10 @@ class Company(BaseModel):
                              blank=True,
                              verbose_name=pgettext_lazy('Company',
                                                         'email'))
+    pec = models.CharField(max_length=255,
+                           blank=True,
+                           verbose_name=pgettext_lazy('Company',
+                                                      'PEC email'))
     vat_number = models.CharField(max_length=255,
                                   blank=True,
                                   verbose_name=pgettext_lazy('Company',
